@@ -430,8 +430,8 @@
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <label style="font-size: 0.85rem; color: var(--text-muted);">Priority Channel:</label>
                         <select id="topicSelector" onchange="initROSTopics()" style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); color: #fff; padding: 4px 8px; border-radius: 6px; font-family: var(--font-mono);">
-                            <option value="/cmd_vel">/cmd_vel (Official Teleop Priority 100)</option>
-                            <option value="/yours_cmd_vel/keyop_ctrl">/yours_cmd_vel/keyop_ctrl (Priority Keyop)</option>
+                            <option value="/yours_cmd_vel/keyop_ctrl" selected>/yours_cmd_vel/keyop_ctrl (Official Yours Keyop - Active)</option>
+                            <option value="/cmd_vel">/cmd_vel (Standard Twist Mux Input)</option>
                             <option value="/follow/cmd_vel">/follow/cmd_vel (Navigation Path)</option>
                             <option value="/cmd_vel_direct">/cmd_vel_direct (Direct Bypass)</option>
                         </select>
@@ -1245,6 +1245,7 @@
             slamCmdTopic = new ROSLIB.Topic({ ros: ros, name: '/yours_slam/cmd', messageType: 'std_msgs/String' });
             forbiddenZoneTopic = new ROSLIB.Topic({ ros: ros, name: '/yours_slam/forbidden_zones', messageType: 'geometry_msgs/PolygonStamped' });
             estopTopic = new ROSLIB.Topic({ ros: ros, name: 'e_stop', messageType: 'std_msgs/Bool' });
+            logConsole(`📡 Chassis Velocity Publisher bound to channel: ${topicName}`);
         }
 
         // Direct ROSBridge WebSocket Camera Subscriber & 3D Spatial Map
