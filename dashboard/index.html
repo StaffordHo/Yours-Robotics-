@@ -523,24 +523,50 @@
                 </div>
             </div>
 
-            <!-- Ultrasonic & Proximity Sensors Monitor Card -->
+            <!-- 5-Sensor Ultrasonic & Proximity Array Monitor Card -->
             <div class="card" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(15, 23, 42, 0.9)); border: 1px solid rgba(6, 182, 212, 0.3);">
                 <div class="card-header">
-                    <div class="card-title" style="color: #38bdf8;">📡 Ultrasonic & Proximity Sensors Monitor</div>
-                    <div style="font-size: 0.75rem; color: var(--accent-cyan); font-family: var(--font-mono);">Trigger Threshold: 0.35m</div>
+                    <div class="card-title" style="color: #38bdf8;">📡 5-Sensor Ultrasonic & Proximity Array</div>
+                    <div style="font-size: 0.75rem; color: var(--accent-cyan); font-family: var(--font-mono);">Stop Threshold: 0.35m (35cm)</div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                    <!-- Left Sensor Badge -->
-                    <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); text-align: center;">
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">LEFT PROXIMITY SENSOR</div>
-                        <div id="leftSensorMeter" style="font-size: 1.5rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent-cyan); margin-top: 4px;">-- cm</div>
-                        <div id="leftSensorStatus" style="font-size: 0.75rem; margin-top: 4px; color: var(--accent-success);">Clear (>35cm)</div>
+                
+                <!-- Front Sonar Array Grid (3 Frontal Sensors) -->
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; margin-bottom: 6px;">FRONTAL SONAR ARRAY:</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+                    <!-- Front Left (Sonar 1) -->
+                    <div style="background: rgba(0,0,0,0.4); padding: 8px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">FRONT-LEFT</div>
+                        <div id="frontLeftSensorMeter" style="font-size: 1.1rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent-cyan); margin-top: 2px;">-- cm</div>
+                        <div id="frontLeftSensorStatus" style="font-size: 0.65rem; margin-top: 2px; color: var(--accent-success);">Clear</div>
                     </div>
-                    <!-- Right Sensor Badge -->
-                    <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); text-align: center;">
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">RIGHT PROXIMITY SENSOR</div>
-                        <div id="rightSensorMeter" style="font-size: 1.5rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent-cyan); margin-top: 4px;">-- cm</div>
-                        <div id="rightSensorStatus" style="font-size: 0.75rem; margin-top: 4px; color: var(--accent-success);">Clear (>35cm)</div>
+                    <!-- Front Center (Sonar 2) -->
+                    <div style="background: rgba(0,0,0,0.4); padding: 8px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">FRONT-CENTER</div>
+                        <div id="frontCenterSensorMeter" style="font-size: 1.1rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent-cyan); margin-top: 2px;">-- cm</div>
+                        <div id="frontCenterSensorStatus" style="font-size: 0.65rem; margin-top: 2px; color: var(--accent-success);">Clear</div>
+                    </div>
+                    <!-- Front Right (Sonar 3) -->
+                    <div style="background: rgba(0,0,0,0.4); padding: 8px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">FRONT-RIGHT</div>
+                        <div id="frontRightSensorMeter" style="font-size: 1.1rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent-cyan); margin-top: 2px;">-- cm</div>
+                        <div id="frontRightSensorStatus" style="font-size: 0.65rem; margin-top: 2px; color: var(--accent-success);">Clear</div>
+                    </div>
+                </div>
+
+                <!-- Side Sonar Array Grid (2 Side Sensors) -->
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; margin-bottom: 6px;">SIDE PROXIMITY ARRAY:</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <!-- Left Side Sensor -->
+                    <div style="background: rgba(0,0,0,0.4); padding: 8px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">LEFT SIDE</div>
+                        <div id="leftSensorMeter" style="font-size: 1.1rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent-cyan); margin-top: 2px;">-- cm</div>
+                        <div id="leftSensorStatus" style="font-size: 0.65rem; margin-top: 2px; color: var(--accent-success);">Clear</div>
+                    </div>
+                    <!-- Right Side Sensor -->
+                    <div style="background: rgba(0,0,0,0.4); padding: 8px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        <div style="font-size: 0.7rem; color: var(--text-muted);">RIGHT SIDE</div>
+                        <div id="rightSensorMeter" style="font-size: 1.1rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent-cyan); margin-top: 2px;">-- cm</div>
+                        <div id="rightSensorStatus" style="font-size: 0.65rem; margin-top: 2px; color: var(--accent-success);">Clear</div>
                     </div>
                 </div>
             </div>
@@ -1512,7 +1538,60 @@
                 persistentPointCloud.geometry.setDrawRange(0, pointCount);
             });
 
-            // 8. Ultrasonic & Proximity Range Sensor Subscribers (/yours_base/left_range & /yours_base/right_range)
+            // 8. 5-Sensor Ultrasonic & Proximity Range Subscribers
+            const frontCenterUsSub = new ROSLIB.Topic({ ros: ros, name: '/yours_base/front_range', messageType: 'sensor_msgs/Range' });
+            frontCenterUsSub.subscribe((msg) => {
+                if (!msg || typeof msg.range !== 'number') return;
+                const distCm = (msg.range * 100).toFixed(1);
+                const meter = document.getElementById('frontCenterSensorMeter');
+                const status = document.getElementById('frontCenterSensorStatus');
+                if (meter) meter.innerText = `${distCm} cm`;
+                if (msg.range < 0.35) {
+                    if (status) { status.innerText = '⚠️ OBSTACLE (<35cm)'; status.style.color = 'var(--accent-danger)'; }
+                    logConsole(`⚠️ Front-Center Sonar Warning: Object detected at ${distCm}cm!`);
+                } else {
+                    if (status) { status.innerText = 'Clear (>35cm)'; status.style.color = 'var(--accent-success)'; }
+                }
+            });
+
+            // Front Sonar Array Status Subscriber (sonar1, sonar2, sonar3)
+            const frontUsArraySub = new ROSLIB.Topic({ ros: ros, name: '/yours_base/ultrasonic_status', messageType: 'std_msgs/String' });
+            frontUsArraySub.subscribe((msg) => {
+                try {
+                    const data = JSON.parse(msg.data);
+                    if (typeof data.sonar1 !== 'undefined') {
+                        const flMeter = document.getElementById('frontLeftSensorMeter');
+                        const flStatus = document.getElementById('frontLeftSensorStatus');
+                        if (flMeter) flMeter.innerText = `${data.sonar1.toFixed(1)} cm`;
+                        if (data.sonar1 < 35) {
+                            if (flStatus) { flStatus.innerText = '⚠️ OBSTACLE'; flStatus.style.color = 'var(--accent-danger)'; }
+                        } else {
+                            if (flStatus) { flStatus.innerText = 'Clear'; flStatus.style.color = 'var(--accent-success)'; }
+                        }
+                    }
+                    if (typeof data.sonar2 !== 'undefined') {
+                        const fcMeter = document.getElementById('frontCenterSensorMeter');
+                        const fcStatus = document.getElementById('frontCenterSensorStatus');
+                        if (fcMeter) fcMeter.innerText = `${data.sonar2.toFixed(1)} cm`;
+                        if (data.sonar2 < 35) {
+                            if (fcStatus) { fcStatus.innerText = '⚠️ OBSTACLE'; fcStatus.style.color = 'var(--accent-danger)'; }
+                        } else {
+                            if (fcStatus) { fcStatus.innerText = 'Clear'; fcStatus.style.color = 'var(--accent-success)'; }
+                        }
+                    }
+                    if (typeof data.sonar3 !== 'undefined') {
+                        const frMeter = document.getElementById('frontRightSensorMeter');
+                        const frStatus = document.getElementById('frontRightSensorStatus');
+                        if (frMeter) frMeter.innerText = `${data.sonar3.toFixed(1)} cm`;
+                        if (data.sonar3 < 35) {
+                            if (frStatus) { frStatus.innerText = '⚠️ OBSTACLE'; frStatus.style.color = 'var(--accent-danger)'; }
+                        } else {
+                            if (frStatus) { frStatus.innerText = 'Clear'; frStatus.style.color = 'var(--accent-success)'; }
+                        }
+                    }
+                } catch(e) {}
+            });
+
             const leftUsSub = new ROSLIB.Topic({ ros: ros, name: '/yours_base/left_range', messageType: 'sensor_msgs/Range' });
             leftUsSub.subscribe((msg) => {
                 if (!msg || typeof msg.range !== 'number') return;
