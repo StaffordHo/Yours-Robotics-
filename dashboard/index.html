@@ -248,7 +248,8 @@
             <div id="statusDot" class="status-dot"></div>
             <span id="statusText" style="font-weight: 600; font-size: 0.9rem;">Disconnected</span>
             <select onchange="document.getElementById('wsUrlInput').value=this.value" style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); color: #fff; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-family: var(--font-mono);">
-                <option value="ws://127.0.0.1:9090">SSH Tunnel (ws://127.0.0.1:9090)</option>
+                <option value="ws://127.0.0.1:9090">SSH Tunnel Port 9090 (ws://127.0.0.1:9090)</option>
+                <option value="ws://127.0.0.1:9091">SSH Tunnel Port 9091 (ws://127.0.0.1:9091)</option>
                 <option value="ws://192.168.1.168:9090">Direct Wi-Fi (ws://192.168.1.168:9090)</option>
             </select>
             <input type="text" id="wsUrlInput" value="ws://127.0.0.1:9090" placeholder="ws://127.0.0.1:9090" style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); color: #fff; padding: 4px 10px; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; width: 175px;">
