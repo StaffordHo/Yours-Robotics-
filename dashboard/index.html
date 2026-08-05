@@ -416,10 +416,11 @@
                     <div class="card-title">🕹️ 小车 Velocity & Priority Control</div>
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <label style="font-size: 0.85rem; color: var(--text-muted);">Priority Channel:</label>
-                        <select id="topicSelector" style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); color: #fff; padding: 4px 8px; border-radius: 6px; font-family: var(--font-mono);">
+                        <select id="topicSelector" onchange="initROSTopics()" style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); color: #fff; padding: 4px 8px; border-radius: 6px; font-family: var(--font-mono);">
+                            <option value="/cmd_vel">/cmd_vel (Official Teleop Priority 100)</option>
                             <option value="/yours_cmd_vel/keyop_ctrl">/yours_cmd_vel/keyop_ctrl (Priority Keyop)</option>
+                            <option value="/follow/cmd_vel">/follow/cmd_vel (Navigation Path)</option>
                             <option value="/cmd_vel_direct">/cmd_vel_direct (Direct Bypass)</option>
-                            <option value="/yours_cmd_vel/joy_ctrl">/yours_cmd_vel/joy_ctrl (Joystick)</option>
                         </select>
                     </div>
                 </div>
@@ -1715,15 +1716,18 @@
 
         // Official yours_teleop Key Bindings (u, i, o, j, k, l, m, ,, .)
         window.addEventListener('keydown', (e) => {
+            // Ignore key presses if user is currently typing in an input or textarea box!
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
             if (e.code === 'Space' || e.code === 'KeyK') { e.preventDefault(); emergencyStop(); }
-            else if (e.code === 'KeyI') publishVel(maxLinearSpeed, 0);
-            else if (e.code === 'Comma') publishVel(-maxLinearSpeed, 0);
-            else if (e.code === 'KeyJ') publishVel(0, maxAngularSpeed);
-            else if (e.code === 'KeyL') publishVel(0, -maxAngularSpeed);
-            else if (e.code === 'KeyU') publishVel(maxLinearSpeed, maxAngularSpeed);
-            else if (e.code === 'KeyO') publishVel(maxLinearSpeed, -maxAngularSpeed);
-            else if (e.code === 'KeyM') publishVel(-maxLinearSpeed, maxAngularSpeed);
-            else if (e.code === 'Period') publishVel(-maxLinearSpeed, -maxAngularSpeed);
+            else if (e.code === 'KeyI') { publishVel(maxLinearSpeed, 0); logConsole(`🕹️ Teleop: Forward (${maxLinearSpeed.toFixed(2)} m/s)`); }
+            else if (e.code === 'Comma') { publishVel(-maxLinearSpeed, 0); logConsole(`🕹️ Teleop: Reverse (-${maxLinearSpeed.toFixed(2)} m/s)`); }
+            else if (e.code === 'KeyJ') { publishVel(0, maxAngularSpeed); logConsole(`🕹️ Teleop: Turn Left (${maxAngularSpeed.toFixed(2)} rad/s)`); }
+            else if (e.code === 'KeyL') { publishVel(0, -maxAngularSpeed); logConsole(`🕹️ Teleop: Turn Right (-${maxAngularSpeed.toFixed(2)} rad/s)`); }
+            else if (e.code === 'KeyU') { publishVel(maxLinearSpeed, maxAngularSpeed); logConsole(`🕹️ Teleop: Fwd-Left`); }
+            else if (e.code === 'KeyO') { publishVel(maxLinearSpeed, -maxAngularSpeed); logConsole(`🕹️ Teleop: Fwd-Right`); }
+            else if (e.code === 'KeyM') { publishVel(-maxLinearSpeed, maxAngularSpeed); logConsole(`🕹️ Teleop: Rev-Left`); }
+            else if (e.code === 'Period') { publishVel(-maxLinearSpeed, -maxAngularSpeed); logConsole(`🕹️ Teleop: Rev-Right`); }
             else if (e.code === 'KeyQ') updateSpeed(Math.min(0.5, (maxLinearSpeed + 0.05)).toFixed(2));
             else if (e.code === 'KeyZ') updateSpeed(Math.max(0.05, (maxLinearSpeed - 0.05)).toFixed(2));
         });
