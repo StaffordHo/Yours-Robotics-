@@ -1246,28 +1246,47 @@
             logConsole('🔋 Initiating 小车 Autonomous Docking to Wireless Recharge Station...');
         }
 
-        // ROS Connection Toggle
+        // ROS Connection Toggle with Enhanced Diagnostics
         function toggleConnect() {
             if (isConnected) {
                 if (ros) ros.close();
                 return;
             }
 
-            const url = document.getElementById('wsUrlInput').value;
+            const urlInput = document.getElementById('wsUrlInput');
+            const url = urlInput ? urlInput.value.trim() : 'ws://192.168.1.168:9090';
+            
+            logConsole(`🔌 Initiating ROSBridge WebSocket connection to: ${url}...`);
+
             ros = new ROSLIB.Ros();
 
             ros.on('connection', () => {
                 isConnected = true;
                 updateConnectionUI(true);
-                logConsole(`✅ Connected to 小车 ROS Master via ROSBridge at ${url}`);
+                logConsole(`✅ SUCCESS: Connected to 小车 ROS Master at ${url}!`);
                 initROSTopics();
                 setupRealtimeSubscribers();
             });
 
-            ros.on('error', (err) => { logConsole(`❌ ROS Error: ${err}`); updateConnectionUI(false); });
-            ros.on('close', () => { isConnected = false; updateConnectionUI(false); logConsole(`⚠️ Connection Closed`); });
+            ros.on('error', (err) => { 
+                console.error("ROSBridge Socket Error:", err);
+                logConsole(`❌ CONNECTION FAILED: Unable to reach ROSBridge at ${url}.`);
+                logConsole(`💡 Troubleshooting Tip: If using Wi-Fi, try "ws://192.168.1.168:9090". If using SSH Tunnel, ensure "ssh -L 9090:localhost:9090" is open and ROSBridge is running on Jetson.`);
+                updateConnectionUI(false); 
+            });
 
-            try { ros.connect(url); } catch(e) { logConsole(`❌ Error: ${e.message}`); }
+            ros.on('close', () => { 
+                isConnected = false; 
+                updateConnectionUI(false); 
+                logConsole(`⚠️ ROSBridge Connection Closed.`); 
+            });
+
+            try { 
+                ros.connect(url); 
+            } catch(e) { 
+                logConsole(`❌ Connection Exception: ${e.message}`); 
+                updateConnectionUI(false);
+            }
         }
 
         function updateConnectionUI(connected) {
