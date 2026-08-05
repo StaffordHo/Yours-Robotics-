@@ -1,0 +1,16 @@
+topics:
+- name    : teleop_twist_keyboard
+  topic   : /cmd_vel
+  timeout : 0.2
+  priority: 100
+
+- name    : follow_path
+  topic   : /follow/cmd_vel
+  timeout : 0.05
+  priority: 10
+  
+locks:
+- name    : e_stop
+  topic   : e_stop
+  timeout : 0.0
+  priority: 255

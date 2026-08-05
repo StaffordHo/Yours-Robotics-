@@ -1,0 +1,18 @@
+odom_frame : "odom"
+#key_fram_path_ : "/home/airship/aslam/map/newoffice/kf_pose.txt"
+#key_fram_path_ : "/home/liu/kf_pose.txt"
+key_fram_path_ : "/home/jiangbo/kf_pose.txt"
+
+kp_fdbk        : 0.02
+ki_fdbk        : 0
+kd_fdbk        : 0.001
+err_uper_limit        : 20
+err_lower_limit       : -20
+output_uper_limit     : 0.4
+output_lower_limit    : -0.4
+p_uper_limit          : 0.3
+p_lower_limit         : -0.3
+I_uper_limit          : 0.2
+I_lower_limit         : -0.2
+D_uper_limit          : 0.5
+D_lower_limit         : -0.5

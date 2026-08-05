@@ -1,0 +1,43 @@
+<launch>
+  <node pkg="yours_navigation" name="yours_navigation_node" type="yours_navigation_node"  output="screen">
+    <rosparam file="$(find yours_navigation)/config/follow_path.yaml" command="load"/>
+    <param name="goal_path" value="/home/clover/workspace/yours/ORB_SLAM2/goal.yaml" />
+  
+    <param name="max_obstacle_pixel" value="7000"/> 
+	<param name="farthest_obstacle" value="800"/> 
+
+	<param name="goal_number" value="4"/>
+	<param name="x_0" value="14.2552"/> 
+	<param name="y_0" value="-3.47055"/> 
+	<param name="z_0" value="-0.00341115"/> 
+	<param name="w_0" value="0.99999"/> 
+
+	<param name="x_1" value="19.1869"/> 
+	<param name="y_1" value="-4.07624"/> 
+	<param name="z_1" value="0.718158"/> 
+	<param name="w_1" value="0.69588"/> 
+
+	<param name="x_2" value="18.9863"/> 
+	<param name="y_2" value="9.90662"/> 
+	<param name="z_2" value="0.999801"/> 
+	<param name="w_2" value="-0.0199529"/> 
+
+	<param name="x_3" value="13.5656"/> 
+	<param name="y_3" value="9.46044"/> 
+	<param name="z_3" value="-0.713503"/> 
+	<param name="w_3" value="0.700652"/> 
+
+
+  <!--remap from="/navigation_cmd_vel" to="/yocs_cmd_vel_mux/input/navigation_cmd_vel"/-->
+  <!--remap from="/cmd_vel" to="/yours_cmd_vel_navigation" /-->
+  <remap from="/cmd_vel" to="/yours_move_base_vel" />
+  </node>
+  <!-- node pkg="follow_path" name="teleop_twist_keyboard" type="teleop_twist_keyboard.py"  launch-prefix="gnome-terminal -e" output="screen"/-->
+
+  <!--node pkg="follow_path" name="seslam_tf_publisher" type="seslam_tf"/-->
+
+  <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find follow_path)/rviz/seslam.rviz" required="true"/-->
+
+  <!--include file="$(find follow_path)/launch/twist_mux.launch"/-->
+
+</launch>

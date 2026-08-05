@@ -1,0 +1,809 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ANGLE_PI	include/yours_navigation/followpath.h	36;"	d
+ANGLE_PI	src/yours_avoid_obstacles_test.cpp	10;"	d	file:
+AnalyseClusters	src/yours_lidar_detect_human.cpp	/^int YoursLidarDetectHuman::AnalyseClusters($/;"	f	class:YoursLidarDetectHuman
+AnalyseEyeClusters	src/yours_lidar_detect_human.cpp	/^int AnalyseEyeClusters(const std::map<int, ycluster>& in_cluter, const ylidar_eye_param& _param){$/;"	f
+AutoDock	include/yours_navigation/followpath.h	/^        AutoDock,$/;"	e	enum:FPState::FollowPathState
+AvoidObstacleState	include/yours_navigation/followpath.h	/^    enum AvoidObstacleState{$/;"	g	namespace:FPState
+AvoidPathCell	include/yours_navigation/followpath.h	/^    AvoidPathCell():$/;"	f	struct:AvoidPathCell
+AvoidPathCell	include/yours_navigation/followpath.h	/^struct AvoidPathCell{$/;"	s
+BackImpactRun	src/plan.cpp	/^void Plan::BackImpactRun(geometry_msgs::Twist& tw,$/;"	f	class:Plan
+Calculate2edPath	include/yours_navigation/followpath.h	/^        Calculate2edPath,$/;"	e	enum:FPState::AvoidObstacleState
+CalculateAvoidPath	src/followpath.cpp	/^std::vector<AvoidPathCell> followpath::CalculateAvoidPath(const std_msgs::Float32MultiArray& lidarInfo_)$/;"	f	class:followpath
+CalculatePath	include/yours_navigation/followpath.h	/^        CalculatePath,$/;"	e	enum:FPState::AvoidObstacleState
+CalculateReturnPath	include/yours_navigation/followpath.h	/^        CalculateReturnPath$/;"	e	enum:FPState::AvoidObstacleState
+Charge2SellPoint	include/yours_navigation/followpath.h	/^    Charge2SellPoint,$/;"	e	enum:PathLinkPoint
+Charging	include/yours_navigation/followpath.h	/^        Charging,$/;"	e	enum:FPState::FollowPathState
+CheckPath	include/yours_navigation/followpath.h	/^        CheckPath,$/;"	e	enum:FPState::AvoidObstacleState
+ClearError	include/yours_navigation/yours_detect_arm_error_code.h	/^    inline void ClearError() { is_motor_error = false; };$/;"	f	class:yours_detect_arm_error_code::YoursDetectArmErrorCode
+DEBUG_PID	include/yours_navigation/macro.h	15;"	d
+D_fdbk	include/yours_navigation/PID.h	/^            float D_fdbk;$/;"	m	class:PID::PID
+D_lower_limit	include/yours_navigation/PID.h	/^            float D_lower_limit;$/;"	m	class:PID::PID
+D_uper_limit	include/yours_navigation/PID.h	/^            float D_uper_limit;$/;"	m	class:PID::PID
+DetectClusters	src/yours_lidar_detect_human.cpp	/^void YoursLidarDetectHuman::DetectClusters(const sensor_msgs::LaserScan &lidar, std::map<int, ycluster> &in_cluster)$/;"	f	class:YoursLidarDetectHuman
+Distance	include/yours_navigation/yours_get_goal_robot_distance.h	/^    double Distance(const YoursNavPoint& p1,  const YoursNavPoint& p2){$/;"	f	class:YoursGetGoalRobotDistance
+DistanceFromVectorID1ToVectorID2	include/yours_navigation/yours_get_goal_robot_distance.h	/^    double DistanceFromVectorID1ToVectorID2(const std::vector<YoursNavPoint>& path, int id_1, int id_2){$/;"	f	class:YoursGetGoalRobotDistance
+EPSILON	include/yours_navigation/robot.h	26;"	d
+EXECUTE_ROBOT_RETURN_H	include/yours_navigation/execute_robot_return.h	2;"	d
+ErrorCleanCallback	include/yours_navigation/yours_detect_arm_error_code.h	/^    void ErrorCleanCallback(const std_msgs::Bool& msg) {$/;"	f	class:yours_detect_arm_error_code::YoursDetectArmErrorCode
+ErrorCodeCallback	include/yours_navigation/yours_detect_arm_error_code.h	/^    void ErrorCodeCallback(const std_msgs::UInt32& msg) {$/;"	f	class:yours_detect_arm_error_code::YoursDetectArmErrorCode
+ErrorStopRobot	include/yours_navigation/followpath.h	/^        ErrorStopRobot,$/;"	e	enum:FPState::FollowPathState
+ExecuteRobotReturn	include/yours_navigation/execute_robot_return.h	/^class ExecuteRobotReturn{$/;"	c
+ExecuteRobotReturn	src/execute_robot_return.cpp	/^ExecuteRobotReturn::ExecuteRobotReturn(){$/;"	f	class:ExecuteRobotReturn
+FOLLOWPATH_H	include/yours_navigation/followpath.h	19;"	d
+FOLLOW_PATH_MACRO_H	include/yours_navigation/macro.h	6;"	d
+FPState	include/yours_navigation/followpath.h	/^namespace FPState{$/;"	n
+FilterEyeClusters	src/yours_lidar_detect_human.cpp	/^void FilterEyeClusters(std::map<int, ycluster>& in_cluster, const ylidar_eye_param& eye_param, const bool& is_polar = false) {$/;"	f
+FindNearestPoint	include/yours_navigation/yours_get_goal_robot_distance.h	/^    int FindNearestPoint(const std::vector<YoursNavPoint>& path, const YoursNavPoint& pose) {$/;"	f	class:YoursGetGoalRobotDistance
+FindNearlyClusters	src/yours_lidar_detect_human.cpp	/^void FindNearlyClusters(std::map<int, ycluster>& in_cluster) {$/;"	f
+FollowPathError	include/yours_navigation/followpath.h	/^enum FollowPathError{$/;"	g
+FollowPathState	include/yours_navigation/followpath.h	/^    enum FollowPathState{$/;"	g	namespace:FPState
+FromChargingToSelling	include/yours_navigation/testpubgoalpose.h	/^    FromChargingToSelling,$/;"	e	enum:MissionType
+FromReplenishToSelling	include/yours_navigation/testpubgoalpose.h	/^    FromReplenishToSelling$/;"	e	enum:MissionType
+FromSellingToCharging	include/yours_navigation/testpubgoalpose.h	/^    FromSellingToCharging = 0,$/;"	e	enum:MissionType
+FromSellingToReplenish	include/yours_navigation/testpubgoalpose.h	/^    FromSellingToReplenish,$/;"	e	enum:MissionType
+GMAPPING_TEST_PID_H	include/yours_navigation/PID.h	6;"	d
+GetPoseCallBack	src/odom.cpp	/^void odom::GetPoseCallBack(const std_msgs::Bool & msg){$/;"	f	class:odom
+GoalCallBack	src/plan.cpp	/^void Plan::GoalCallBack(const std_msgs::Bool& msg){$/;"	f	class:Plan
+I	include/yours_navigation/PID.h	/^            float I;$/;"	m	class:PID::PID
+I_lower_limit	include/yours_navigation/PID.h	/^            float I_lower_limit;$/;"	m	class:PID::PID
+I_uper_limit	include/yours_navigation/PID.h	/^            float I_uper_limit;$/;"	m	class:PID::PID
+ImpactSensorCallback	src/plan.cpp	/^void Plan::ImpactSensorCallback(const std_msgs::UInt8& msg){$/;"	f	class:Plan
+Init	include/yours_navigation/followpath.h	/^        Init = 0,$/;"	e	enum:FPState::AvoidObstacleState
+InitPath	include/yours_navigation/followpath.h	/^        InitPath = 0,$/;"	e	enum:FPState::FollowPathState
+IsIntersect	src/followpath.cpp	/^bool IsIntersect(double px1, double py1, double px2, double py2, double px3, double py3, double px4, double py4)$/;"	f
+IsMotorError	include/yours_navigation/yours_detect_arm_error_code.h	/^    inline bool IsMotorError() { return is_motor_error; };$/;"	f	class:yours_detect_arm_error_code::YoursDetectArmErrorCode
+IsNeedToGoal	src/followpath.cpp	/^bool followpath::IsNeedToGoal(YoursNavPoint goal,$/;"	f	class:followpath
+IsPointOnLine	src/followpath.cpp	/^bool IsPointOnLine(double px0, double py0, double px1, double py1, double px2, double py2)$/;"	f
+IsRunOk	src/followpath.cpp	/^bool followpath::IsRunOk(geometry_msgs::Twist& out_put_twist) { $/;"	f	class:followpath
+IsTurnOk	src/followpath.cpp	/^bool followpath::IsTurnOk(geometry_msgs::Twist& out_put_twist) { $/;"	f	class:followpath
+LaserDetectCallBack	src/plan.cpp	/^void Plan::LaserDetectCallBack(const std_msgs::UInt8& msg)$/;"	f	class:Plan
+LeftToCenter	include/yours_navigation/LoseProcessing.h	/^    LeftToCenter,$/;"	e	enum:LoseProcessingTurnStatus
+LidarPoint2MatPoint	src/yours_lidar_detect_human.cpp	/^cv::Point2f LidarPoint2MatPoint(const cv::Point2f& lp, const float& show_range, const float& mat_width, const float& mat_height) { cv::Point2f mat_point;$/;"	f
+LocalPlanState	include/yours_navigation/plan.h	/^enum LocalPlanState$/;"	g
+LoseProcessing	include/yours_navigation/LoseProcessing.h	/^class LoseProcessing {$/;"	c
+LoseProcessing	src/LoseProcessing.cpp	/^LoseProcessing::LoseProcessing():turnCnt(TURNCNT),isTurnLeft(true),mTurnStatus(TurnLeft) {$/;"	f	class:LoseProcessing
+LoseProcessingTurnStatus	include/yours_navigation/LoseProcessing.h	/^enum LoseProcessingTurnStatus{$/;"	g
+MAX_DELT_DIS	include/yours_navigation/followpath.h	41;"	d
+MissionCallBack	src/plan.cpp	/^void Plan::MissionCallBack(const std_msgs::Int32& msg){$/;"	f	class:Plan
+MissionType	include/yours_navigation/testpubgoalpose.h	/^enum MissionType{$/;"	g
+MoveBaseCallBack	src/plan.cpp	/^void Plan::MoveBaseCallBack(const move_base_msgs::MoveBaseActionResult& msg){$/;"	f	class:Plan
+MoveBaseVelCallBack	src/plan.cpp	/^void Plan::MoveBaseVelCallBack(const geometry_msgs::Twist &msg)$/;"	f	class:Plan
+NOT_INITIALIZED	include/yours_navigation/plan.h	/^    NOT_INITIALIZED=1,$/;"	e	enum:TrackingState
+NO_IMAGES_YET	include/yours_navigation/plan.h	/^    NO_IMAGES_YET=0,$/;"	e	enum:TrackingState
+ODOM_H	include/yours_navigation/odom.h	19;"	d
+ORBPoseCallBack	src/odom.cpp	/^void odom::ORBPoseCallBack(const geometry_msgs::PoseStampedConstPtr& msgs){$/;"	f	class:odom
+OUTPUT_LOW	include/yours_navigation/PID.h	38;"	d
+OUTPUT_UPPER	include/yours_navigation/PID.h	39;"	d
+OdomPoseCallBack	src/odom.cpp	/^void odom::OdomPoseCallBack(const nav_msgs::Odometry& msgs){$/;"	f	class:odom
+P	include/yours_navigation/PID.h	/^            float P;$/;"	m	class:PID::PID
+PI	include/yours_navigation/followpath.h	35;"	d
+PI	src/yours_avoid_obstacles_test.cpp	9;"	d	file:
+PID	include/yours_navigation/PID.h	/^    class PID {$/;"	c	namespace:PID
+PID	include/yours_navigation/PID.h	/^namespace PID$/;"	n
+PID	src/PID.cpp	/^        PID::PID(ros::NodeHandle &n):P(0),I(0),D_fdbk(0),err_uper_limit(20),err_lower_limit(-20),output_uper_limit(0.5),output_lower_limit(-0.5),$/;"	f	class:PID::PID
+PID	src/PID.cpp	/^namespace PID$/;"	n	file:
+PID_TIME_INTERVAL	include/yours_navigation/PID.h	12;"	d
+PID_out	include/yours_navigation/PID.h	/^            float PID_out;$/;"	m	class:PID::PID
+PLAN_H	include/yours_navigation/plan.h	19;"	d
+PathLinkPoint	include/yours_navigation/followpath.h	/^enum PathLinkPoint{$/;"	g
+Pid	include/yours_navigation/followpath.h	/^    std::shared_ptr<PID::PID> Pid;$/;"	m	class:followpath
+Plan	include/yours_navigation/plan.h	/^class Plan {$/;"	c
+Plan	src/plan.cpp	/^Plan::Plan(ros::NodeHandle& vi_n, const bool& is_remap): localPlanState(idle) $/;"	f	class:Plan
+Point_In_Polygon_2D	src/followpath.cpp	/^bool Point_In_Polygon_2D(double x, double y, const std::vector<rPoint> &POL)$/;"	f
+PowerUpReDock	include/yours_navigation/followpath.h	/^        PowerUpReDock,$/;"	e	enum:FPState::FollowPathState
+REACH_GOAL_IDS	include/yours_navigation/followpath.h	39;"	d
+ROBOT_H	include/yours_navigation/robot.h	19;"	d
+RelocationStatus	include/yours_navigation/LoseProcessing.h	/^enum RelocationStatus{$/;"	g
+RelocationTry	include/yours_navigation/LoseProcessing.h	/^    RelocationTry,$/;"	e	enum:RelocationStatus
+RelocationTurn	include/yours_navigation/LoseProcessing.h	/^    RelocationTurn$/;"	e	enum:RelocationStatus
+RemoteCallback	include/yours_navigation/yours_get_goal_robot_distance.h	/^    void RemoteCallback(const std_msgs::Float64MultiArray& pose) {$/;"	f	class:YoursGetGoalRobotDistance
+Replenish	include/yours_navigation/followpath.h	/^        Replenish,$/;"	e	enum:FPState::FollowPathState
+Replenish2SellPoint	include/yours_navigation/followpath.h	/^    Replenish2SellPoint$/;"	e	enum:PathLinkPoint
+ReturnAutoDockStartPoint	include/yours_navigation/followpath.h	/^        ReturnAutoDockStartPoint,$/;"	e	enum:FPState::FollowPathState
+RgbImageCallBack	src/plan.cpp	/^void Plan::RgbImageCallBack(const sensor_msgs::CompressedImageConstPtr& msg){$/;"	f	class:Plan
+RightToCenter	include/yours_navigation/LoseProcessing.h	/^    RightToCenter$/;"	e	enum:LoseProcessingTurnStatus
+Robot	include/yours_navigation/robot.h	/^class Robot$/;"	c
+RobotCntCallback	include/yours_navigation/yours_get_goal_robot_distance.h	/^    void RobotCntCallback(const std_msgs::Int32& msg) { robot_cnt = msg.data;$/;"	f	class:YoursGetGoalRobotDistance
+RobotPoseCallBack	src/plan.cpp	/^void Plan::RobotPoseCallBack(const nav_msgs::OdometryConstPtr& msg){$/;"	f	class:Plan
+Run	src/plan.cpp	/^void Plan::Run(){$/;"	f	class:Plan
+RunAvoidObstaclePath	include/yours_navigation/followpath.h	/^        RunAvoidObstaclePath,$/;"	e	enum:FPState::FollowPathState
+RunChargeTest	src/plan.cpp	/^void Plan::RunChargeTest(){$/;"	f	class:Plan
+RunEndCmdPath	include/yours_navigation/followpath.h	/^        RunEndCmdPath,$/;"	e	enum:FPState::FollowPathState
+RunFromChargeToSellPath	include/yours_navigation/followpath.h	/^        RunFromChargeToSellPath,$/;"	e	enum:FPState::FollowPathState
+RunFromReplenishToSellPath	include/yours_navigation/followpath.h	/^        RunFromReplenishToSellPath,$/;"	e	enum:FPState::FollowPathState
+RunFromSellToChargePath	include/yours_navigation/followpath.h	/^        RunFromSellToChargePath,$/;"	e	enum:FPState::FollowPathState
+RunFromSellToReplenishPath	include/yours_navigation/followpath.h	/^        RunFromSellToReplenishPath,$/;"	e	enum:FPState::FollowPathState
+RunParam	include/yours_navigation/followpath.h	/^    RunParam():$/;"	f	struct:RunParam
+RunParam	include/yours_navigation/followpath.h	/^struct RunParam{$/;"	s
+RunPath	include/yours_navigation/followpath.h	/^        RunPath,$/;"	e	enum:FPState::AvoidObstacleState
+RunPrepareCharge	include/yours_navigation/followpath.h	/^        RunPrepareCharge,$/;"	e	enum:FPState::FollowPathState
+RunPrepareReplenish	include/yours_navigation/followpath.h	/^        RunPrepareReplenish,$/;"	e	enum:FPState::FollowPathState
+RunPrepareSellReturnPath	include/yours_navigation/followpath.h	/^        RunPrepareSellReturnPath,$/;"	e	enum:FPState::FollowPathState
+RunRemap	src/plan.cpp	/^void Plan::RunRemap(){$/;"	f	class:Plan
+RunRemapPath	src/followpath.cpp	/^bool followpath::RunRemapPath(geometry_msgs::Twist& out_put_twist, bool& isStartOrStopWork) {$/;"	f	class:followpath
+RunSell2Path	include/yours_navigation/followpath.h	/^        RunSell2Path \/\/for jd$/;"	e	enum:FPState::FollowPathState
+RunSellPath	include/yours_navigation/followpath.h	/^        RunSellPath,$/;"	e	enum:FPState::FollowPathState
+RunSellReturnPath	include/yours_navigation/followpath.h	/^        RunSellReturnPath,$/;"	e	enum:FPState::FollowPathState
+RunStartCmdPath	include/yours_navigation/followpath.h	/^        RunStartCmdPath,$/;"	e	enum:FPState::FollowPathState
+RunTest1Path	include/yours_navigation/followpath.h	/^        RunTest1Path,$/;"	e	enum:FPState::FollowPathState
+RunWaitRobotBack	include/yours_navigation/followpath.h	/^        RunWaitRobotBack, \/\/for jd$/;"	e	enum:FPState::FollowPathState
+RunZH	src/plan.cpp	/^void Plan::RunZH(){$/;"	f	class:Plan
+RvizGoalCallBack	src/plan.cpp	/^void Plan::RvizGoalCallBack(const geometry_msgs::PoseStamped& msg)$/;"	f	class:Plan
+SIM_DEBUG	include/yours_navigation/macro.h	10;"	d
+SIM_ORB_GOAL	include/yours_navigation/macro.h	21;"	d
+SLAMDAEMON_H	include/yours_navigation/slamDaemon.h	19;"	d
+SLOW_OUTPUT_LOW	include/yours_navigation/PID.h	40;"	d
+SLOW_OUTPUT_UPPER	include/yours_navigation/PID.h	41;"	d
+SYSTEM_NOT_READY	include/yours_navigation/plan.h	/^    SYSTEM_NOT_READY=-1,$/;"	e	enum:TrackingState
+ScanCallback	src/yours_lidar_detect_human.cpp	/^void YoursLidarDetectHuman::ScanCallback(const sensor_msgs::LaserScan &msg)$/;"	f	class:YoursLidarDetectHuman
+ScanCodeCallBack	src/plan.cpp	/^void Plan::ScanCodeCallBack(const std_msgs::Bool& msg){$/;"	f	class:Plan
+Sell2ChargePoint	include/yours_navigation/followpath.h	/^    Sell2ChargePoint = 0,$/;"	e	enum:PathLinkPoint
+Sell2ReplenishPoint	include/yours_navigation/followpath.h	/^    Sell2ReplenishPoint,$/;"	e	enum:PathLinkPoint
+Selling	include/yours_navigation/testpubgoalpose.h	/^    Selling,$/;"	e	enum:MissionType
+Set	src/followpath.cpp	/^	void Set(double dx, double dy)$/;"	f	struct:Vec2d
+ShowClusters	src/yours_lidar_detect_human.cpp	/^void YoursLidarDetectHuman::ShowClusters(const std::map<int, ycluster> &in_cluster, double show_range)$/;"	f	class:YoursLidarDetectHuman
+ShowEyeClusters	src/yours_lidar_detect_human.cpp	/^void YoursLidarDetectHuman::ShowEyeClusters(const std::map<int, ycluster> &in_cluster, double show_range){$/;"	f	class:YoursLidarDetectHuman
+ShowEyeClustersPolar	src/yours_lidar_detect_human.cpp	/^void YoursLidarDetectHuman::ShowEyeClustersPolar(const std::map<int, ycluster>& in_cluster, double show_range) {$/;"	f	class:YoursLidarDetectHuman
+SlamDaemon	include/yours_navigation/slamDaemon.h	/^class SlamDaemon$/;"	c
+SlamDaemon	src/slamDaemon.cpp	/^SlamDaemon::SlamDaemon(ros::NodeHandle n):$/;"	f	class:SlamDaemon
+SlamDaemonState	include/yours_navigation/slamDaemon.h	/^    enum SlamDaemonState{$/;"	g	class:SlamDaemon
+SlamStateCallBack	src/plan.cpp	/^void Plan::SlamStateCallBack(const std_msgs::Int32& msg){$/;"	f	class:Plan
+StartWorkCallBack	src/plan.cpp	/^void Plan::StartWorkCallBack(const std_msgs::Bool& msg)$/;"	f	class:Plan
+Stop	src/plan.cpp	/^void Plan::Stop( geometry_msgs::Twist& inout_tw )$/;"	f	class:Plan
+SwitchNextGoal	include/yours_navigation/followpath.h	/^        SwitchNextGoal,$/;"	e	enum:FPState::FollowPathState
+TESTPUBGOALPOSE_H	include/yours_navigation/testpubgoalpose.h	19;"	d
+TRACKING_LOST	include/yours_navigation/plan.h	/^    TRACKING_LOST=3$/;"	e	enum:TrackingState
+TRACKING_OK	include/yours_navigation/plan.h	/^    TRACKING_OK=2,$/;"	e	enum:TrackingState
+TURNCNT	include/yours_navigation/LoseProcessing.h	10;"	d
+TURN_MIN_LIMIT_ANGLE	include/yours_navigation/followpath.h	40;"	d
+TURN_SEPT1_ANGLE	include/yours_navigation/followpath.h	37;"	d
+TURN_SEPT2_ANGLE	include/yours_navigation/followpath.h	38;"	d
+TestAmclRun	src/plan.cpp	/^void Plan::TestAmclRun()$/;"	f	class:Plan
+TestCMDCallBack	src/plan.cpp	/^void Plan::TestCMDCallBack(const std_msgs::Int32& msg){$/;"	f	class:Plan
+TestLocalPlan	src/plan.cpp	/^void Plan::TestLocalPlan(){$/;"	f	class:Plan
+TestPubGoalPose	include/yours_navigation/testpubgoalpose.h	/^class TestPubGoalPose$/;"	c
+TestPubGoalPose	src/testpubgoalpose.cpp	/^TestPubGoalPose::TestPubGoalPose(ros::NodeHandle& vi_n):isGetGoal(false)$/;"	f	class:TestPubGoalPose
+TestRunCallBack	src/plan.cpp	/^void Plan::TestRunCallBack(const std_msgs::Int32& msg){$/;"	f	class:Plan
+TestTurnCallBack	src/plan.cpp	/^void Plan::TestTurnCallBack(const std_msgs::Int32& msg){$/;"	f	class:Plan
+ToChargeCallBack	src/plan.cpp	/^void Plan::ToChargeCallBack(const std_msgs::Bool& msg){$/;"	f	class:Plan
+ToReplenishCallBack	src/plan.cpp	/^void Plan::ToReplenishCallBack(const std_msgs::Bool& msg){$/;"	f	class:Plan
+TrackingState	include/yours_navigation/plan.h	/^enum TrackingState{$/;"	g
+TurnLeft	include/yours_navigation/LoseProcessing.h	/^    TurnLeft,$/;"	e	enum:LoseProcessingTurnStatus
+TurnRight	include/yours_navigation/LoseProcessing.h	/^    TurnRight,$/;"	e	enum:LoseProcessingTurnStatus
+USE_GPS_IMU	include/yours_navigation/macro.h	17;"	d
+UltrasonicHaveObstacles	src/odom.cpp	/^bool odom::UltrasonicHaveObstacles(){$/;"	f	class:odom
+UltrasonicLeftCallBack	src/odom.cpp	/^void odom::UltrasonicLeftCallBack(const sensor_msgs::Range& msgs) {$/;"	f	class:odom
+UltrasonicRightCallBack	src/odom.cpp	/^void odom::UltrasonicRightCallBack(const sensor_msgs::Range& msgs) { $/;"	f	class:odom
+UpdatePath	src/plan.cpp	/^void Plan::UpdatePath(const std_msgs::Bool& msg){$/;"	f	class:Plan
+UpdateTwistByDistance	include/yours_navigation/yours_get_goal_robot_distance.h	/^    int UpdateTwistByDistance(double& x_speed_change, const nav_msgs::Odometry& p1_ros) { return UpdateTwistByDistanceWithRemote(x_speed_change, p1_ros); }$/;"	f	class:YoursGetGoalRobotDistance
+UpdateTwistByDistanceWithRemote	include/yours_navigation/yours_get_goal_robot_distance.h	/^int UpdateTwistByDistanceWithRemote(double& x_speed_change, const nav_msgs::Odometry& p1_ros) {$/;"	f	class:YoursGetGoalRobotDistance
+Vec2d	src/followpath.cpp	/^	Vec2d()$/;"	f	struct:Vec2d
+Vec2d	src/followpath.cpp	/^	Vec2d(double dx, double dy)$/;"	f	struct:Vec2d
+Vec2d	src/followpath.cpp	/^struct  Vec2d$/;"	s	file:
+WRITER_INL_LOSE	include/yours_navigation/macro.h	19;"	d
+WaitRunCommand	include/yours_navigation/followpath.h	/^        WaitRunCommand,$/;"	e	enum:FPState::FollowPathState
+WriteLog	src/plan.cpp	/^void Plan::WriteLog(const int& runStatus,$/;"	f	class:Plan
+WriteRunState	src/followpath.cpp	/^void followpath::WriteRunState(const FPState::FollowPathState& _state, std::shared_ptr<yours_log::YoursLog>& _log){$/;"	f	class:followpath
+YOURSLIDARDETECT_H	include/yours_navigation/yourslidardetect.h	19;"	d
+YOURS_GET_GOAL_ROBOT_DISTANCE_H_	include/yours_navigation/yours_get_goal_robot_distance.h	2;"	d
+YOURS_LIDAR_DETECT_HUMAN_H_	include/yours_navigation/yours_lidar_detect_human.h	2;"	d
+YOURS_NAVIGATION_LOSEPROCESSING_H	include/yours_navigation/LoseProcessing.h	6;"	d
+YOURS_VISION_DETECT_NODE_H	include/yours_navigation/yours_vision_detect_node.h	19;"	d
+YoursDetectArmErrorCode	include/yours_navigation/yours_detect_arm_error_code.h	/^    YoursDetectArmErrorCode(\/* args *\/ ros::NodeHandle& n)$/;"	f	class:yours_detect_arm_error_code::YoursDetectArmErrorCode
+YoursDetectArmErrorCode	include/yours_navigation/yours_detect_arm_error_code.h	/^class YoursDetectArmErrorCode {$/;"	c	namespace:yours_detect_arm_error_code
+YoursGetGoalRobotDistance	include/yours_navigation/yours_get_goal_robot_distance.h	/^    YoursGetGoalRobotDistance(ros::NodeHandle& n, const std::map<YoursPath, std::vector<YoursNavPoint>>& robot_path):robot_path_(robot_path),  on_loop_distance(0.0), is_get_remote(false), robot_cnt(2), stop_distance_(10.0) {$/;"	f	class:YoursGetGoalRobotDistance
+YoursGetGoalRobotDistance	include/yours_navigation/yours_get_goal_robot_distance.h	/^class YoursGetGoalRobotDistance {$/;"	c
+YoursLidarDetect	include/yours_navigation/yourslidardetect.h	/^class YoursLidarDetect$/;"	c
+YoursLidarDetect	src/yourslidardetect.cpp	/^YoursLidarDetect::YoursLidarDetect(ros::NodeHandle& n_):$/;"	f	class:YoursLidarDetect
+YoursLidarDetectHuman	include/yours_navigation/yours_lidar_detect_human.h	/^    class YoursLidarDetectHuman$/;"	c	namespace:yours_lidar_detect_human
+YoursLidarDetectHuman	src/yours_lidar_detect_human.cpp	/^YoursLidarDetectHuman::YoursLidarDetectHuman(ros::NodeHandle &n \/* args *\/)$/;"	f	class:YoursLidarDetectHuman
+YoursNavPoint	include/yours_navigation/robot.h	/^    YoursNavPoint():$/;"	f	struct:YoursNavPoint
+YoursNavPoint	include/yours_navigation/robot.h	/^    YoursNavPoint(const double& x, const double& y, const double& yaw):$/;"	f	struct:YoursNavPoint
+YoursNavPoint	include/yours_navigation/robot.h	/^    YoursNavPoint(const double& x, const double& y, const double& yaw, const double& speed_, const YoursPath& path_):$/;"	f	struct:YoursNavPoint
+YoursNavPoint	include/yours_navigation/robot.h	/^    YoursNavPoint(const double& x, const double& y, const double& yaw, const double& speed_, const double& w, const double& h,  const YoursPath& path_, const int& id_):$/;"	f	struct:YoursNavPoint
+YoursNavPoint	include/yours_navigation/robot.h	/^    YoursNavPoint(const nav_msgs::Odometry& robotPose){$/;"	f	struct:YoursNavPoint
+YoursNavPoint	include/yours_navigation/robot.h	/^struct YoursNavPoint{$/;"	s
+YoursPath	include/yours_navigation/robot.h	/^enum YoursPath{$/;"	g
+YoursRobotPoint	include/yours_navigation/robot.h	/^    YoursRobotPoint():$/;"	f	struct:YoursRobotPoint
+YoursRobotPoint	include/yours_navigation/robot.h	/^    YoursRobotPoint(double x_, double y_, double yaw_):$/;"	f	struct:YoursRobotPoint
+YoursRobotPoint	include/yours_navigation/robot.h	/^struct YoursRobotPoint{$/;"	s
+Yours_Charge_To_Sell_Path	include/yours_navigation/robot.h	/^    Yours_Charge_To_Sell_Path,$/;"	e	enum:YoursPath
+Yours_Path_Null	include/yours_navigation/robot.h	/^    Yours_Path_Null = 0,$/;"	e	enum:YoursPath
+Yours_Replenish_To_Sell_Path	include/yours_navigation/robot.h	/^    Yours_Replenish_To_Sell_Path,$/;"	e	enum:YoursPath
+Yours_Sell_Path_1	include/yours_navigation/robot.h	/^    Yours_Sell_Path_1,$/;"	e	enum:YoursPath
+Yours_Sell_Path_2	include/yours_navigation/robot.h	/^    Yours_Sell_Path_2,$/;"	e	enum:YoursPath
+Yours_Sell_Path_3	include/yours_navigation/robot.h	/^    Yours_Sell_Path_3,$/;"	e	enum:YoursPath
+Yours_Sell_Path_4	include/yours_navigation/robot.h	/^    Yours_Sell_Path_4,$/;"	e	enum:YoursPath
+Yours_Sell_Path_5	include/yours_navigation/robot.h	/^    Yours_Sell_Path_5,$/;"	e	enum:YoursPath
+Yours_Sell_Path_6	include/yours_navigation/robot.h	/^    Yours_Sell_Path_6,$/;"	e	enum:YoursPath
+Yours_Sell_Path_7	include/yours_navigation/robot.h	/^    Yours_Sell_Path_7$/;"	e	enum:YoursPath
+Yours_Sell_To_Charge_Path	include/yours_navigation/robot.h	/^    Yours_Sell_To_Charge_Path,$/;"	e	enum:YoursPath
+Yours_Sell_To_Replenish_Path	include/yours_navigation/robot.h	/^    Yours_Sell_To_Replenish_Path,$/;"	e	enum:YoursPath
+ZhihengInitPath	include/yours_navigation/followpath.h	/^        ZhihengInitPath = 0,$/;"	e	enum:FPState::ZhihengState
+ZhihengPoseCallBack	src/plan.cpp	/^void Plan::ZhihengPoseCallBack(const geometry_msgs::PoseArray &msg)$/;"	f	class:Plan
+ZhihengRun	include/yours_navigation/followpath.h	/^        ZhihengRun$/;"	e	enum:FPState::ZhihengState
+ZhihengStartWorkCallBack	src/plan.cpp	/^void Plan::ZhihengStartWorkCallBack(const std_msgs::UInt8& msg)$/;"	f	class:Plan
+ZhihengState	include/yours_navigation/followpath.h	/^    enum ZhihengState{$/;"	g	namespace:FPState
+ZhihengWaitRun	include/yours_navigation/followpath.h	/^        ZhihengWaitRun,$/;"	e	enum:FPState::ZhihengState
+__YOURS_DETECT_ARM_ERROR_CODE__	include/yours_navigation/yours_detect_arm_error_code.h	2;"	d
+_yoursDangerZone1	include/yours_navigation/plan.h	/^    ros::Publisher _yoursDangerZone1;$/;"	m	class:Plan
+_yoursDangerZone10	include/yours_navigation/plan.h	/^    ros::Publisher _yoursDangerZone10;$/;"	m	class:Plan
+_yoursDangerZone2	include/yours_navigation/plan.h	/^    ros::Publisher _yoursDangerZone2;$/;"	m	class:Plan
+_yoursDangerZone3	include/yours_navigation/plan.h	/^    ros::Publisher _yoursDangerZone3;$/;"	m	class:Plan
+_yoursDangerZone4	include/yours_navigation/plan.h	/^    ros::Publisher _yoursDangerZone4;$/;"	m	class:Plan
+_yoursDangerZone5	include/yours_navigation/plan.h	/^    ros::Publisher _yoursDangerZone5;$/;"	m	class:Plan
+_yoursDangerZone6	include/yours_navigation/plan.h	/^    ros::Publisher _yoursDangerZone6;$/;"	m	class:Plan
+_yoursDangerZone7	include/yours_navigation/plan.h	/^    ros::Publisher _yoursDangerZone7;$/;"	m	class:Plan
+_yoursDangerZone8	include/yours_navigation/plan.h	/^    ros::Publisher _yoursDangerZone8;$/;"	m	class:Plan
+_yoursDangerZone9	include/yours_navigation/plan.h	/^    ros::Publisher _yoursDangerZone9;$/;"	m	class:Plan
+_yoursDangerZoneTest	include/yours_navigation/plan.h	/^    ros::Publisher _yoursDangerZoneTest;$/;"	m	class:Plan
+_yoursPubVector	include/yours_navigation/plan.h	/^    std::vector<ros::Publisher> _yoursPubVector;$/;"	m	class:Plan
+angle_	include/yours_navigation/yours_lidar_detect_human.h	/^        double angle_;$/;"	m	struct:yours_lidar_detect_human::ypoint
+anti_saturation	src/PID.cpp	/^        float PID::anti_saturation(float currentError, float perOut, float delt_timer)$/;"	f	class:PID::PID
+autodockCtrlData	include/yours_navigation/followpath.h	/^    std_msgs::Int32 autodockCtrlData;$/;"	m	class:followpath
+autodockStatusCallback	src/followpath.cpp	/^void followpath::autodockStatusCallback(const std_msgs::Int32 &msg)$/;"	f	class:followpath
+batteryCallback	src/followpath.cpp	/^void followpath::batteryCallback(const yours_msgs::YoursBatteryStatus& msg)$/;"	f	class:followpath
+checkPath	src/followpath.cpp	/^int checkPath(const std::map<int, geometry_msgs::PoseArray>& path){$/;"	f
+clear	include/yours_navigation/yours_lidar_detect_human.h	/^        void clear() {$/;"	f	struct:yours_lidar_detect_human::ycluster
+cluster_	include/yours_navigation/yours_lidar_detect_human.h	/^        std::vector<ypoint> cluster_;$/;"	m	struct:yours_lidar_detect_human::ycluster
+clusters_	include/yours_navigation/yours_lidar_detect_human.h	/^        std::map<int, ycluster> clusters_;$/;"	m	class:yours_lidar_detect_human::YoursLidarDetectHuman
+colorImageCallback	src/yours_vision_detect_node.cpp	/^void yours_vision_detect_node::colorImageCallback(const sensor_msgs::Image& msgs)$/;"	f	class:yours_vision_detect_node
+colorMat	include/yours_navigation/yours_vision_detect_node.h	/^   cv::Mat colorMat;$/;"	m	class:yours_vision_detect_node
+colorSub	include/yours_navigation/yours_vision_detect_node.h	/^   ros::Subscriber colorSub;$/;"	m	class:yours_vision_detect_node
+constrain	src/PID.cpp	/^        float PID::constrain(float val, float min, float max)$/;"	f	class:PID::PID
+current_key_fram	include/yours_navigation/followpath.h	/^    int   current_key_fram;$/;"	m	class:followpath
+debugImagePub	include/yours_navigation/yours_vision_detect_node.h	/^   ros::Publisher debugImagePub;$/;"	m	class:yours_vision_detect_node
+debugPrint	include/yours_navigation/followpath.h	/^    void debugPrint(){$/;"	f	struct:AvoidPathCell
+delt_angle	include/yours_navigation/followpath.h	/^    float delt_angle;$/;"	m	class:followpath
+depthImageCallback	src/yours_vision_detect_node.cpp	/^void yours_vision_detect_node::depthImageCallback(const sensor_msgs::Image& msgs)$/;"	f	class:yours_vision_detect_node
+depthImageInfoCallback	src/yours_vision_detect_node.cpp	/^void yours_vision_detect_node::depthImageInfoCallback(const sensor_msgs::CameraInfo& msgs)$/;"	f	class:yours_vision_detect_node
+depthInfo	include/yours_navigation/yours_vision_detect_node.h	/^   std::vector<double> depthInfo;$/;"	m	class:yours_vision_detect_node
+depthInfoSub	include/yours_navigation/yours_vision_detect_node.h	/^   ros::Subscriber depthInfoSub;$/;"	m	class:yours_vision_detect_node
+depthMat	include/yours_navigation/yours_vision_detect_node.h	/^   cv::Mat depthMat;$/;"	m	class:yours_vision_detect_node
+depthSub	include/yours_navigation/yours_vision_detect_node.h	/^   ros::Subscriber depthSub;$/;"	m	class:yours_vision_detect_node
+detect_angle1	include/yours_navigation/yours_lidar_detect_human.h	/^        float detect_angle1; \/\/角度，小$/;"	m	struct:yours_lidar_detect_human::ylidar_eye_param
+detect_angle2	include/yours_navigation/yours_lidar_detect_human.h	/^        float detect_angle2; \/\/角度，大$/;"	m	struct:yours_lidar_detect_human::ylidar_eye_param
+diff_fdbk	include/yours_navigation/PID.h	/^            float diff_fdbk;$/;"	m	class:PID::PID
+distance	include/yours_navigation/robot.h	/^    double distance(const YoursRobotPoint& p){$/;"	f	struct:YoursRobotPoint
+distance	src/yourslidardetect.cpp	/^double distance(cv::Point2d p1, cv::Point2d p2){$/;"	f
+distanceNavPointToRosPose	src/followpath.cpp	/^double distanceNavPointToRosPose(const YoursNavPoint& nP, const geometry_msgs::Pose& rP){$/;"	f
+distanceTo	include/yours_navigation/robot.h	/^	double distanceTo(const rPoint& p){$/;"	f	struct:rPoint
+distanceToPoint	include/yours_navigation/robot.h	/^    double distanceToPoint(const rPoint &point)$/;"	f	struct:rLine
+distance_threshold	include/yours_navigation/yours_lidar_detect_human.h	/^        double distance_threshold;$/;"	m	class:yours_lidar_detect_human::YoursLidarDetectHuman
+drawDetectRectangle	src/yours_lidar_detect_human.cpp	/^void drawDetectRectangle(cv::Mat& show_mat, const ylidar_param& param, const int& show_range){$/;"	f
+drawEyeDetectPolarArea	src/yours_lidar_detect_human.cpp	/^void drawEyeDetectPolarArea(cv::Mat & show_mat, const ylidar_eye_param& param, float show_range) {$/;"	f
+drawEyeDetectRectangle	src/yours_lidar_detect_human.cpp	/^void drawEyeDetectRectangle(cv::Mat& show_mat, const ylidar_eye_param& param, const int& show_range) {$/;"	f
+drawPolarLine	src/yours_lidar_detect_human.cpp	/^void drawPolarLine(cv::Mat& show_mat, float show_range, float angle, float range, const cv::Scalar& color) { $/;"	f
+drawPolarLineConnect	src/yours_lidar_detect_human.cpp	/^void drawPolarLineConnect(cv::Mat&show_mat, float show_range, const cv::Scalar& color, std::pair<float, float> _pp1, std::pair<float, float> _pp2) { ypoint pp1;$/;"	f
+drawPolygon	src/plan.cpp	/^void drawPolygon(const rZone& polygon, ros::Publisher& pub){$/;"	f
+drawZone	src/plan.cpp	/^void Plan::drawZone(const std::vector<rZone> &zone, const std::vector<ros::Publisher> &pub)$/;"	f	class:Plan
+err	include/yours_navigation/PID.h	/^            float err;$/;"	m	class:PID::PID
+err_lower_limit	include/yours_navigation/PID.h	/^            float err_lower_limit;$/;"	m	class:PID::PID
+err_old	include/yours_navigation/PID.h	/^            float err_old;$/;"	m	class:PID::PID
+err_uper_limit	include/yours_navigation/PID.h	/^            float err_uper_limit;$/;"	m	class:PID::PID
+error_clean_handle_	include/yours_navigation/yours_detect_arm_error_code.h	/^    ros::Subscriber error_clean_handle_;$/;"	m	class:yours_detect_arm_error_code::YoursDetectArmErrorCode
+error_sub_handle_	include/yours_navigation/yours_detect_arm_error_code.h	/^    ros::Subscriber error_sub_handle_;$/;"	m	class:yours_detect_arm_error_code::YoursDetectArmErrorCode
+eyeNumber	include/yours_navigation/yours_lidar_detect_human.h	/^        int eyeNumber;$/;"	m	struct:yours_lidar_detect_human::ycluster
+eye_pub	include/yours_navigation/yours_lidar_detect_human.h	/^        ros::Publisher eye_pub;$/;"	m	class:yours_lidar_detect_human::YoursLidarDetectHuman
+fillRandomMissionArray	src/plan.cpp	/^void Plan::fillRandomMissionArray(const std::map<YoursPath, std::vector<YoursNavPoint>> &pointMap, std::vector<YoursPath> &pathArray)$/;"	f	class:Plan
+findLocation	src/followpath.cpp	/^bool findLocation(const std::map<int, geometry_msgs::PoseArray>& path, int checkPathResult, double threshold, int testCode, int& pathCode, int& poseCode){$/;"	f
+findLocationCheck_0	src/followpath.cpp	/^float findLocationCheck_0(const std::map<int, geometry_msgs::PoseArray>& path, int checkPathResult, int& pathCode, int& poseCode, float& minDest){$/;"	f
+findNearestNavPose	src/followpath.cpp	/^bool followpath::findNearestNavPose(YoursPath& pathName, int& locationInVector, bool isInit){$/;"	f	class:followpath
+findNearestNavPose	src/followpath.cpp	/^bool followpath::findNearestNavPose(int& vo_poseID)$/;"	f	class:followpath
+findNearestPoint	src/execute_robot_return.cpp	/^int findNearestPoint(const std::vector<YoursNavPoint>&path_, const YoursNavPoint&point_ ){$/;"	f
+findNearestPoseID	src/testpubgoalpose.cpp	/^int TestPubGoalPose::findNearestPoseID(const geometry_msgs::Pose& vi_pose)$/;"	f	class:TestPubGoalPose
+findNearestPoseInPoseArray	src/followpath.cpp	/^int findNearestPoseInPoseArray(const geometry_msgs::PoseArray& array, const geometry_msgs::Pose& pose){$/;"	f
+findSellLinkPoint	src/followpath.cpp	/^void findSellLinkPoint(const std::map<int, geometry_msgs::PoseArray>& path, int checkPath, std::map<PathLinkPoint, int>& linkMap){$/;"	f
+follow_Path	include/yours_navigation/plan.h	/^    follow_Path,$/;"	e	enum:LocalPlanState
+follow_nextPose_	include/yours_navigation/followpath.h	/^    nav_msgs::Odometry  follow_nextPose_;$/;"	m	class:followpath
+follow_pose_step_	include/yours_navigation/followpath.h	/^    uint8_t follow_pose_step_;$/;"	m	class:followpath
+followpath	include/yours_navigation/followpath.h	/^class followpath$/;"	c
+followpath	src/followpath.cpp	/^followpath::followpath(ros::NodeHandle& vi_n, std::shared_ptr<yours_log::YoursLog> _log):$/;"	f	class:followpath
+fpwrappi	src/followpath.cpp	/^float followpath::fpwrappi(float ang)$/;"	f	class:followpath
+getAbsAngle	src/followpath.cpp	/^float followpath::getAbsAngle(nav_msgs::Odometry currentPose, nav_msgs::Odometry nextKeyFram)$/;"	f	class:followpath
+getAmclPose	src/odom.cpp	/^nav_msgs::Odometry odom::getAmclPose()$/;"	f	class:odom
+getAmclYaw	src/odom.cpp	/^double odom::getAmclYaw()$/;"	f	class:odom
+getAngleFromRadian	src/followpath.cpp	/^float getAngleFromRadian(float radian)$/;"	f
+getAvoidObstaclePath	src/followpath.cpp	/^std::vector<AvoidPathCell> getAvoidObstaclePath(const nav_msgs::Odometry& currentPose, const bool& isTurnLeft, const double& turnAngle, const double& sideDistance,geometry_msgs::PoseArray& debugPoseArray){$/;"	f
+getAvoidObstaclePath	src/yours_avoid_obstacles_test.cpp	/^std::vector<AvoidPathCell> getAvoidObstaclePath(const nav_msgs::Odometry& currentPose, const bool& isTurnLeft, const double& turnAngle, const double& sideDistance,geometry_msgs::PoseArray& debugPoseArray){$/;"	f
+getDeltAngle	src/followpath.cpp	/^float followpath::getDeltAngle(float current_angle)$/;"	f	class:followpath
+getDeltLength	src/followpath.cpp	/^float getDeltLength(cv::Point2d p1, cv::Point2d p2){$/;"	f
+getDeltLength	src/followpath.cpp	/^float getDeltLength(geometry_msgs::Pose p1, geometry_msgs::Pose p2)$/;"	f
+getDeltLength	src/followpath.cpp	/^float getDeltLength(nav_msgs::Odometry currentPose, nav_msgs::Odometry nextKeyFram)$/;"	f
+getDetectPixelQuantity	src/yours_vision_detect_node.cpp	/^int yours_vision_detect_node::getDetectPixelQuantity(float imageRowRate, int farthest)$/;"	f	class:yours_vision_detect_node
+getDistance	include/yours_navigation/yours_lidar_detect_human.h	/^        double getDistance(const ypoint& p2){$/;"	f	struct:yours_lidar_detect_human::ypoint
+getDistance	src/odom.cpp	/^double getDistance(geometry_msgs::Point p1, geometry_msgs::Point p2)$/;"	f
+getDistanceFromRobot1ToRobot2	include/yours_navigation/yours_get_goal_robot_distance.h	/^    bool getDistanceFromRobot1ToRobot2(YoursNavPoint p1, YoursNavPoint p2, double& dis) { $/;"	f	class:YoursGetGoalRobotDistance
+getFollowPathLinearSpeed	src/followpath.cpp	/^float followpath::getFollowPathLinearSpeed(float deltAngle)$/;"	f	class:followpath
+getForwardGoal	src/followpath.cpp	/^int  getForwardGoal(const nav_msgs::Path& msg, const nav_msgs::Odometry& location){$/;"	f
+getGoStraightAngleSpeed	src/followpath.cpp	/^float followpath::getGoStraightAngleSpeed(float deltAngle)$/;"	f	class:followpath
+getNextAvoidObstaclePose	src/followpath.cpp	/^nav_msgs::Odometry getNextAvoidObstaclePose(const nav_msgs::Odometry inPose_, double turnAngle_, double distance_){$/;"	f
+getNextAvoidObstaclePose	src/yours_avoid_obstacles_test.cpp	/^nav_msgs::Odometry getNextAvoidObstaclePose(const nav_msgs::Odometry inPose_, double turnAngle_, double distance_){$/;"	f
+getNextPose	src/followpath.cpp	/^void followpath::getNextPose(float &delt_Dis,  bool& isChangeGoalPose, bool& isEndOfPath, bool isLoop)$/;"	f	class:followpath
+getORBPose	src/odom.cpp	/^nav_msgs::Odometry odom::getORBPose(){$/;"	f	class:odom
+getOdomPose	src/odom.cpp	/^nav_msgs::Odometry odom::getOdomPose(){$/;"	f	class:odom
+getOdomYaw	src/odom.cpp	/^double odom::getOdomYaw(){$/;"	f	class:odom
+getPassAndGoalPointVectorID	include/yours_navigation/yours_get_goal_robot_distance.h	/^    bool getPassAndGoalPointVectorID(const std::vector<YoursNavPoint>& path, const YoursNavPoint& pose, int& pass_id, int& goal_id) { $/;"	f	class:YoursGetGoalRobotDistance
+getPointFormOdom	src/yours_avoid_obstacles_test.cpp	/^cv::Point getPointFormOdom(const nav_msgs::Odometry& odom){$/;"	f
+getPoseReady	src/odom.cpp	/^bool odom::getPoseReady()$/;"	f	class:odom
+getPoseYaw	src/followpath.cpp	/^inline double getPoseYaw(const geometry_msgs::Pose& pose_){$/;"	f
+getPoseYaw	src/yours_avoid_obstacles_test.cpp	/^inline double getPoseYaw(const geometry_msgs::Pose& pose_){$/;"	f
+getRadianFormAngle	src/followpath.cpp	/^float getRadianFormAngle(float angle)$/;"	f
+getRadianFormAngle	src/yours_avoid_obstacles_test.cpp	/^float getRadianFormAngle(float angle)$/;"	f
+getRobotSellPathReturnPath	src/execute_robot_return.cpp	/^bool ExecuteRobotReturn::getRobotSellPathReturnPath(const std::map<YoursPath, std::vector<YoursNavPoint>> &pathMap,$/;"	f	class:ExecuteRobotReturn
+getRobotToSellPathReturnPath	src/execute_robot_return.cpp	/^bool ExecuteRobotReturn::getRobotToSellPathReturnPath(const std::map<YoursPath, std::vector<YoursNavPoint>> &pathMap,$/;"	f	class:ExecuteRobotReturn
+getSeslamPitch	src/odom.cpp	/^double odom::getSeslamPitch(){$/;"	f	class:odom
+getStopSpeedPara	src/followpath.cpp	/^void followpath::getStopSpeedPara(float& speed, float& stopWight, float& stopHeight){$/;"	f	class:followpath
+getToLinkPointDis	src/execute_robot_return.cpp	/^double getToLinkPointDis(const std::vector<YoursNavPoint> &path_,$/;"	f
+getTurnAngle	src/followpath.cpp	/^double getTurnAngle(const double& distanceFormObstacle){$/;"	f
+getTurnAngleSpeed	src/followpath.cpp	/^float followpath::getTurnAngleSpeed(float deltAngle)$/;"	f	class:followpath
+getYaw	include/yours_navigation/robot.h	/^    float getYaw(YoursNavPoint p2)$/;"	f	struct:YoursNavPoint
+getYawGmsg	src/plan.cpp	/^float getYawGmsg( geometry_msgs::Pose  p1, geometry_msgs::Pose p2){$/;"	f
+get_next_goal	include/yours_navigation/plan.h	/^    get_next_goal$/;"	e	enum:LocalPlanState
+get_pid_turn_angle_speed	src/PID.cpp	/^        float PID::get_pid_turn_angle_speed(float delt_error)$/;"	f	class:PID::PID
+goForward	src/followpath.cpp	/^geometry_msgs::Twist goForward(float speed=0.1){$/;"	f
+goalCallBack	src/yours_navigation_get_goal_node.cpp	/^void goalCallBack(const geometry_msgs::PoseStamped& msg){$/;"	f
+goalCallPub	include/yours_navigation/plan.h	/^    ros::Publisher goalCallPub;$/;"	m	class:Plan
+goalPoint	include/yours_navigation/followpath.h	/^    YoursNavPoint goalPoint;$/;"	m	struct:AvoidPathCell
+goalSub	include/yours_navigation/plan.h	/^    ros::Subscriber goalSub;$/;"	m	class:Plan
+haveObstacle	src/yours_vision_detect_node.cpp	/^bool yours_vision_detect_node::haveObstacle()$/;"	f	class:yours_vision_detect_node
+haveObstacles	src/odom.cpp	/^bool odom::haveObstacles(){$/;"	f	class:odom
+id	include/yours_navigation/robot.h	/^    int id;$/;"	m	struct:YoursNavPoint
+idle	include/yours_navigation/plan.h	/^    idle = 0,$/;"	e	enum:LocalPlanState
+imageProcess	src/yours_vision_detect_node.cpp	/^void yours_vision_detect_node::imageProcess(cv::Mat& imageIn){$/;"	f	class:yours_vision_detect_node
+infraImageCallback	src/yours_vision_detect_node.cpp	/^void yours_vision_detect_node::infraImageCallback(const sensor_msgs::Image& msgs)$/;"	f	class:yours_vision_detect_node
+infraMat	include/yours_navigation/yours_vision_detect_node.h	/^   cv::Mat infraMat;$/;"	m	class:yours_vision_detect_node
+infraSub	include/yours_navigation/yours_vision_detect_node.h	/^   ros::Subscriber infraSub;$/;"	m	class:yours_vision_detect_node
+isCanUpdateYaw	include/yours_navigation/plan.h	/^    bool isCanUpdateYaw;$/;"	m	class:Plan
+isCharging	src/followpath.cpp	/^bool followpath::isCharging()$/;"	f	class:followpath
+isDockTest	include/yours_navigation/followpath.h	/^    bool isDockTest;$/;"	m	class:followpath
+isEyeCandidacy	include/yours_navigation/yours_lidar_detect_human.h	/^        bool isEyeCandidacy; \/\/eye 候选$/;"	m	struct:yours_lidar_detect_human::ycluster
+isFirstGetSlamState	include/yours_navigation/plan.h	/^    bool isFirstGetSlamState;$/;"	m	class:Plan
+isFirstTracking	include/yours_navigation/plan.h	/^    bool isFirstTracking;$/;"	m	class:Plan
+isGetDangerZone	include/yours_navigation/plan.h	/^    bool isGetDangerZone;$/;"	m	class:Plan
+isGetGoal	include/yours_navigation/testpubgoalpose.h	/^    bool isGetGoal;$/;"	m	class:TestPubGoalPose
+isGetGoal	src/yours_navigation_test.cpp	/^bool isGetGoal = false;$/;"	v
+isGetNextGoal	src/yours_navigation_test.cpp	/^bool isGetNextGoal = false;$/;"	v
+isGetOdom	src/odom.cpp	/^bool isGetOdom;$/;"	v
+isGoalForwardRobot	src/followpath.cpp	/^bool isGoalForwardRobot(const geometry_msgs::Pose& goalPose, const geometry_msgs::Pose& robotPose, double& yaw){$/;"	f
+isHaveAmclPath	include/yours_navigation/plan.h	/^    bool isHaveAmclPath;$/;"	m	class:Plan
+isHaveAutoCharge	include/yours_navigation/followpath.h	/^    bool isHaveAutoCharge;$/;"	m	class:followpath
+isHaveAutoCharge	include/yours_navigation/plan.h	/^    bool isHaveAutoCharge;$/;"	m	class:Plan
+isHaveAvoid	src/odom.cpp	/^static bool isHaveAvoid = false;$/;"	v	file:
+isHaveBuhuoAutoCharge	include/yours_navigation/followpath.h	/^    bool isHaveBuhuoAutoCharge;$/;"	m	class:followpath
+isHaveBuhuoAutoCharge	include/yours_navigation/plan.h	/^    bool isHaveBuhuoAutoCharge;$/;"	m	class:Plan
+isHavePath	src/followpath.cpp	/^bool followpath::isHavePath()$/;"	f	class:followpath
+isHuman	include/yours_navigation/yours_lidar_detect_human.h	/^        bool isHuman;$/;"	m	struct:yours_lidar_detect_human::ycluster
+isMapReadOk	src/followpath.cpp	/^bool followpath::isMapReadOk() {$/;"	f	class:followpath
+isNavStatus	include/yours_navigation/plan.h	/^    bool isNavStatus;$/;"	m	class:Plan
+isNearestRobot4Eye	include/yours_navigation/yours_lidar_detect_human.h	/^        bool isNearestRobot4Eye;$/;"	m	struct:yours_lidar_detect_human::ycluster
+isNearlyWall	include/yours_navigation/yours_lidar_detect_human.h	/^        bool isNearlyWall;$/;"	m	struct:yours_lidar_detect_human::ycluster
+isPlugIn	include/yours_navigation/followpath.h	/^    bool isPlugIn;$/;"	m	class:followpath
+isPoseEqual	src/followpath.cpp	/^bool isPoseEqual(geometry_msgs::Pose p1, geometry_msgs::Pose p2){$/;"	f
+isRadianSameSign	src/followpath.cpp	/^bool isRadianSameSign(float r1, float r2){$/;"	f
+isReplenish	src/followpath.cpp	/^bool followpath::isReplenish()$/;"	f	class:followpath
+isRobotInDangerZones	src/followpath.cpp	/^bool followpath::isRobotInDangerZones( const rPoint& p, int& zoneNumber){$/;"	f	class:followpath
+isRobotInThisZone	src/followpath.cpp	/^bool followpath::isRobotInThisZone(const rPoint& p, const rZone& zone){$/;"	f	class:followpath
+isRobotOutPath	src/followpath.cpp	/^bool followpath::isRobotOutPath(const rPoint& p){$/;"	f	class:followpath
+isSlow	include/yours_navigation/yours_lidar_detect_human.h	/^        bool isSlow;$/;"	m	struct:yours_lidar_detect_human::ycluster
+isStartWork	src/yours_navigation_test.cpp	/^bool isStartWork = false;$/;"	v
+isStop	include/yours_navigation/yours_lidar_detect_human.h	/^        bool isStop;$/;"	m	struct:yours_lidar_detect_human::ycluster
+isTurn	include/yours_navigation/followpath.h	/^    bool isTurn;$/;"	m	struct:AvoidPathCell
+isTurnLeft	include/yours_navigation/LoseProcessing.h	/^    bool isTurnLeft;$/;"	m	class:LoseProcessing
+is_back_impact_	include/yours_navigation/plan.h	/^    bool is_back_impact_;$/;"	m	class:Plan
+is_get_remote	include/yours_navigation/yours_get_goal_robot_distance.h	/^    bool is_get_remote;$/;"	m	class:YoursGetGoalRobotDistance
+is_left_us	src/odom.cpp	/^static bool is_left_us = false;$/;"	v	file:
+is_motor_error	include/yours_navigation/yours_detect_arm_error_code.h	/^    bool is_motor_error;$/;"	m	class:yours_detect_arm_error_code::YoursDetectArmErrorCode
+is_right_us	src/odom.cpp	/^static bool is_right_us = false;$/;"	v	file:
+kd_fdbk	include/yours_navigation/PID.h	/^            float kd_fdbk;$/;"	m	class:PID::PID
+kf1	include/yours_navigation/odom.h	/^    std::shared_ptr<cv::KalmanFilter>  kf1;$/;"	m	class:odom
+kf2	include/yours_navigation/odom.h	/^    std::shared_ptr<cv::KalmanFilter>  kf2;$/;"	m	class:odom
+kf3	include/yours_navigation/odom.h	/^    std::shared_ptr<cv::KalmanFilter>  kf3;$/;"	m	class:odom
+kfPose	include/yours_navigation/followpath.h	/^    std::shared_ptr<TestPubGoalPose> kfPose;$/;"	m	class:followpath
+kfUSPub	include/yours_navigation/odom.h	/^    ros::Publisher kfUSPub;$/;"	m	class:odom
+ki_fdbk	include/yours_navigation/PID.h	/^            float ki_fdbk;$/;"	m	class:PID::PID
+kp_fdbk	include/yours_navigation/PID.h	/^            float kp_fdbk;$/;"	m	class:PID::PID
+laserCallBack	src/yourslidardetect.cpp	/^void YoursLidarDetect::laserCallBack(const sensor_msgs::LaserScan& msgs)$/;"	f	class:YoursLidarDetect
+left	src/LoseProcessing.cpp	/^geometry_msgs::Twist left(float speed=0.1){$/;"	f
+lidar_detect_eye_param_	include/yours_navigation/yours_lidar_detect_human.h	/^        ylidar_eye_param lidar_detect_eye_param_;$/;"	m	class:yours_lidar_detect_human::YoursLidarDetectHuman
+lidar_detect_param_	include/yours_navigation/yours_lidar_detect_human.h	/^        ylidar_param lidar_detect_param_;$/;"	m	class:yours_lidar_detect_human::YoursLidarDetectHuman
+lidar_msg	include/yours_navigation/yours_lidar_detect_human.h	/^        sensor_msgs::LaserScan lidar_msg;$/;"	m	class:yours_lidar_detect_human::YoursLidarDetectHuman
+lidar_offset	include/yours_navigation/yours_lidar_detect_human.h	/^        float lidar_offset;$/;"	m	struct:yours_lidar_detect_human::ylidar_param
+lidar_stop_pub	include/yours_navigation/yours_lidar_detect_human.h	/^        ros::Publisher lidar_stop_pub;$/;"	m	class:yours_lidar_detect_human::YoursLidarDetectHuman
+lidar_sub	include/yours_navigation/yours_lidar_detect_human.h	/^        ros::Subscriber lidar_sub;$/;"	m	class:yours_lidar_detect_human::YoursLidarDetectHuman
+linear_speed	include/yours_navigation/followpath.h	/^    float linear_speed;$/;"	m	class:followpath
+localPathCallBack	src/followpath.cpp	/^void  followpath::localPathCallBack(const nav_msgs::Path& msg){$/;"	f	class:followpath
+localPlanState	include/yours_navigation/plan.h	/^    LocalPlanState localPlanState;$/;"	m	class:Plan
+log_	include/yours_navigation/yours_detect_arm_error_code.h	/^    std::shared_ptr<yours_log::YoursLog> log_;$/;"	m	class:yours_detect_arm_error_code::YoursDetectArmErrorCode
+log_	include/yours_navigation/yours_get_goal_robot_distance.h	/^    std::shared_ptr<yours_log::YoursLog> log_;$/;"	m	class:YoursGetGoalRobotDistance
+loop	include/yours_navigation/slamDaemon.h	/^        loop,$/;"	e	enum:SlamDaemon::SlamDaemonState
+lose	include/yours_navigation/plan.h	/^    lose,$/;"	e	enum:LocalPlanState
+mAMCLRunStatus	include/yours_navigation/plan.h	/^    int mAMCLRunStatus;$/;"	m	class:Plan
+mAmclPose	src/odom.cpp	/^nav_msgs::Odometry mAmclPose;$/;"	v
+mAmclPoseYaw	src/odom.cpp	/^double mAmclPoseYaw;$/;"	v
+mArmErrorDetect	include/yours_navigation/plan.h	/^    std::shared_ptr<yours_detect_arm_error_code::YoursDetectArmErrorCode>mArmErrorDetect;$/;"	m	class:Plan
+mAutoDockErrorPub	include/yours_navigation/followpath.h	/^    ros::Publisher mAutoDockErrorPub;$/;"	m	class:followpath
+mAutodockCtrlPub	include/yours_navigation/followpath.h	/^    ros::Publisher mAutodockCtrlPub;$/;"	m	class:followpath
+mAutodockStatusSub	include/yours_navigation/followpath.h	/^    ros::Subscriber mAutodockStatusSub;$/;"	m	class:followpath
+mAvoidPathVector	include/yours_navigation/followpath.h	/^    std::vector<AvoidPathCell> mAvoidPathVector;$/;"	m	class:followpath
+mAvoidState	include/yours_navigation/followpath.h	/^    FPState::AvoidObstacleState mAvoidState;$/;"	m	class:followpath
+mBatterySub	include/yours_navigation/followpath.h	/^    ros::Subscriber mBatterySub;$/;"	m	class:followpath
+mBattry	include/yours_navigation/followpath.h	/^	yours_msgs::YoursBatteryStatus mBattry;$/;"	m	class:followpath
+mCameraAngle	include/yours_navigation/yours_vision_detect_node.h	/^   double mCameraAngle;$/;"	m	class:yours_vision_detect_node
+mCmdPathEnd	include/yours_navigation/followpath.h	/^    std::vector<std::pair<int, float>> mCmdPathEnd;$/;"	m	class:followpath
+mCmdPathStart	include/yours_navigation/followpath.h	/^    std::vector<std::pair<int, float>> mCmdPathStart;$/;"	m	class:followpath
+mCurrentCmdPathCnt	include/yours_navigation/followpath.h	/^    int mCurrentCmdPathCnt;$/;"	m	class:followpath
+mCurrentPoint	include/yours_navigation/followpath.h	/^    std::pair<YoursPath, int> mCurrentPoint;$/;"	m	class:followpath
+mDangerZone	include/yours_navigation/followpath.h	/^    std::vector<rZone> mDangerZone;$/;"	m	class:followpath
+mDangerZone	include/yours_navigation/plan.h	/^    std::vector<rZone> mDangerZone;$/;"	m	class:Plan
+mDangerZoneSub	include/yours_navigation/plan.h	/^    ros::Subscriber mDangerZoneSub;$/;"	m	class:Plan
+mDeltDis	include/yours_navigation/followpath.h	/^    float mDeltDis;$/;"	m	class:followpath
+mDetectDebugPub	include/yours_navigation/yourslidardetect.h	/^    ros::Publisher mDetectDebugPub;$/;"	m	class:YoursLidarDetect
+mDetectPushRobotDebugPub	include/yours_navigation/yourslidardetect.h	/^    ros::Publisher mDetectPushRobotDebugPub;$/;"	m	class:YoursLidarDetect
+mDetectSlowDownDebugPub	include/yours_navigation/yourslidardetect.h	/^    ros::Publisher mDetectSlowDownDebugPub;$/;"	m	class:YoursLidarDetect
+mDockstatus	include/yours_navigation/followpath.h	/^    std_msgs::Int32 mDockstatus; $/;"	m	class:followpath
+mFarthestObstacle	include/yours_navigation/plan.h	/^    int mFarthestObstacle;$/;"	m	class:Plan
+mFilterCntThreshold	include/yours_navigation/yourslidardetect.h	/^    int mFilterCntThreshold;$/;"	m	class:YoursLidarDetect
+mFilterPushCnt	include/yours_navigation/yourslidardetect.h	/^    int mFilterPushCnt;$/;"	m	class:YoursLidarDetect
+mFilterSlowCnt	include/yours_navigation/yourslidardetect.h	/^    int mFilterSlowCnt;$/;"	m	class:YoursLidarDetect
+mFilterStopCnt	include/yours_navigation/yourslidardetect.h	/^    int mFilterStopCnt;$/;"	m	class:YoursLidarDetect
+mFollowPathState	include/yours_navigation/plan.h	/^    FPState::FollowPathState mFollowPathState;$/;"	m	class:Plan
+mFollower	include/yours_navigation/plan.h	/^    std::shared_ptr<followpath> mFollower;$/;"	m	class:Plan
+mForLogOdomPub	include/yours_navigation/odom.h	/^    ros::Publisher mForLogOdomPub;$/;"	m	class:odom
+mGetPosePub	include/yours_navigation/odom.h	/^    ros::Publisher mGetPosePub;$/;"	m	class:odom
+mGetPoseSub	include/yours_navigation/odom.h	/^    ros::Subscriber mGetPoseSub;$/;"	m	class:odom
+mGlobalPath	include/yours_navigation/followpath.h	/^    nav_msgs::Path mGlobalPath;$/;"	m	class:followpath
+mGlobalPathPub	include/yours_navigation/followpath.h	/^    ros::Publisher mGlobalPathPub;$/;"	m	class:followpath
+mGoalArrayPub	include/yours_navigation/plan.h	/^    ros::Publisher mGoalArrayPub;$/;"	m	class:Plan
+mGoalPose	include/yours_navigation/followpath.h	/^	geometry_msgs::Pose mGoalPose;$/;"	m	class:followpath
+mGoalPoseArray	include/yours_navigation/plan.h	/^    geometry_msgs::PoseArray mGoalPoseArray;$/;"	m	class:Plan
+mGoalPub	include/yours_navigation/followpath.h	/^    ros::Publisher mGoalPub;$/;"	m	class:followpath
+mImpactSensorSub	include/yours_navigation/plan.h	/^    ros::Subscriber mImpactSensorSub;$/;"	m	class:Plan
+mInitPose	include/yours_navigation/followpath.h	/^    double mInitPose[3];$/;"	m	class:followpath
+mInitPosePub	include/yours_navigation/followpath.h	/^    ros::Publisher mInitPosePub;$/;"	m	class:followpath
+mIsAmcl	include/yours_navigation/followpath.h	/^    bool mIsAmcl;$/;"	m	class:followpath
+mIsAmcl	include/yours_navigation/odom.h	/^	bool mIsAmcl;$/;"	m	class:odom
+mIsAmclLocation	include/yours_navigation/plan.h	/^    bool mIsAmclLocation;$/;"	m	class:Plan
+mIsAvoidEnable	include/yours_navigation/followpath.h	/^    bool mIsAvoidEnable;$/;"	m	class:followpath
+mIsDebugLaser	include/yours_navigation/yourslidardetect.h	/^    bool mIsDebugLaser;$/;"	m	class:YoursLidarDetect
+mIsDebugOut	include/yours_navigation/yours_vision_detect_node.h	/^   bool mIsDebugOut;$/;"	m	class:yours_vision_detect_node
+mIsEnableHaveObstaclesStopRobot	include/yours_navigation/plan.h	/^    bool mIsEnableHaveObstaclesStopRobot;$/;"	m	class:Plan
+mIsEnableHaveObstaclesStopRobotInt	include/yours_navigation/plan.h	/^    int mIsEnableHaveObstaclesStopRobotInt;$/;"	m	class:Plan
+mIsEnableLidarStop	include/yours_navigation/plan.h	/^    bool mIsEnableLidarStop;$/;"	m	class:Plan
+mIsEnableLose	include/yours_navigation/plan.h	/^    bool mIsEnableLose;$/;"	m	class:Plan
+mIsForwardReturn	include/yours_navigation/followpath.h	/^    bool mIsForwardReturn;$/;"	m	class:followpath
+mIsGetLaser	include/yours_navigation/yourslidardetect.h	/^    bool mIsGetLaser;$/;"	m	class:YoursLidarDetect
+mIsGetLocalPath	include/yours_navigation/followpath.h	/^    bool mIsGetLocalPath;$/;"	m	class:followpath
+mIsGetPose	include/yours_navigation/odom.h	/^    bool mIsGetPose;$/;"	m	class:odom
+mIsGetRvizGoal	include/yours_navigation/plan.h	/^    bool mIsGetRvizGoal;$/;"	m	class:Plan
+mIsInitPath	include/yours_navigation/plan.h	/^    bool mIsInitPath;$/;"	m	class:Plan
+mIsReturnToCharge	include/yours_navigation/followpath.h	/^    bool mIsReturnToCharge;$/;"	m	class:followpath
+mIsSellPathLoop	include/yours_navigation/followpath.h	/^    bool mIsSellPathLoop;$/;"	m	class:followpath
+mIsSlowDown	include/yours_navigation/plan.h	/^    bool mIsSlowDown;$/;"	m	class:Plan
+mIsStartWork	include/yours_navigation/plan.h	/^    bool mIsStartWork;  \/\/自清除信号,信号使用者接收到后清除$/;"	m	class:Plan
+mIsStop	include/yours_navigation/plan.h	/^    bool mIsStop;$/;"	m	class:Plan
+mIsTestRun	include/yours_navigation/plan.h	/^    bool mIsTestRun;$/;"	m	class:Plan
+mIsTestTurn	include/yours_navigation/plan.h	/^    bool mIsTestTurn;$/;"	m	class:Plan
+mIsToCharging	include/yours_navigation/plan.h	/^    bool mIsToCharging;   \/\/ = false;$/;"	m	class:Plan
+mIsToReDock	include/yours_navigation/plan.h	/^    bool mIsToReDock;$/;"	m	class:Plan
+mIsToReplenish	include/yours_navigation/plan.h	/^    bool mIsToReplenish;  \/\/ = false;$/;"	m	class:Plan
+mKidSub	include/yours_navigation/followpath.h	/^    ros::Subscriber mKidSub;$/;"	m	class:followpath
+mLaser	include/yours_navigation/yourslidardetect.h	/^    sensor_msgs::LaserScan mLaser;$/;"	m	class:YoursLidarDetect
+mLaserDetectSub	include/yours_navigation/plan.h	/^    ros::Subscriber mLaserDetectSub;$/;"	m	class:Plan
+mLaserSub	include/yours_navigation/yourslidardetect.h	/^    ros::Subscriber mLaserSub;$/;"	m	class:YoursLidarDetect
+mLidarDetect	include/yours_navigation/plan.h	/^   	std::shared_ptr<yours_lidar_detect_human::YoursLidarDetectHuman> mLidarDetect;$/;"	m	class:Plan
+mLidarInfo	include/yours_navigation/followpath.h	/^    std_msgs::Float32MultiArray mLidarInfo; $/;"	m	class:followpath
+mLoaclPathSub	include/yours_navigation/followpath.h	/^    ros::Subscriber mLoaclPathSub;$/;"	m	class:followpath
+mLocalPath	include/yours_navigation/followpath.h	/^    nav_msgs::Path mLocalPath;$/;"	m	class:followpath
+mLog	include/yours_navigation/followpath.h	/^	std::shared_ptr<yours_log::YoursLog> mLog;$/;"	m	class:followpath
+mLog	include/yours_navigation/plan.h	/^    std::shared_ptr<yours_log::YoursLog> mLog;$/;"	m	class:Plan
+mLoseProcessing	include/yours_navigation/plan.h	/^    std::shared_ptr<LoseProcessing> mLoseProcessing;$/;"	m	class:Plan
+mMaxObstaclePixel	include/yours_navigation/plan.h	/^    int mMaxObstaclePixel;$/;"	m	class:Plan
+mMoveBaseGoalMsg	include/yours_navigation/plan.h	/^    move_base_msgs::MoveBaseActionGoal mMoveBaseGoalMsg;$/;"	m	class:Plan
+mMoveBaseGoalPub	include/yours_navigation/plan.h	/^    ros::Publisher mMoveBaseGoalPub;$/;"	m	class:Plan
+mMoveBaseVelMsg	include/yours_navigation/plan.h	/^    geometry_msgs::Twist mMoveBaseVelMsg;$/;"	m	class:Plan
+mMoveBaseVelSub	include/yours_navigation/plan.h	/^    ros::Subscriber mMoveBaseVelSub;$/;"	m	class:Plan
+mMoveResultMsg	include/yours_navigation/plan.h	/^    move_base_msgs::MoveBaseActionResult mMoveResultMsg;$/;"	m	class:Plan
+mMoveSub	include/yours_navigation/plan.h	/^    ros::Subscriber mMoveSub;$/;"	m	class:Plan
+mN	include/yours_navigation/followpath.h	/^    ros::NodeHandle mN;$/;"	m	class:followpath
+mN	include/yours_navigation/odom.h	/^    ros::NodeHandle mN;$/;"	m	class:odom
+mN	include/yours_navigation/plan.h	/^    ros::NodeHandle mN;$/;"	m	class:Plan
+mN	include/yours_navigation/slamDaemon.h	/^    ros::NodeHandle mN;$/;"	m	class:SlamDaemon
+mN	include/yours_navigation/testpubgoalpose.h	/^    ros::NodeHandle mN;$/;"	m	class:TestPubGoalPose
+mN	include/yours_navigation/yours_vision_detect_node.h	/^   ros::NodeHandle mN;$/;"	m	class:yours_vision_detect_node
+mNavFilePath	include/yours_navigation/plan.h	/^    std::string mNavFilePath;$/;"	m	class:Plan
+mNavNegativePub	include/yours_navigation/plan.h	/^    ros::Publisher  mNavNegativePub;$/;"	m	class:Plan
+mNavPointPath	include/yours_navigation/plan.h	/^    std::string mNavPointPath;$/;"	m	class:Plan
+mNewNextGoal	src/yours_navigation_test.cpp	/^std::pair<int,int> mNewNextGoal;$/;"	v
+mNextGoal	src/yours_navigation_test.cpp	/^std::pair<int,int> mNextGoal;$/;"	v
+mORBPose	src/odom.cpp	/^nav_msgs::Odometry mORBPose;$/;"	v
+mORBPosePitch	src/odom.cpp	/^double mORBPosePitch;$/;"	v
+mObstaclesPixel	include/yours_navigation/yours_vision_detect_node.h	/^   int mObstaclesPixel;$/;"	m	class:yours_vision_detect_node
+mOdom	include/yours_navigation/plan.h	/^    std::shared_ptr<odom> mOdom;$/;"	m	class:Plan
+mOdomPose	src/odom.cpp	/^nav_msgs::Odometry mOdomPose;$/;"	v
+mOdomPoseMutex	src/odom.cpp	/^std::mutex mOdomPoseMutex;$/;"	v
+mOdomPoseYaw	src/odom.cpp	/^double mOdomPoseYaw;$/;"	v
+mOdomYamMutex	src/odom.cpp	/^std::mutex mOdomYamMutex;$/;"	v
+mOneloopPub	include/yours_navigation/followpath.h	/^    ros::Publisher mOneloopPub;$/;"	m	class:followpath
+mPathDistance	include/yours_navigation/followpath.h	/^    double mPathDistance;$/;"	m	class:followpath
+mPathLine	include/yours_navigation/followpath.h	/^    std::vector<rLine> mPathLine;$/;"	m	class:followpath
+mPointMap	include/yours_navigation/followpath.h	/^    std::map<YoursPath, std::vector<YoursNavPoint> > mPointMap;$/;"	m	class:followpath
+mPointMap	include/yours_navigation/plan.h	/^    std::map<YoursPath, std::vector<YoursNavPoint> > mPointMap;$/;"	m	class:Plan
+mPoseArray	include/yours_navigation/followpath.h	/^    geometry_msgs::PoseArray mPoseArray;$/;"	m	class:followpath
+mPoseArray	include/yours_navigation/testpubgoalpose.h	/^    geometry_msgs::PoseArray mPoseArray;$/;"	m	class:TestPubGoalPose
+mPoseArray	src/yours_navigation_test.cpp	/^geometry_msgs::PoseArray mPoseArray;$/;"	v
+mPoseArrayMap	include/yours_navigation/testpubgoalpose.h	/^    std::map<int, geometry_msgs::PoseArray> mPoseArrayMap;$/;"	m	class:TestPubGoalPose
+mPoseArrayMap	src/yours_navigation_test.cpp	/^std::map<int, geometry_msgs::PoseArray> mPoseArrayMap;$/;"	v
+mPowerUpPunStatus	include/yours_navigation/followpath.h	/^    int mPowerUpPunStatus;$/;"	m	class:followpath
+mPreBuhuoAngle	include/yours_navigation/followpath.h	/^    double mPreBuhuoAngle;$/;"	m	class:followpath
+mPreChargeAngle	include/yours_navigation/followpath.h	/^    double mPreChargeAngle;$/;"	m	class:followpath
+mPubMissionRecall	include/yours_navigation/plan.h	/^    ros::Publisher mPubMissionRecall;$/;"	m	class:Plan
+mPubPoseForLog	include/yours_navigation/odom.h	/^    ros::Publisher mPubPoseForLog;$/;"	m	class:odom
+mPubPoseForZhiheng	include/yours_navigation/odom.h	/^    ros::Publisher mPubPoseForZhiheng;$/;"	m	class:odom
+mPubRgbImage	include/yours_navigation/plan.h	/^    ros::Publisher mPubRgbImage;$/;"	m	class:Plan
+mPubRunState	include/yours_navigation/followpath.h	/^    ros::Publisher mPubRunState;$/;"	m	class:followpath
+mPubState	include/yours_navigation/followpath.h	/^    std_msgs::Int32 mPubState;$/;"	m	class:followpath
+mPushRobotLaser	include/yours_navigation/yourslidardetect.h	/^    sensor_msgs::LaserScan mPushRobotLaser;$/;"	m	class:YoursLidarDetect
+mPushThreshold	include/yours_navigation/yourslidardetect.h	/^    int mPushThreshold;$/;"	m	class:YoursLidarDetect
+mRadianBuffer	include/yours_navigation/plan.h	/^    float mRadianBuffer;$/;"	m	class:Plan
+mRandomMissionArray	include/yours_navigation/followpath.h	/^    std::vector<YoursPath> mRandomMissionArray;$/;"	m	class:followpath
+mRandomMissionArray	include/yours_navigation/plan.h	/^	std::vector<YoursPath> mRandomMissionArray;$/;"	m	class:Plan
+mRelocationStatus	include/yours_navigation/LoseProcessing.h	/^    RelocationStatus mRelocationStatus;$/;"	m	class:LoseProcessing
+mRemapPathFilePath	include/yours_navigation/plan.h	/^    std::string mRemapPathFilePath;$/;"	m	class:Plan
+mReturnPath	include/yours_navigation/followpath.h	/^    std::vector<YoursNavPoint> mReturnPath;$/;"	m	class:followpath
+mRobotLoseYaw	include/yours_navigation/plan.h	/^    double mRobotLoseYaw;  \/\/丢失时的z轴角度$/;"	m	class:Plan
+mRobotToDockPub	include/yours_navigation/followpath.h	/^    ros::Publisher mRobotToDockPub;$/;"	m	class:followpath
+mRobotYaw	include/yours_navigation/plan.h	/^    double mRobotYaw;$/;"	m	class:Plan
+mRunParam	include/yours_navigation/followpath.h	/^    RunParam mRunParam;$/;"	m	class:followpath
+mRunState	include/yours_navigation/followpath.h	/^    FPState::FollowPathState mRunState;$/;"	m	class:followpath
+mRvizGoal	include/yours_navigation/plan.h	/^    geometry_msgs::Pose mRvizGoal;$/;"	m	class:Plan
+mRvizGoalSub	include/yours_navigation/plan.h	/^    ros::Subscriber mRvizGoalSub;$/;"	m	class:Plan
+mScanObstaclesInfoPub	include/yours_navigation/yourslidardetect.h	/^    ros::Publisher mScanObstaclesInfoPub; \/\/扫描到的障碍物物体信息发布，用于避障模块$/;"	m	class:YoursLidarDetect
+mSellPathToOthersLinkID	include/yours_navigation/followpath.h	/^    std::map<PathLinkPoint, int> mSellPathToOthersLinkID;$/;"	m	class:followpath
+mSlamHeartbeat	include/yours_navigation/plan.h	/^    int mSlamHeartbeat;$/;"	m	class:Plan
+mSlamState	include/yours_navigation/plan.h	/^    TrackingState mSlamState;$/;"	m	class:Plan
+mSlowDownLaser	include/yours_navigation/yourslidardetect.h	/^    sensor_msgs::LaserScan mSlowDownLaser;$/;"	m	class:YoursLidarDetect
+mSlowDownThreshold	include/yours_navigation/yourslidardetect.h	/^    int mSlowDownThreshold;$/;"	m	class:YoursLidarDetect
+mSoundCodeSub	include/yours_navigation/plan.h	/^    ros::Subscriber mSoundCodeSub;$/;"	m	class:Plan
+mStopPub	include/yours_navigation/yourslidardetect.h	/^    ros::Publisher mStopPub;$/;"	m	class:YoursLidarDetect
+mStopThreshold	include/yours_navigation/yourslidardetect.h	/^    int mStopThreshold;$/;"	m	class:YoursLidarDetect
+mSubMission	include/yours_navigation/plan.h	/^    ros::Subscriber mSubMission;$/;"	m	class:Plan
+mTestCmd	include/yours_navigation/plan.h	/^    int mTestCmd;$/;"	m	class:Plan
+mTestCmdSub	include/yours_navigation/plan.h	/^    ros::Subscriber mTestCmdSub;$/;"	m	class:Plan
+mTestTurnData	include/yours_navigation/plan.h	/^    int mTestTurnData;$/;"	m	class:Plan
+mTfListener	include/yours_navigation/odom.h	/^    tf::TransformListener* mTfListener;$/;"	m	class:odom
+mTurnStatus	include/yours_navigation/LoseProcessing.h	/^    LoseProcessingTurnStatus mTurnStatus;$/;"	m	class:LoseProcessing
+mTwist	include/yours_navigation/LoseProcessing.h	/^    geometry_msgs::Twist mTwist;$/;"	m	class:LoseProcessing
+mUltrasonic1Threshold	include/yours_navigation/odom.h	/^    double mUltrasonic1Threshold;$/;"	m	class:odom
+mUltrasonic2Threshold	include/yours_navigation/odom.h	/^    double mUltrasonic2Threshold;$/;"	m	class:odom
+mUltrasonic3Threshold	include/yours_navigation/odom.h	/^    double mUltrasonic3Threshold;$/;"	m	class:odom
+mUpdatePathSub	include/yours_navigation/plan.h	/^    ros::Subscriber mUpdatePathSub;$/;"	m	class:Plan
+mVisionDetect	include/yours_navigation/plan.h	/^    std::shared_ptr<yours_vision_detect_node> mVisionDetect;$/;"	m	class:Plan
+mVisionDetectThreshold	include/yours_navigation/yours_vision_detect_node.h	/^   int mVisionDetectThreshold;$/;"	m	class:yours_vision_detect_node
+mVisionFarthestThreshold	include/yours_navigation/yours_vision_detect_node.h	/^   double mVisionFarthestThreshold;$/;"	m	class:yours_vision_detect_node
+mVisionHeightThreshold	include/yours_navigation/yours_vision_detect_node.h	/^   double mVisionHeightThreshold;$/;"	m	class:yours_vision_detect_node
+mVisionLowThreshold	include/yours_navigation/yours_vision_detect_node.h	/^   double mVisionLowThreshold;$/;"	m	class:yours_vision_detect_node
+mVisionPixelPub	include/yours_navigation/plan.h	/^    ros::Publisher mVisionPixelPub;$/;"	m	class:Plan
+mVisionWidthThreshold	include/yours_navigation/yours_vision_detect_node.h	/^   double mVisionWidthThreshold;$/;"	m	class:yours_vision_detect_node
+mYoursNavPointCheckPub	include/yours_navigation/plan.h	/^    ros::Publisher mYoursNavPointCheckPub;$/;"	m	class:Plan
+mYoursNavPointSub	include/yours_navigation/plan.h	/^    ros::Subscriber mYoursNavPointSub;$/;"	m	class:Plan
+mZhihengGoal	include/yours_navigation/followpath.h	/^    geometry_msgs::Pose mZhihengGoal;$/;"	m	class:followpath
+mZhihengPoseArraySub	include/yours_navigation/plan.h	/^    ros::Subscriber mZhihengPoseArraySub;$/;"	m	class:Plan
+mZhihengRunState	include/yours_navigation/followpath.h	/^    FPState::ZhihengState mZhihengRunState;$/;"	m	class:followpath
+mZhihengStartWorkSub	include/yours_navigation/plan.h	/^    ros::Subscriber mZhihengStartWorkSub;$/;"	m	class:Plan
+mZhihengStatePub	include/yours_navigation/plan.h	/^    ros::Publisher  mZhihengStatePub;$/;"	m	class:Plan
+m_slow_down_h	include/yours_navigation/yourslidardetect.h	/^    float m_slow_down_h;$/;"	m	class:YoursLidarDetect
+m_slow_down_hp	include/yours_navigation/yourslidardetect.h	/^    float m_slow_down_hp;$/;"	m	class:YoursLidarDetect
+m_slow_down_w	include/yours_navigation/yourslidardetect.h	/^    float m_slow_down_w;$/;"	m	class:YoursLidarDetect
+m_stop_h	include/yours_navigation/yourslidardetect.h	/^    float m_stop_h;$/;"	m	class:YoursLidarDetect
+m_stop_hp	include/yours_navigation/yourslidardetect.h	/^    float m_stop_hp;$/;"	m	class:YoursLidarDetect
+m_stop_w	include/yours_navigation/yourslidardetect.h	/^    float m_stop_w;$/;"	m	class:YoursLidarDetect
+main	src/yours_avoid_obstacles_test.cpp	/^int main(int argc, char** argv){$/;"	f
+main	src/yours_lidar_detect_human_test.cpp	/^int main(int argc, char** argv){$/;"	f
+main	src/yours_lidar_detect_test.cpp	/^int main(int argc, char **argv)$/;"	f
+main	src/yours_navigation.cpp	/^int main(int argc, char **argv)$/;"	f
+main	src/yours_navigation_get_goal_node.cpp	/^int main(int argc, char** argv){$/;"	f
+main	src/yours_navigation_test.cpp	/^int main(int argc, char** argv){$/;"	f
+main	src/yours_vision_detect_test.cpp	/^int main(int argc, char** argv){$/;"	f
+main	test/yours_detect_arm_error_code_test.cpp	/^int main(int argc, char** argv) {$/;"	f
+max_linear_speed	include/yours_navigation/followpath.h	/^    float max_linear_speed;$/;"	m	class:followpath
+mouseCallback	src/yours_vision_detect_node.cpp	/^void mouseCallback(int event, int x, int y, int flags, void* param){$/;"	f
+n	include/yours_navigation/yourslidardetect.h	/^    ros::NodeHandle n;$/;"	m	class:YoursLidarDetect
+n_	include/yours_navigation/PID.h	/^            ros::NodeHandle n_;$/;"	m	class:PID::PID
+n_	include/yours_navigation/yours_lidar_detect_human.h	/^        ros::NodeHandle n_;$/;"	m	class:yours_lidar_detect_human::YoursLidarDetectHuman
+navPointToRosPose	src/followpath.cpp	/^void followpath::navPointToRosPose(const YoursNavPoint& nP, geometry_msgs::Pose& rP){$/;"	f	class:followpath
+noZeroPixelNumber	src/yours_vision_detect_node.cpp	/^int noZeroPixelNumber(cv::Mat& imageIn){$/;"	f
+node_	include/yours_navigation/yours_detect_arm_error_code.h	/^    ros::NodeHandle node_;$/;"	m	class:yours_detect_arm_error_code::YoursDetectArmErrorCode
+null_state	include/yours_navigation/plan.h	/^    null_state = -1,$/;"	e	enum:LocalPlanState
+odom	include/yours_navigation/odom.h	/^class odom$/;"	c
+odom	src/odom.cpp	/^odom::odom(ros::NodeHandle& vi_n):$/;"	f	class:odom
+odomSub	include/yours_navigation/odom.h	/^    ros::Subscriber odomSub;$/;"	m	class:odom
+on_loop_distance	include/yours_navigation/yours_get_goal_robot_distance.h	/^    double on_loop_distance;$/;"	m	class:YoursGetGoalRobotDistance
+orbPoseSub	include/yours_navigation/odom.h	/^    ros::Subscriber orbPoseSub;$/;"	m	class:odom
+output_lower_limit	include/yours_navigation/PID.h	/^            float output_lower_limit;$/;"	m	class:PID::PID
+output_uper_limit	include/yours_navigation/PID.h	/^            float output_uper_limit;$/;"	m	class:PID::PID
+p1	include/yours_navigation/robot.h	/^    rPoint p1;$/;"	m	struct:rLine
+p2	include/yours_navigation/robot.h	/^    rPoint p2;$/;"	m	struct:rLine
+p_lower_limit	include/yours_navigation/PID.h	/^            float p_lower_limit;$/;"	m	class:PID::PID
+p_uper_limit	include/yours_navigation/PID.h	/^            float p_uper_limit;$/;"	m	class:PID::PID
+pathEditResult	src/followpath.cpp	/^static int pathEditResult = -1;$/;"	v	file:
+pathName	include/yours_navigation/robot.h	/^    YoursPath pathName;$/;"	m	struct:YoursNavPoint
+pid_core_exe	src/PID.cpp	/^        float PID::pid_core_exe(float cmd ,float fdbk ,float dltT)$/;"	f	class:PID::PID
+pid_d	src/PID.cpp	/^        float pid_d =  0.004;$/;"	m	namespace:PID	file:
+pid_debug	include/yours_navigation/PID.h	/^            ros::Publisher pid_debug;$/;"	m	class:PID::PID
+pid_i	src/PID.cpp	/^        float pid_i =  0.002;$/;"	m	namespace:PID	file:
+pid_inc_core_exe	src/PID.cpp	/^        float PID::pid_inc_core_exe(float cmd ,float fdbk ,float dltT)$/;"	f	class:PID::PID
+pid_msg_	include/yours_navigation/PID.h	/^            yours_navigation::pid pid_msg_;$/;"	m	class:PID::PID
+pid_p	src/PID.cpp	/^        float pid_p =  0.03f;$/;"	m	namespace:PID	file:
+pid_reset	src/PID.cpp	/^        void PID::pid_reset()$/;"	f	class:PID::PID
+pid_set_param_limit	src/PID.cpp	/^        void PID::pid_set_param_limit(float errlow,    float errupper,$/;"	f	class:PID::PID
+pid_set_param_limit_D	src/PID.cpp	/^        void PID::pid_set_param_limit_D(float outlow,float outupper)$/;"	f	class:PID::PID
+pid_set_param_limit_I	src/PID.cpp	/^        void PID::pid_set_param_limit_I(float outlow,float outupper)$/;"	f	class:PID::PID
+pid_set_param_limit_err	src/PID.cpp	/^        void PID::pid_set_param_limit_err(float errlow,float errupper)$/;"	f	class:PID::PID
+pid_set_param_limit_out	src/PID.cpp	/^        void PID::pid_set_param_limit_out(float outlow,float outupper)$/;"	f	class:PID::PID
+pid_set_param_pid	src/PID.cpp	/^        void PID::pid_set_param_pid(float kp,float ki,float kd)$/;"	f	class:PID::PID
+point	include/yours_navigation/robot.h	/^    YoursRobotPoint point;$/;"	m	struct:YoursNavPoint
+points	include/yours_navigation/robot.h	/^  std::vector<rPoint> points;$/;"	m	struct:rZone
+printZone	include/yours_navigation/robot.h	/^  void printZone(){$/;"	f	struct:rZone
+processStop	src/plan.cpp	/^void Plan::processStop(geometry_msgs::Twist& inOutTw,  const int& slowDown)$/;"	f	class:Plan
+processingLose	src/LoseProcessing.cpp	/^int LoseProcessing::processingLose(bool inHaveObstacles, bool inHaveUserScan, bool isLose, geometry_msgs::Twist& outTwist){$/;"	f	class:LoseProcessing
+processingRelocal	src/LoseProcessing.cpp	/^bool LoseProcessing::processingRelocal(const double& goalYaw, const double& currentYaw, geometry_msgs::Twist& outTwist){$/;"	f	class:LoseProcessing
+pub	include/yours_navigation/testpubgoalpose.h	/^    ros::Publisher pub;$/;"	m	class:TestPubGoalPose
+pubArray	src/testpubgoalpose.cpp	/^void TestPubGoalPose::pubArray()$/;"	f	class:TestPubGoalPose
+pubMapReadNotReady	src/followpath.cpp	/^void followpath::pubMapReadNotReady() {$/;"	f	class:followpath
+pubTestNextPose	src/testpubgoalpose.cpp	/^void TestPubGoalPose::pubTestNextPose(int pathCode, int poseCode)$/;"	f	class:TestPubGoalPose
+rLine	include/yours_navigation/robot.h	/^    rLine(){};$/;"	f	struct:rLine
+rLine	include/yours_navigation/robot.h	/^    rLine(rPoint p1_, rPoint p2_):p1(p1_), p2(p2_){$/;"	f	struct:rLine
+rLine	include/yours_navigation/robot.h	/^struct rLine{$/;"	s
+rPoint	include/yours_navigation/robot.h	/^	rPoint():x(.0),y(.0){};$/;"	f	struct:rPoint
+rPoint	include/yours_navigation/robot.h	/^	rPoint(const double& x_, const double& y_):x(x_),y(y_){};$/;"	f	struct:rPoint
+rPoint	include/yours_navigation/robot.h	/^struct rPoint{$/;"	s
+rZone	include/yours_navigation/robot.h	/^struct rZone{$/;"	s
+range_	include/yours_navigation/yours_lidar_detect_human.h	/^        double range_;$/;"	m	struct:yours_lidar_detect_human::ypoint
+range_1	include/yours_navigation/yours_lidar_detect_human.h	/^        float range_1;$/;"	m	struct:yours_lidar_detect_human::ylidar_eye_param
+range_2	include/yours_navigation/yours_lidar_detect_human.h	/^        float range_2;$/;"	m	struct:yours_lidar_detect_human::ylidar_eye_param
+range_3	include/yours_navigation/yours_lidar_detect_human.h	/^        float range_3;$/;"	m	struct:yours_lidar_detect_human::ylidar_eye_param
+readCmdPath	src/followpath.cpp	/^void readCmdPath(const ros::NodeHandle& n_ ,const std::string& name_, std::vector<std::pair<int, float>> & cmdPath_ ){$/;"	f
+readLidarNavPoint	src/plan.cpp	/^bool Plan::readLidarNavPoint(const std::string &path, std::map<YoursPath, std::vector<YoursNavPoint>> &pointMap, std::vector<rZone> &zones)$/;"	f	class:Plan
+real_key_fram_	include/yours_navigation/followpath.h	/^    int   real_key_fram_;$/;"	m	class:followpath
+reloc	include/yours_navigation/plan.h	/^    reloc,$/;"	e	enum:LocalPlanState
+relocStatus	src/plan.cpp	/^void Plan::relocStatus()$/;"	f	class:Plan
+remote_nav_point	include/yours_navigation/yours_get_goal_robot_distance.h	/^    std::vector<YoursNavPoint> remote_nav_point;$/;"	m	class:YoursGetGoalRobotDistance
+remote_pose_sub	include/yours_navigation/yours_get_goal_robot_distance.h	/^    ros::Subscriber remote_pose_sub;$/;"	m	class:YoursGetGoalRobotDistance
+remote_robot_cnt_sub	include/yours_navigation/yours_get_goal_robot_distance.h	/^    ros::Subscriber remote_robot_cnt_sub;$/;"	m	class:YoursGetGoalRobotDistance
+rgbSub	include/yours_navigation/plan.h	/^    ros::Subscriber rgbSub;$/;"	m	class:Plan
+right	src/LoseProcessing.cpp	/^geometry_msgs::Twist right(){$/;"	f
+robotFollowPath	src/followpath.cpp	/^bool followpath::robotFollowPath(geometry_msgs::Twist &out_put_twist, bool& isStartOrStopWork, bool& isToCharging, bool& isToReplenish$/;"	f	class:followpath
+robotFollowPathAmcl	src/followpath.cpp	/^bool followpath::robotFollowPathAmcl(geometry_msgs::Twist &out_put_twist, bool& isStartOrStopWork, bool isToCharging, bool isToReplenish$/;"	f	class:followpath
+robotFollowPathLocalPlanTest	src/followpath.cpp	/^bool followpath::robotFollowPathLocalPlanTest(geometry_msgs::Twist &out_put_twist, bool &isStartOrStopWork)$/;"	f	class:followpath
+robotFollowPathZhiheng	src/followpath.cpp	/^bool followpath::robotFollowPathZhiheng(geometry_msgs::Twist &out_put_twist, bool& isStartOrStopWork, bool& isCleanPath)$/;"	f	class:followpath
+robotPoseSub	include/yours_navigation/plan.h	/^    ros::Subscriber robotPoseSub;$/;"	m	class:Plan
+robotTurn	src/followpath.cpp	/^bool followpath::robotTurn(geometry_msgs::Twist &out_put_twist, bool& isStartOrStopWork)$/;"	f	class:followpath
+robot_cnt	include/yours_navigation/yours_get_goal_robot_distance.h	/^    int robot_cnt;$/;"	m	class:YoursGetGoalRobotDistance
+robot_distance_ctrl_	include/yours_navigation/plan.h	/^    std::shared_ptr<YoursGetGoalRobotDistance> robot_distance_ctrl_;$/;"	m	class:Plan
+robot_path_	include/yours_navigation/yours_get_goal_robot_distance.h	/^    std::map<YoursPath, std::vector<YoursNavPoint>> robot_path_;$/;"	m	class:YoursGetGoalRobotDistance
+run	src/slamDaemon.cpp	/^void SlamDaemon::run()$/;"	f	class:SlamDaemon
+run	src/yours_lidar_detect_human.cpp	/^void YoursLidarDetectHuman::run(){$/;"	f	class:YoursLidarDetectHuman
+run	src/yours_vision_detect_node.cpp	/^bool yours_vision_detect_node::run(int& pixel_)$/;"	f	class:yours_vision_detect_node
+run	src/yourslidardetect.cpp	/^void YoursLidarDetect::run(int& lidarDetectCode, std_msgs::Float32MultiArray& lidarDetectDataArray)$/;"	f	class:YoursLidarDetect
+runByWheelOdom	src/followpath.cpp	/^bool followpath::runByWheelOdom(const double& distance, geometry_msgs::Twist &out_put_twist){$/;"	f	class:followpath
+runChargeTest	src/followpath.cpp	/^bool followpath::runChargeTest(geometry_msgs::Twist& out_put_twist, bool& isStartOrStopWork, int& error_code) $/;"	f	class:followpath
+runProcessing	src/followpath.cpp	/^bool followpath::runProcessing(geometry_msgs::Twist &out_put_twist,  bool& isChargeGoalPose, bool& isEndOfPath, bool isLoop)$/;"	f	class:followpath
+runProcessing	src/followpath.cpp	/^bool followpath::runProcessing(geometry_msgs::Twist &out_put_twist,  bool& isChargeGoalPose, const geometry_msgs::Pose&goal){$/;"	f	class:followpath
+scanCodeSub	include/yours_navigation/plan.h	/^    ros::Subscriber scanCodeSub;$/;"	m	class:Plan
+sell_path_	include/yours_navigation/yours_get_goal_robot_distance.h	/^    std::vector<YoursNavPoint> sell_path_;$/;"	m	class:YoursGetGoalRobotDistance
+setAvoidEnable	src/followpath.cpp	/^void followpath::setAvoidEnable(bool isEnable_){$/;"	f	class:followpath
+setBackStopParam	src/yours_lidar_detect_human.cpp	/^void YoursLidarDetectHuman::setBackStopParam(const double& left_widht, const double& right_widht, const double& height){$/;"	f	class:YoursLidarDetectHuman
+setFarthest	src/yours_vision_detect_node.cpp	/^void yours_vision_detect_node::setFarthest(double data){$/;"	f	class:yours_vision_detect_node
+setLidarDetectInfo	src/followpath.cpp	/^void followpath::setLidarDetectInfo(const std_msgs::Float32MultiArray &lidarInfo_)$/;"	f	class:followpath
+setProcessingEnd	src/LoseProcessing.cpp	/^int LoseProcessing::setProcessingEnd(bool isEnd){$/;"	f	class:LoseProcessing
+setStopParam	src/yours_lidar_detect_human.cpp	/^void YoursLidarDetectHuman::setStopParam(const double& wight, const double& height){$/;"	f	class:YoursLidarDetectHuman
+setStopParam	src/yourslidardetect.cpp	/^int YoursLidarDetect::setStopParam(float stopWight, float stopHeight){$/;"	f	class:YoursLidarDetect
+setXYPoint	include/yours_navigation/yours_lidar_detect_human.h	/^        bool setXYPoint(double angle, double range)$/;"	f	struct:yours_lidar_detect_human::ypoint
+situ_rotation_angle_speed	include/yours_navigation/followpath.h	/^    float situ_rotation_angle_speed;$/;"	m	class:followpath
+slamStateCallBack	src/slamDaemon.cpp	/^void SlamDaemon::slamStateCallBack(const std_msgs::Int32& msg)$/;"	f	class:SlamDaemon
+slamStateSub	include/yours_navigation/plan.h	/^    ros::Subscriber slamStateSub;$/;"	m	class:Plan
+slamStateSub	include/yours_navigation/slamDaemon.h	/^    ros::Subscriber slamStateSub;$/;"	m	class:SlamDaemon
+slow_back_height	include/yours_navigation/yours_lidar_detect_human.h	/^        float slow_back_height;$/;"	m	struct:yours_lidar_detect_human::ylidar_param
+slow_height	include/yours_navigation/yours_lidar_detect_human.h	/^        float slow_height;$/;"	m	struct:yours_lidar_detect_human::ylidar_param
+slow_width	include/yours_navigation/yours_lidar_detect_human.h	/^        float slow_width;$/;"	m	struct:yours_lidar_detect_human::ylidar_param
+speed	include/yours_navigation/followpath.h	/^    float speed;$/;"	m	struct:RunParam
+speed	include/yours_navigation/robot.h	/^    double speed;$/;"	m	struct:YoursNavPoint
+startWorkSub	include/yours_navigation/plan.h	/^    ros::Subscriber startWorkSub;$/;"	m	class:Plan
+state	include/yours_navigation/slamDaemon.h	/^    SlamDaemonState state;$/;"	m	class:SlamDaemon
+stop	include/yours_navigation/plan.h	/^    stop,$/;"	e	enum:LocalPlanState
+stop	src/LoseProcessing.cpp	/^geometry_msgs::Twist LoseProcessing::stop(){$/;"	f	class:LoseProcessing
+stop	src/followpath.cpp	/^geometry_msgs::Twist stop()$/;"	f
+stopHeight	include/yours_navigation/followpath.h	/^    float stopHeight;$/;"	m	struct:RunParam
+stopHeight	include/yours_navigation/robot.h	/^    double stopHeight;$/;"	m	struct:YoursNavPoint
+stopStatus	src/plan.cpp	/^void Plan::stopStatus()$/;"	f	class:Plan
+stopWidth	include/yours_navigation/robot.h	/^    double stopWidth;$/;"	m	struct:YoursNavPoint
+stopWight	include/yours_navigation/followpath.h	/^    float stopWight;$/;"	m	struct:RunParam
+stop_back_height	include/yours_navigation/yours_lidar_detect_human.h	/^        float stop_back_height;$/;"	m	struct:yours_lidar_detect_human::ylidar_param
+stop_back_left_width	include/yours_navigation/yours_lidar_detect_human.h	/^        float stop_back_left_width;$/;"	m	struct:yours_lidar_detect_human::ylidar_param
+stop_back_right_width	include/yours_navigation/yours_lidar_detect_human.h	/^        float stop_back_right_width;$/;"	m	struct:yours_lidar_detect_human::ylidar_param
+stop_distance_	include/yours_navigation/yours_get_goal_robot_distance.h	/^    double stop_distance_;$/;"	m	class:YoursGetGoalRobotDistance
+stop_height	include/yours_navigation/yours_lidar_detect_human.h	/^        float stop_height;$/;"	m	struct:yours_lidar_detect_human::ylidar_param
+stop_width	include/yours_navigation/yours_lidar_detect_human.h	/^        float stop_width;$/;"	m	struct:yours_lidar_detect_human::ylidar_param
+subGoal	include/yours_navigation/testpubgoalpose.h	/^    ros::Subscriber subGoal;$/;"	m	class:TestPubGoalPose
+switchCurrentPathNextGoal	src/followpath.cpp	/^void followpath::switchCurrentPathNextGoal(geometry_msgs::Pose& goalPose)$/;"	f	class:followpath
+switchToNextGoal	src/followpath.cpp	/^bool followpath::switchToNextGoal()$/;"	f	class:followpath
+testDangerZone	src/plan.cpp	/^void Plan::testDangerZone(){$/;"	f	class:Plan
+testNextPosePub	include/yours_navigation/testpubgoalpose.h	/^    ros::Publisher testNextPosePub;$/;"	m	class:TestPubGoalPose
+testPub	include/yours_navigation/slamDaemon.h	/^    ros::Publisher testPub;$/;"	m	class:SlamDaemon
+testPubGlobalPath	src/followpath.cpp	/^void followpath::testPubGlobalPath(){$/;"	f	class:followpath
+testRunSub	include/yours_navigation/plan.h	/^    ros::Subscriber testRunSub;$/;"	m	class:Plan
+testTebPlan	src/plan.cpp	/^void Plan::testTebPlan(){$/;"	f	class:Plan
+testTurnSub	include/yours_navigation/plan.h	/^    ros::Subscriber testTurnSub;$/;"	m	class:Plan
+timeOutCnt	include/yours_navigation/slamDaemon.h	/^    int timeOutCnt;$/;"	m	class:SlamDaemon
+time_out	include/yours_navigation/slamDaemon.h	/^        time_out$/;"	e	enum:SlamDaemon::SlamDaemonState
+toChargeSub	include/yours_navigation/plan.h	/^    ros::Subscriber toChargeSub;$/;"	m	class:Plan
+toReplenishSub	include/yours_navigation/plan.h	/^    ros::Subscriber toReplenishSub;$/;"	m	class:Plan
+tp	include/yours_navigation/plan.h	/^    ros::Publisher tp;$/;"	m	class:Plan
+trySwitchSellToChargePath	src/followpath.cpp	/^void followpath::trySwitchSellToChargePath(geometry_msgs::Pose &goalPose, const bool& isReplenish_){$/;"	f	class:followpath
+trySwitchSellToReplenishPath	src/followpath.cpp	/^void followpath::trySwitchSellToReplenishPath(geometry_msgs::Pose &goalPose){$/;"	f	class:followpath
+turn	include/yours_navigation/plan.h	/^    turn,$/;"	e	enum:LocalPlanState
+turn	src/followpath.cpp	/^geometry_msgs::Twist turn(float speed=0.1){$/;"	f
+turnAngle	include/yours_navigation/followpath.h	/^    double turnAngle;$/;"	m	struct:AvoidPathCell
+turnAngleByWheelOdom	src/followpath.cpp	/^bool followpath::turnAngleByWheelOdom(const double& angle, geometry_msgs::Twist &out_put_twist)$/;"	f	class:followpath
+turnCnt	include/yours_navigation/LoseProcessing.h	/^    int turnCnt;$/;"	m	class:LoseProcessing
+turn_linear_speed	include/yours_navigation/followpath.h	/^    float turn_linear_speed;$/;"	m	class:followpath
+twistPub	include/yours_navigation/plan.h	/^    ros::Publisher twistPub;$/;"	m	class:Plan
+twist_msg_	include/yours_navigation/followpath.h	/^    geometry_msgs::Twist twist_msg_;$/;"	m	class:followpath
+ultrasonicSub	include/yours_navigation/odom.h	/^    ros::Subscriber ultrasonicSub;$/;"	m	class:odom
+updataGoal	src/followpath.cpp	/^void followpath::updataGoal(){$/;"	f	class:followpath
+updataRobotToDock	src/followpath.cpp	/^void followpath::updataRobotToDock(){$/;"	f	class:followpath
+updateDangerzone	src/followpath.cpp	/^void  followpath::updateDangerzone(const std::vector<rZone>& zone){$/;"	f	class:followpath
+updatePath	src/followpath.cpp	/^void followpath::updatePath(const std::map< YoursPath, std::vector< YoursNavPoint > >& pointMap, const std::vector< YoursPath >& randomMissionArray)$/;"	f	class:followpath
+usLeftSub	include/yours_navigation/odom.h	/^    ros::Subscriber usLeftSub;$/;"	m	class:odom
+usRightSub	include/yours_navigation/odom.h	/^    ros::Subscriber usRightSub;$/;"	m	class:odom
+userScan	include/yours_navigation/plan.h	/^    bool userScan;$/;"	m	class:Plan
+waitSlam	include/yours_navigation/slamDaemon.h	/^        waitSlam = 0,$/;"	e	enum:SlamDaemon::SlamDaemonState
+x	include/yours_navigation/robot.h	/^	double x;$/;"	m	struct:rPoint
+x	include/yours_navigation/robot.h	/^    double x;$/;"	m	struct:YoursRobotPoint
+x	include/yours_navigation/yours_lidar_detect_human.h	/^        double x;$/;"	m	struct:yours_lidar_detect_human::ypoint
+x	src/followpath.cpp	/^	double x, y;$/;"	m	struct:Vec2d	file:
+x2lidar	include/yours_navigation/yours_lidar_detect_human.h	/^        float x2lidar; \/\/x轴方向到雷达距离$/;"	m	struct:yours_lidar_detect_human::ycluster
+xf1	include/yours_navigation/yours_lidar_detect_human.h	/^        float xf1;$/;"	m	struct:yours_lidar_detect_human::ylidar_eye_param
+xf2	include/yours_navigation/yours_lidar_detect_human.h	/^        float xf2;$/;"	m	struct:yours_lidar_detect_human::ylidar_eye_param
+xf3	include/yours_navigation/yours_lidar_detect_human.h	/^        float xf3;$/;"	m	struct:yours_lidar_detect_human::ylidar_eye_param
+y	include/yours_navigation/robot.h	/^	double y;$/;"	m	struct:rPoint
+y	include/yours_navigation/robot.h	/^    double y;$/;"	m	struct:YoursRobotPoint
+y	include/yours_navigation/yours_lidar_detect_human.h	/^        double y;$/;"	m	struct:yours_lidar_detect_human::ypoint
+y	src/followpath.cpp	/^	double x, y;$/;"	m	struct:Vec2d	file:
+yaw	include/yours_navigation/robot.h	/^    double yaw;$/;"	m	struct:YoursRobotPoint
+ycluster	include/yours_navigation/yours_lidar_detect_human.h	/^        ycluster():isSlow(false), isStop(false), isNearlyWall(false), isHuman(false), isEyeCandidacy(false), eyeNumber(0), x2lidar(0.0), isNearestRobot4Eye(false){};$/;"	f	struct:yours_lidar_detect_human::ycluster
+ycluster	include/yours_navigation/yours_lidar_detect_human.h	/^    struct ycluster{$/;"	s	namespace:yours_lidar_detect_human
+yl1	include/yours_navigation/yours_lidar_detect_human.h	/^        float yl1;$/;"	m	struct:yours_lidar_detect_human::ylidar_eye_param
+yl2	include/yours_navigation/yours_lidar_detect_human.h	/^        float yl2;$/;"	m	struct:yours_lidar_detect_human::ylidar_eye_param
+ylidar_eye_param	include/yours_navigation/yours_lidar_detect_human.h	/^    struct ylidar_eye_param{$/;"	s	namespace:yours_lidar_detect_human
+ylidar_param	include/yours_navigation/yours_lidar_detect_human.h	/^    struct ylidar_param{$/;"	s	namespace:yours_lidar_detect_human
+yoursGoalCallBack	src/testpubgoalpose.cpp	/^void TestPubGoalPose::yoursGoalCallBack(const geometry_msgs::PoseArrayConstPtr& msg){$/;"	f	class:TestPubGoalPose
+yoursGoalCallBack	src/yours_navigation_test.cpp	/^void yoursGoalCallBack(const geometry_msgs::PoseArrayConstPtr& msg){$/;"	f
+yoursNextGoalCallBack	src/yours_navigation_test.cpp	/^void yoursNextGoalCallBack(const yours_message::TestNextGoal& msg){$/;"	f
+yours_detect_arm_error_code	include/yours_navigation/yours_detect_arm_error_code.h	/^namespace yours_detect_arm_error_code {$/;"	n
+yours_lidar_detect_human	include/yours_navigation/yours_lidar_detect_human.h	/^namespace yours_lidar_detect_human$/;"	n
+yours_vision_detect_node	include/yours_navigation/yours_vision_detect_node.h	/^class yours_vision_detect_node$/;"	c
+yours_vision_detect_node	src/yours_vision_detect_node.cpp	/^yours_vision_detect_node::yours_vision_detect_node(ros::NodeHandle& n_):$/;"	f	class:yours_vision_detect_node
+ypoint	include/yours_navigation/yours_lidar_detect_human.h	/^        ypoint():x(0.0), y(0.0), angle_(0.0), range_(0.0){$/;"	f	struct:yours_lidar_detect_human::ypoint
+ypoint	include/yours_navigation/yours_lidar_detect_human.h	/^    struct ypoint$/;"	s	namespace:yours_lidar_detect_human
+zhihengUpdatePath	src/followpath.cpp	/^void followpath::zhihengUpdatePath(const geometry_msgs::PoseArray& path){$/;"	f	class:followpath
+~ExecuteRobotReturn	src/execute_robot_return.cpp	/^ExecuteRobotReturn::~ExecuteRobotReturn(){$/;"	f	class:ExecuteRobotReturn
+~LoseProcessing	src/LoseProcessing.cpp	/^LoseProcessing::~LoseProcessing(){$/;"	f	class:LoseProcessing
+~Plan	src/plan.cpp	/^Plan::~Plan(){$/;"	f	class:Plan
+~SlamDaemon	src/slamDaemon.cpp	/^SlamDaemon::~SlamDaemon()$/;"	f	class:SlamDaemon
+~TestPubGoalPose	src/testpubgoalpose.cpp	/^TestPubGoalPose::~TestPubGoalPose()$/;"	f	class:TestPubGoalPose
+~YoursDetectArmErrorCode	include/yours_navigation/yours_detect_arm_error_code.h	/^    ~YoursDetectArmErrorCode() {};$/;"	f	class:yours_detect_arm_error_code::YoursDetectArmErrorCode
+~YoursGetGoalRobotDistance	include/yours_navigation/yours_get_goal_robot_distance.h	/^    ~YoursGetGoalRobotDistance(){$/;"	f	class:YoursGetGoalRobotDistance
+~YoursLidarDetect	src/yourslidardetect.cpp	/^YoursLidarDetect::~YoursLidarDetect()$/;"	f	class:YoursLidarDetect
+~YoursLidarDetectHuman	src/yours_lidar_detect_human.cpp	/^YoursLidarDetectHuman::~YoursLidarDetectHuman()$/;"	f	class:YoursLidarDetectHuman
+~followpath	src/followpath.cpp	/^followpath::~followpath()$/;"	f	class:followpath
+~odom	src/odom.cpp	/^odom::~odom()$/;"	f	class:odom
+~yours_vision_detect_node	src/yours_vision_detect_node.cpp	/^yours_vision_detect_node::~yours_vision_detect_node()$/;"	f	class:yours_vision_detect_node
+~ypoint	include/yours_navigation/yours_lidar_detect_human.h	/^        ~ypoint(){$/;"	f	struct:yours_lidar_detect_human::ypoint

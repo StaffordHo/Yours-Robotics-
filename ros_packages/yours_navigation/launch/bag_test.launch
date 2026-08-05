@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!--node pkg="rosbag" name="record" type="record" args="/yours_rgb_image"  output="log" -->
+  <node pkg="rosbag" name="record" type="record" args="/yours_rgb_image --duration=1800  --split --lz4"  output="screen" />
+  <!-- node pkg="follow_path" name="teleop_twist_keyboard" type="teleop_twist_keyboard.py"  launch-prefix="gnome-terminal -e" output="screen"/-->
+
+  <!--node pkg="follow_path" name="seslam_tf_publisher" type="seslam_tf"/-->
+
+  <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find follow_path)/rviz/seslam.rviz" required="true"/-->
+
+  <!--include file="$(find follow_path)/launch/twist_mux.launch"/-->
+</launch>

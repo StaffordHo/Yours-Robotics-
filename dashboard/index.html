@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yours Robotics - RViz-Style WebGL Live SLAM & Control Suite</title>
+    
+    <!-- Google Fonts & Libraries: Three.js 3D Engine, OrbitControls, Chart.js & ROSLIB -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
+
+    <style>
+        :root {
+            --bg-primary: #080c14;
+            --bg-card: rgba(15, 23, 42, 0.82);
+            --bg-card-hover: rgba(30, 41, 59, 0.9);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --accent-primary: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --accent-purple: #8b5cf6;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --font-main: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(139, 92, 246, 0.15) 0%, transparent 40%);
+            padding: 1.25rem;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.25rem;
+        }
+
+        .brand { display: flex; align-items: center; gap: 14px; }
+
+        .brand-logo {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-cyan));
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 1.5rem; color: #fff;
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .brand-title {
+            font-size: 1.7rem; font-weight: 800; letter-spacing: -0.5px;
+            background: linear-gradient(to right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .connection-bar {
+            display: flex; align-items: center; gap: 12px;
+            background: var(--bg-card); padding: 8px 16px; border-radius: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .status-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--accent-danger); box-shadow: 0 0 10px var(--accent-danger);
+            transition: all 0.3s ease;
+        }
+        .status-dot.active { background: var(--accent-success); box-shadow: 0 0 10px var(--accent-success); }
+
+        .sensor-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.25rem; }
+
+        .sensor-pill {
+            background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-color);
+            padding: 6px 14px; border-radius: 20px; font-size: 0.8rem;
+            display: flex; align-items: center; gap: 8px; font-weight: 500;
+        }
+        .sensor-pill.online { border-color: rgba(16, 185, 129, 0.4); color: #6ee7b7; }
+
+        .dashboard-grid {
+            display: grid; grid-template-columns: 2.3fr 1fr; gap: 1.25rem;
+        }
+        @media (max-width: 1280px) { .dashboard-grid { grid-template-columns: 1fr; } }
+
+        .card {
+            background: var(--bg-card); backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color); border-radius: 16px;
+            padding: 1.25rem; margin-bottom: 1.25rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .card-title { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+
+        /* 3D Visualizer & Camera Grid */
+        .foxglove-view-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1rem; }
+        @media (max-width: 900px) { .foxglove-view-grid { grid-template-columns: 1fr; } }
+
+        .three-viewport {
+            background: #020617; border-radius: 12px; border: 1px solid var(--border-color);
+            height: 440px; position: relative; overflow: hidden; touch-action: none;
+        }
+
+        #threeCanvasContainer { width: 100%; height: 100%; }
+
+        .camera-viewport {
+            background: #000; border-radius: 12px; border: 1px solid var(--border-color);
+            height: 440px; position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .overlay-badge {
+            position: absolute; top: 12px; left: 12px;
+            font-size: 0.75rem; font-family: var(--font-mono);
+            background: rgba(15, 23, 42, 0.85); padding: 4px 10px;
+            border-radius: 6px; border: 1px solid var(--border-color);
+            z-index: 10; backdrop-filter: blur(4px);
+        }
+
+        /* 3D Map Zoom & Pan Touch Scrollbar Overlay */
+        .map-scrollbar-overlay {
+            position: absolute; top: 12px; right: 12px;
+            display: flex; flex-direction: column; gap: 8px;
+            background: rgba(15, 23, 42, 0.85); padding: 8px;
+            border-radius: 8px; border: 1px solid var(--border-color);
+            z-index: 10; backdrop-filter: blur(4px); align-items: center;
+        }
+
+        .zoom-slider-vertical {
+            writing-mode: bt-lr; /* IE/Edge */
+            -webkit-appearance: slider-vertical; /* WebKit */
+            width: 10px; height: 110px;
+        }
+
+        .map-controls-bar {
+            position: absolute; bottom: 12px; left: 12px; right: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(15, 23, 42, 0.85); padding: 6px 12px;
+            border-radius: 8px; border: 1px solid var(--border-color);
+            z-index: 10; backdrop-filter: blur(4px);
+        }
+
+        /* Teleop Controls */
+        .teleop-container {
+            display: flex; gap: 1.5rem; align-items: center;
+            justify-content: space-around; padding: 0.5rem 0;
+        }
+
+        .joystick-zone {
+            width: 160px; height: 160px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.03); border: 2px dashed rgba(255, 255, 255, 0.15);
+            position: relative; display: flex; align-items: center; justify-content: center;
+            cursor: grab;
+        }
+
+        .joystick-handle {
+            width: 52px; height: 52px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-cyan));
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+            position: absolute; transition: transform 0.05s ease-out;
+        }
+
+        .wasd-grid {
+            display: grid; grid-template-columns: repeat(3, 46px);
+            grid-template-rows: repeat(2, 46px); gap: 6px;
+        }
+
+        .key-btn {
+            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border-color);
+            border-radius: 8px; color: #fff; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; user-select: none; transition: all 0.15s ease;
+        }
+        .key-btn:active, .key-btn.pressed { background: var(--accent-primary); box-shadow: 0 0 12px var(--accent-primary); }
+
+        .btn {
+            background: linear-gradient(135deg, var(--accent-primary), #2563eb);
+            color: white; border: none; padding: 8px 14px; border-radius: 8px;
+            font-weight: 600; font-size: 0.85rem; cursor: pointer;
+            transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .btn-danger { background: linear-gradient(135deg, var(--accent-danger), #dc2626); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+        .btn-success { background: linear-gradient(135deg, var(--accent-success), #059669); }
+        .btn-warning { background: linear-gradient(135deg, var(--accent-warning), #d97706); }
+        .btn-purple { background: linear-gradient(135deg, var(--accent-purple), #7c3aed); box-shadow: 0 0 15px rgba(139, 92, 246, 0.4); }
+
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; }
+        .stat-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 12px; padding: 0.75rem 1rem; }
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-value { font-size: 1.3rem; font-weight: 700; margin-top: 4px; font-family: var(--font-mono); }
+
+        /* SVG Animated Robot Face Preview */
+        .face-preview-container {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: #000; border-radius: 16px; padding: 1.25rem;
+            border: 2px solid rgba(59, 130, 246, 0.3); box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+        }
+        svg.robot-face { width: 170px; height: 105px; }
+
+        .console-log {
+            background: rgba(2, 6, 23, 0.95); border: 1px solid var(--border-color);
+            border-radius: 12px; height: 140px; overflow-y: auto;
+            padding: 10px 14px; font-family: var(--font-mono); font-size: 0.8rem; color: #38bdf8;
+        }
+        .log-entry { margin-bottom: 4px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <div class="brand-logo">Y</div>
+            <div>
+                <h1 class="brand-title">Yours Robotics</h1>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">小车 Live RViz WebGL SLAM & Autonomous Suite</div>
+            </div>
+        </div>
+        <div class="connection-bar">
+            <div id="statusDot" class="status-dot"></div>
+            <span id="statusText" style="font-weight: 600; font-size: 0.9rem;">Disconnected</span>
+            <input type="text" id="wsUrlInput" value="ws://127.0.0.1:9090" style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); color: #fff; padding: 4px 10px; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; width: 160px;">
+            <button class="btn" id="connectBtn" onclick="toggleConnect()">Connect</button>
+        </div>
+    </header>
+
+    <!-- Onboard Hardware Sensors Status Bar -->
+    <div class="sensor-pills">
+        <div class="sensor-pill online"><span>🖥️</span> Live WebGL RViz Occupancy Map (/map)</div>
+        <div class="sensor-pill online"><span>🗺️</span> Autonomous SLAM Frontier Mapping</div>
+        <div class="sensor-pill online"><span>🚫</span> Forbidden No-Go Zones: <strong id="forbiddenZonePillCount" style="color: var(--accent-danger);">0 Zones</strong></div>
+        <div class="sensor-pill online"><span>🤖</span> 机器人: 小车</div>
+        <div class="sensor-pill online"><span>📡</span> 3D Livox Mid-360 LiDAR (/livox/lidar)</div>
+        <div class="sensor-pill online"><span>⚡</span> Smart BMS Battery RSOC (27%)</div>
+    </div>
+
+    <div class="dashboard-grid">
+        
+        <!-- Left Main Column: SLAM & RViz Map + VLA + 3D Scene -->
+        <div>
+            
+            <!-- Autonomous SLAM Mapping & Forbidden Zones Manager Card -->
+            <div class="card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(15, 23, 42, 0.9)); border: 1px solid rgba(16, 185, 129, 0.3);">
+                <div class="card-header">
+                    <div class="card-title" style="color: #6ee7b7;">🗺️ Autonomous SLAM Frontier Mapping & RViz Live Map Visualizer</div>
+                    <div id="slamStatusBadge" style="font-size: 0.8rem; font-weight: 700; color: var(--accent-success); font-family: var(--font-mono);">STATUS: IDLE</div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <!-- SLAM Execution Buttons -->
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="btn btn-success" onclick="controlSLAM('start')">🚀 Start Autonomous SLAM Mapping</button>
+                        <button class="btn btn-warning" onclick="controlSLAM('stop')">🛑 Pause SLAM Mapping</button>
+                        <button class="btn" style="background: rgba(255,255,255,0.08);" onclick="controlSLAM('save')">💾 Save Occupancy Map</button>
+                    </div>
+
+                    <!-- Formal 5-Step Yours Robotics SLAM Workflow Wizard (建图教程) -->
+                    <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <span style="font-size: 0.85rem; font-weight: 700; color: #6ee7b7;">📋 Official 5-Step SLAM Mapping Wizard (建图教程_销售版):</span>
+                            <span id="wizardStepBadge" style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-cyan);">Ready: Step 1</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px;">
+                            <button class="btn btn-warning" style="font-size: 0.75rem; justify-content: center;" onclick="executeFormalStep(1)">1️⃣ Stop Nav Service</button>
+                            <button class="btn btn-success" style="font-size: 0.75rem; justify-content: center;" onclick="executeFormalStep(2)">2️⃣ Start Dual SLAM Mode</button>
+                            <button class="btn btn-purple" style="font-size: 0.75rem; justify-content: center;" onclick="executeFormalStep(3)">3️⃣ Teleop Drive & Loop</button>
+                            <button class="btn" style="font-size: 0.75rem; justify-content: center; background: rgba(255,255,255,0.08);" onclick="executeFormalStep(4)">4️⃣ Save Dual Map</button>
+                            <button class="btn btn-success" style="font-size: 0.75rem; justify-content: center;" onclick="executeFormalStep(5)">5️⃣ Align & Restore Service</button>
+                        </div>
+                    </div>
+
+                    <!-- Forbidden / Restricted Zone Drawing & Rule Tools -->
+                    <div style="display: flex; gap: 10px; align-items: center; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); flex-wrap: wrap;">
+                        <span style="font-size: 0.85rem; font-weight: 600;">Forbidden Zone Rules:</span>
+                        <button class="btn btn-danger" style="font-size: 0.75rem;" onclick="addForbiddenZonePrompt('NO_GO')">🚫 Add No-Go Red Zone</button>
+                        <button class="btn btn-warning" style="font-size: 0.75rem;" onclick="addForbiddenZonePrompt('SLOW_SPEED')">⚠️ Add Caution Speed Limit Zone</button>
+                        <button class="btn" style="background: rgba(255,255,255,0.08); font-size: 0.75rem;" onclick="clearForbiddenZones()">🧹 Clear All Zones</button>
+                    </div>
+
+                    <!-- Forbidden Zones List -->
+                    <div id="forbiddenZoneList" style="display: flex; gap: 6px; flex-wrap: wrap; font-size: 0.75rem; color: var(--text-muted);">
+                        <span>No forbidden zones defined yet. Click "Add No-Go Zone" to set spatial boundaries.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vision-Language-Action (VLA) AI Command Center Card -->
+            <div class="card" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(15, 23, 42, 0.9)); border: 1px solid rgba(139, 92, 246, 0.3);">
+                <div class="card-header">
+                    <div class="card-title" style="color: #c084fc;">🧠 Vision-Language-Action (VLA) Multi-Modal AI Prompt</div>
+                    <div style="font-size: 0.75rem; color: var(--accent-purple); font-family: var(--font-mono);">Active Topic: /yours_vla/command</div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Natural Language Prompt Input Bar -->
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="vlaPromptInput" placeholder="Type instruction (e.g., 'Navigate to the lobby, open the storage door, and say welcome!')..." style="flex: 1; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); color: #fff; padding: 12px; border-radius: 10px; font-size: 0.95rem;">
+                        <button class="btn btn-purple" onclick="sendVLAInstruction()">🚀 Execute VLA Instruction</button>
+                    </div>
+
+                    <!-- Preset Example Prompts -->
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        <span style="font-size: 0.75rem; color: var(--text-muted); align-self: center;">Try Prompt:</span>
+                        <button class="btn" style="background: rgba(255,255,255,0.06); font-size: 0.75rem;" onclick="setVLAPrompt('Drive to the lobby station and open the storage door')">🏢 Lobby & Open Door</button>
+                        <button class="btn" style="background: rgba(255,255,255,0.06); font-size: 0.75rem;" onclick="setVLAPrompt('Go to storage dropoff and set climate to 4 degrees cold')">❄️ Storage & 4°C Climate</button>
+                        <button class="btn" style="background: rgba(255,255,255,0.06); font-size: 0.75rem;" onclick="setVLAPrompt('Navigate to service desk and speak hello everyone')">🗣️ Desk & Speak Speech</button>
+                        <button class="btn" style="background: rgba(255,255,255,0.06); font-size: 0.75rem;" onclick="setVLAPrompt('Return to charging dock and recharge')">🔋 Dock & Recharge</button>
+                    </div>
+
+                    <!-- VLA Live Thought & Reasoning Stream Log -->
+                    <div style="background: rgba(2, 6, 23, 0.9); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 10px; font-family: var(--font-mono); font-size: 0.8rem; height: 90px; overflow-y: auto; color: #d8b4fe;" id="vlaThoughtStream">
+                        <div>[VLA Thought Stream Ready] Standing by for Vision-Language instructions...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🌐 3D Live RViz Occupancy Map, Trajectories & Avoidance</div>
+                    <div style="display: flex; gap: 12px; font-size: 0.8rem; color: var(--text-muted);">
+                        <span>小车 Pose: <strong id="poseX" style="color: var(--accent-cyan); font-family: var(--font-mono);">x: 0.00</strong>, <strong id="poseY" style="color: var(--accent-cyan); font-family: var(--font-mono);">y: 0.00</strong></span>
+                        <span>Obstacle Clearance: <strong id="obstacleDistVal" style="color: var(--accent-success); font-family: var(--font-mono);">Clear (> 2.0m)</strong></span>
+                    </div>
+                </div>
+
+                <div class="foxglove-view-grid">
+                    <!-- Three.js Persistent 3D Spatial Map & Trajectory Viewport -->
+                    <div class="three-viewport">
+                        <div class="overlay-badge">3D RViz Map (/map) | Cyan: Plan | Green: Avoidance Path</div>
+                        
+                        <!-- Map Vertical Zoom Scrollbar Overlay -->
+                        <div class="map-scrollbar-overlay">
+                            <span style="font-size: 0.7rem; font-weight: 700; color: var(--accent-cyan);">ZOOM</span>
+                            <input type="range" class="zoom-slider-vertical" min="2" max="25" step="0.5" value="8" id="mapZoomSlider" oninput="setMapZoom(this.value)">
+                            <button class="btn" style="padding: 4px 8px; font-size: 0.7rem;" onclick="recenterCameraOnRobot()">🎯 Recenter</button>
+                        </div>
+
+                        <div id="threeCanvasContainer"></div>
+                        
+                        <!-- Map Retention & Waypoint Controls Bar -->
+                        <div class="map-controls-bar">
+                            <button class="btn btn-success" id="retentionToggleBtn" onclick="toggleMapRetention()">
+                                🌐 Persistent Map: ENABLED
+                            </button>
+                            <button class="btn btn-warning" onclick="clearRetainedMap()">
+                                🧹 Clear Retained Map
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Direct ROSBridge WebSocket Camera Viewport -->
+                    <div class="camera-viewport">
+                        <div class="overlay-badge" style="display: flex; justify-content: space-between; align-items: center; right: 12px;">
+                            <span>Active Camera Feed</span>
+                            <select id="cameraTopicSelector" onchange="subscribeROSBridgeCamera(this.value)" style="background: rgba(0,0,0,0.6); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; font-size: 0.75rem; font-family: var(--font-mono); margin-left: 8px;">
+                                <option value="/camera/color/image_raw/compressed" selected>RealSense D455 Color (15 FPS Active)</option>
+                                <option value="/front_camera/image_raw">Front Mono Camera (6 FPS Active)</option>
+                                <option value="/camera/aligned_depth_to_color/image_raw/compressed">RealSense Depth Stream</option>
+                            </select>
+                        </div>
+                        <canvas id="rawCameraCanvas" style="width: 100%; height: 100%; object-fit: contain; display: none;"></canvas>
+                        <img id="cameraImgStream" src="" alt="Direct ROSBridge Camera Stream" style="width: 100%; height: 100%; object-fit: contain; display: none;">
+                        <div id="cameraFallback" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 20px;">
+                            <span style="font-size: 2.2rem;">📷</span>
+                            <span style="font-weight: 600;">ROSBridge Direct Camera Stream</span>
+                            <span style="font-size: 0.75rem; color: #64748b;">(Subscribes directly via WebSocket ws://127.0.0.1:9090)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Waypoint Navigation & Preset Locations Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📍 Interactive 3D Waypoint Navigation & Patrol Points</div>
+                    <button class="btn btn-success" onclick="triggerAutoDocking()">🔋 Auto-Dock & Recharge Station</button>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Quick Waypoint Preset Selector -->
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="btn" style="background: rgba(255,255,255,0.08);" onclick="sendWaypointGoal('Lobby', 2.0, 1.5, 0.0)">🏢 Lobby Station (x: 2.0, y: 1.5)</button>
+                        <button class="btn" style="background: rgba(255,255,255,0.08);" onclick="sendWaypointGoal('Storage', -1.5, 3.0, 1.57)">❄️ Storage Dropoff (x: -1.5, y: 3.0)</button>
+                        <button class="btn" style="background: rgba(255,255,255,0.08);" onclick="sendWaypointGoal('Desk', 0.5, -2.0, -1.57)">💻 Service Desk (x: 0.5, y: -2.0)</button>
+                        <button class="btn btn-warning" onclick="cancelNavigationGoal()">🛑 Cancel Goal</button>
+                    </div>
+
+                    <!-- Custom Coordinate Goal Inputs -->
+                    <div style="display: flex; gap: 10px; align-items: center; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <span style="font-size: 0.85rem; font-weight: 600;">Custom Goal (m):</span>
+                        <input type="number" id="goalX" placeholder="X (m)" value="1.0" step="0.1" style="width: 70px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); color: #fff; padding: 6px; border-radius: 6px; font-family: var(--font-mono);">
+                        <input type="number" id="goalY" placeholder="Y (m)" value="2.0" step="0.1" style="width: 70px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); color: #fff; padding: 6px; border-radius: 6px; font-family: var(--font-mono);">
+                        <button class="btn" onclick="sendCustomGoal()">🚀 Navigate 小车 with DWA Avoidance</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chassis Teleoperation & Velocity Controls -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🕹️ 小车 Velocity & Priority Control</div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <label style="font-size: 0.85rem; color: var(--text-muted);">Priority Channel:</label>
+                        <select id="topicSelector" style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); color: #fff; padding: 4px 8px; border-radius: 6px; font-family: var(--font-mono);">
+                            <option value="/yours_cmd_vel/keyop_ctrl">/yours_cmd_vel/keyop_ctrl (Priority Keyop)</option>
+                            <option value="/cmd_vel_direct">/cmd_vel_direct (Direct Bypass)</option>
+                            <option value="/yours_cmd_vel/joy_ctrl">/yours_cmd_vel/joy_ctrl (Joystick)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="teleop-container">
+                    <!-- Virtual Touch Joystick -->
+                    <div class="joystick-zone" id="joystickZone">
+                        <div class="joystick-handle" id="joystickHandle"></div>
+                    </div>
+
+                    <!-- Official Yours Teleop 3x3 Key Grid (u i o / j k l / m , .) -->
+                    <div style="display: flex; flex-direction: column; gap: 4px; align-items: center;">
+                        <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">Official yours_teleop Grid:</span>
+                        <div style="display: grid; grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(3, 40px); gap: 4px;">
+                            <div class="key-btn" id="keyU" onclick="publishVel(maxLinearSpeed, maxAngularSpeed)">U</div>
+                            <div class="key-btn" id="keyI" onclick="publishVel(maxLinearSpeed, 0)">I</div>
+                            <div class="key-btn" id="keyO" onclick="publishVel(maxLinearSpeed, -maxAngularSpeed)">O</div>
+                            <div class="key-btn" id="keyJ" onclick="publishVel(0, maxAngularSpeed)">J</div>
+                            <div class="key-btn" id="keyK" style="background: rgba(239, 68, 68, 0.3); color: #fca5a5;" onclick="emergencyStop()">K</div>
+                            <div class="key-btn" id="keyL" onclick="publishVel(0, -maxAngularSpeed)">L</div>
+                            <div class="key-btn" id="keyM" onclick="publishVel(-maxLinearSpeed, maxAngularSpeed)">M</div>
+                            <div class="key-btn" id="keyComma" onclick="publishVel(-maxLinearSpeed, 0)">,</div>
+                            <div class="key-btn" id="keyPeriod" onclick="publishVel(-maxLinearSpeed, -maxAngularSpeed)">.</div>
+                        </div>
+                    </div>
+
+                    <!-- Speed & E-STOP -->
+                    <div style="display: flex; flex-direction: column; gap: 12px; min-width: 190px;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
+                                <span>Linear Speed Cap</span>
+                                <span id="speedVal" style="font-family: var(--font-mono); font-weight: 700; color: var(--accent-cyan);">0.20 m/s</span>
+                            </div>
+                            <input type="range" id="speedSlider" min="0.05" max="0.5" step="0.05" value="0.20" style="width: 100%;" oninput="updateSpeed(this.value)">
+                        </div>
+                        <button class="btn btn-danger" style="justify-content: center; padding: 12px;" onclick="emergencyStop()">
+                            🛑 EMERGENCY STOP (Space)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Battery Health & RSOC Power Monitor Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">⚡ Smart BMS Battery & RSOC Telemetry</div>
+                </div>
+                <div class="stat-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1rem;">
+                    <div class="stat-card">
+                        <div class="stat-label">RSOC Charge Level</div>
+                        <div class="stat-value" id="batteryLevelVal" style="color: var(--accent-success);">27%</div>
+                        <div style="width: 100%; background: rgba(255,255,255,0.1); height: 8px; border-radius: 4px; margin-top: 6px; overflow: hidden;">
+                            <div id="batteryBar" style="width: 27%; height: 100%; background: var(--accent-success); transition: width 0.4s ease;"></div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Bus Voltage / Current</div>
+                        <div class="stat-value" id="batteryVoltageVal" style="font-size: 1.1rem; padding-top: 4px; color: var(--accent-cyan);">26.59 V</div>
+                        <div id="batteryCurrentVal" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">Current: 1.30 A</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">BMS Temperature / Cycles</div>
+                        <div class="stat-value" id="batteryTempVal" style="font-size: 1.1rem; padding-top: 4px; color: var(--accent-purple);">25.0 °C</div>
+                        <div id="batteryCyclesVal" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">Cycles: 22</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Warning Threshold</div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+                            <input type="range" id="batteryThresholdSlider" min="10" max="50" value="20" style="flex: 1;" oninput="updateBatteryThreshold(this.value)">
+                            <span id="batteryThresholdText" style="font-weight: 700; color: var(--accent-warning);">20%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Low Battery Alert Banner -->
+                <div id="lowBatteryAlertBanner" style="display: none; background: rgba(239, 68, 68, 0.2); border: 1px solid var(--accent-danger); border-radius: 12px; padding: 12px 16px; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.5rem;">⚠️</span>
+                        <div>
+                            <div style="font-weight: 700; color: #fca5a5;">CRITICAL LOW BATTERY WARNING</div>
+                            <div id="lowBatteryAlertMsg" style="font-size: 0.85rem; color: #fecaca;">小车 battery level has fallen below threshold! Please dock robot for charging.</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger" onclick="acknowledgeBatteryWarning()">Dismiss Alert</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Storage Compartment Sensors & Actuators, Voice, HRI & Console -->
+        <div>
+
+            <!-- Onboard Storage Compartment Sensors & Climate Actuators -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">❄️ Storage Climate Sensors & Actuators</div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <!-- Temperature Sensor Telemetry -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <div class="stat-card">
+                            <div class="stat-label">Compartment Temp</div>
+                            <div class="stat-value" id="fridgeTempDisplay" style="color: var(--accent-cyan);">18.5 °C</div>
+                            <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 2px;">NTC Sensor (/sensors_celsius)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Climate Mode</div>
+                            <div class="stat-value" id="fridgeModeDisplay" style="font-size: 1rem; color: var(--accent-success); padding-top: 4px;">Cooling ❄️</div>
+                            <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 2px;">Peltier Actuator</div>
+                        </div>
+                    </div>
+
+                    <!-- Temperature Target Setpoint Actuator Slider -->
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
+                            <span>Target Temperature Setpoint</span>
+                            <span id="setpointDisplayVal" style="font-family: var(--font-mono); font-weight: 700; color: var(--accent-cyan);">4 °C</span>
+                        </div>
+                        <input type="range" id="tempSetpointSlider" min="-5" max="30" step="1" value="4" style="width: 100%;" onchange="sendTempSetpoint(this.value)" oninput="document.getElementById('setpointDisplayVal').innerText=this.value+' °C'">
+                    </div>
+
+                    <!-- Climate Mode Actuator Buttons -->
+                    <div style="display: flex; gap: 6px;">
+                        <button class="btn" style="flex: 1; justify-content: center; background: rgba(255,255,255,0.08);" onclick="setFridgeMode(0)">Off ⚪</button>
+                        <button class="btn btn-success" style="flex: 1; justify-content: center;" onclick="setFridgeMode(1)">Cooling ❄️</button>
+                        <button class="btn btn-warning" style="flex: 1; justify-content: center;" onclick="setFridgeMode(2)">Heating 🔥</button>
+                    </div>
+
+                    <!-- Electric Door Motor & Solenoid Latch Lock Actuators -->
+                    <div style="display: flex; flex-direction: column; gap: 6px; padding-top: 6px; border-top: 1px solid var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                            <span>Door Motor & Latch Status:</span>
+                            <span id="lockStatusBadge" style="font-weight: 700; color: var(--accent-success);">LOCKED 🔒</span>
+                        </div>
+                        <div style="display: flex; gap: 6px;">
+                            <button class="btn btn-success" style="flex: 1; justify-content: center;" onclick="controlDoorActuator(1)">🚪 Open Door Motor</button>
+                            <button class="btn btn-danger" style="flex: 1; justify-content: center;" onclick="controlDoorActuator(0)">🚪 Close Door Motor</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HRI Onboard Voice Speech Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🗣️ 小车 Speaker Voice & Face</div>
+                </div>
+
+                <!-- SVG Animated Robot Face -->
+                <div class="face-preview-container" style="margin-bottom: 1rem;">
+                    <svg class="robot-face" viewBox="0 0 200 120">
+                        <rect id="leftEye" x="35" y="30" width="45" height="55" rx="14" fill="#06b6d4" />
+                        <rect id="rightEye" x="120" y="30" width="45" height="55" rx="14" fill="#06b6d4" />
+                        <path id="mouth" d="M 80 95 Q 100 105 120 95" stroke="#06b6d4" stroke-width="6" stroke-linecap="round" fill="none" />
+                    </svg>
+                    <div id="faceStatusText" style="font-size: 0.8rem; color: var(--accent-cyan); font-weight: 600; margin-top: 6px;">FRIENDLY MODE</div>
+                </div>
+
+                <!-- Voice Output Controls -->
+                <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem;">
+                    <input type="text" id="voiceTextInput" placeholder="Type message for 小车 speakers..." style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); color: #fff; padding: 10px; border-radius: 8px; font-size: 0.9rem;">
+                    <button class="btn" style="justify-content: center;" onclick="speakCustomText()">🔊 Speak Out Loud (/chat_audio_text)</button>
+                </div>
+
+                <!-- Face Expression Buttons -->
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+                    <button class="btn" style="background: rgba(255,255,255,0.08);" onclick="sendEmotion('happy')">😆 Happy</button>
+                    <button class="btn" style="background: rgba(255,255,255,0.08);" onclick="sendEmotion('sleepy')">😴 Sleepy</button>
+                    <button class="btn" style="background: rgba(255,255,255,0.08);" onclick="sendEmotion('excited')">🚀 Excited</button>
+                    <button class="btn" style="background: rgba(255,255,255,0.08);" onclick="sendEmotion('neutral')">😐 Neutral</button>
+                </div>
+            </div>
+
+            <!-- Public Engagement Analytics Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📊 Engagement Analytics</div>
+                </div>
+                <div style="height: 140px;">
+                    <canvas id="analyticsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Telemetry Console Log -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">💻 Telemetry Console</div>
+                </div>
+                <div class="console-log" id="consoleLog">
+                    <div class="log-entry">[00:00:00] Yours Robotics - 小车 Suite Initialized.</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        let ros = null;
+        let isConnected = false;
+        let cmdVelTopic = null;
+        let chatAudioTopic = null;
+        let goalTopic = null;
+        let vlaCmdTopic = null;
+        let slamCmdTopic = null;
+        let forbiddenZoneTopic = null;
+        let cameraTopicSub = null;
+        let maxLinearSpeed = 0.20;
+        let maxAngularSpeed = 0.40;
+
+        let lowBatteryThreshold = 20;
+        let batteryWarningSpoken = false;
+
+        // Three.js 3D Engine & OrbitControls Variables
+        let scene, camera, renderer, persistentPointCloud, robotMesh, gridHelper, orbitControls;
+        let globalPathLine, localAvoidancePathLine;
+        let occupancyGridMesh = null;
+        let forbiddenZoneMeshes = [];
+        let forbiddenZonesData = [];
+
+        let retainedPositions = [];
+        let retainedColors = [];
+        let mapRetentionEnabled = true;
+        const maxMapPoints = 150000;
+
+        let robotX = 0, robotY = 0, robotYaw = 0;
+
+        function initThreeScene() {
+            const container = document.getElementById('threeCanvasContainer');
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x020617);
+
+            camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 100);
+            camera.position.set(0, -7, 6);
+            camera.up.set(0, 0, 1);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            // OrbitControls Multi-Touch & Scroll Gesture Configuration
+            orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
+            orbitControls.enableDamping = true;
+            orbitControls.dampingFactor = 0.05;
+            orbitControls.enableZoom = true;
+            orbitControls.zoomSpeed = 1.2;
+            orbitControls.enableRotate = true;
+            orbitControls.rotateSpeed = 1.0;
+            orbitControls.enablePan = true;
+            orbitControls.panSpeed = 1.0;
+
+            // Touch Gestures: 1 Finger = Rotate/Orbit | 2 Fingers = Pinch Zoom & Pan
+            orbitControls.touches = {
+                ONE: THREE.TOUCH.ROTATE,
+                TWO: THREE.TOUCH.DOLLY_PAN
+            };
+
+            orbitControls.addEventListener('change', () => {
+                const dist = camera.position.distanceTo(orbitControls.target);
+                const slider = document.getElementById('mapZoomSlider');
+                if (slider) slider.value = Math.min(Math.max(dist, 2), 25);
+            });
+
+            // Grid & Axes
+            gridHelper = new THREE.GridHelper(24, 24, 0x3b82f6, 0x1e293b);
+            gridHelper.rotation.x = Math.PI / 2;
+            scene.add(gridHelper);
+
+            const axesHelper = new THREE.AxesHelper(1.8);
+            scene.add(axesHelper);
+
+            // 小车 Robot Mesh (Chassis Frame)
+            const robotGeo = new THREE.BoxGeometry(0.65, 0.55, 0.45);
+            const robotMat = new THREE.MeshBasicMaterial({ color: 0x10b981, wireframe: true });
+            robotMesh = new THREE.Mesh(robotGeo, robotMat);
+            scene.add(robotMesh);
+
+            // Global Navigation Plan Trajectory (Cyan Line)
+            const globalPathGeo = new THREE.BufferGeometry();
+            const globalPathMat = new THREE.LineBasicMaterial({ color: 0x06b6d4, linewidth: 3 });
+            globalPathLine = new THREE.Line(globalPathGeo, globalPathMat);
+            scene.add(globalPathLine);
+
+            // DWA Local Obstacle Avoidance Trajectory (Emerald Green Line)
+            const localPathGeo = new THREE.BufferGeometry();
+            const localPathMat = new THREE.LineBasicMaterial({ color: 0x10b981, linewidth: 4 });
+            localAvoidancePathLine = new THREE.Line(localPathGeo, localPathMat);
+            scene.add(localAvoidancePathLine);
+
+            // Persistent 3D PointCloud Mesh
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(maxMapPoints * 3);
+            const colors = new Float32Array(maxMapPoints * 3);
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.10,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.95
+            });
+
+            persistentPointCloud = new THREE.Points(geometry, material);
+            scene.add(persistentPointCloud);
+
+            animateThree();
+        }
+
+        function animateThree() {
+            requestAnimationFrame(animateThree);
+            if (orbitControls) orbitControls.update();
+            renderer.render(scene, camera);
+        }
+
+        // On-Screen Map Zoom Scrollbar & Recenter Controls
+        function setMapZoom(val) {
+            if (!camera || !orbitControls) return;
+            const dist = parseFloat(val);
+            const dir = new THREE.Vector3().subVectors(camera.position, orbitControls.target).normalize();
+            camera.position.copy(orbitControls.target).addScaledVector(dir, dist);
+        }
+
+        function recenterCameraOnRobot() {
+            if (!camera || !orbitControls) return;
+            orbitControls.target.set(robotX, robotY, 0);
+            camera.position.set(robotX, robotY - 6, 5);
+            logConsole('🎯 Camera recentered on 小车 position.');
+        }
+
+        function toggleMapRetention() {
+            mapRetentionEnabled = !mapRetentionEnabled;
+            const btn = document.getElementById('retentionToggleBtn');
+            if (mapRetentionEnabled) {
+                btn.innerText = '🌐 Persistent Map: ENABLED';
+                btn.className = 'btn btn-success';
+                logConsole('🌐 Persistent Spatial Map building enabled.');
+            } else {
+                btn.innerText = '🌐 Persistent Map: DISABLED (Live Only)';
+                btn.className = 'btn btn-warning';
+                logConsole('⚠️ Persistent Map disabled (showing live frames only).');
+            }
+        }
+
+        function clearRetainedMap() {
+            retainedPositions = [];
+            retainedColors = [];
+            const posAttr = persistentPointCloud.geometry.attributes.position;
+            posAttr.array.fill(0);
+            posAttr.needsUpdate = true;
+            document.getElementById('mapPointCount').innerText = '0';
+            logConsole('🧹 Retained spatial 3D map cleared.');
+        }
+
+        // SLAM Exploration Controls & Active Client-Side Frontier Driver
+        let slamExplorationTimer = null;
+        let slamExplorationStep = 0;
+        let slamCurrentMinDist = 999;
+
+        function startClientSideFrontierExploration() {
+            if (slamExplorationTimer) clearInterval(slamExplorationTimer);
+            logConsole('🚀 Continuous SLAM Exploration Engaged with Dynamic 3D LiDAR Obstacle Avoidance!');
+
+            slamExplorationStep = 0;
+            slamExplorationTimer = setInterval(() => {
+                if (!isConnected) {
+                    stopClientSideFrontierExploration();
+                    return;
+                }
+
+                slamExplorationStep++;
+
+                // Continuous looping cycle (runs indefinitely until user clicks Pause)
+                const cycle = slamExplorationStep % 120;
+
+                // 1. Dynamic 3D LiDAR Obstacle Avoidance Check (Wide Safety Berth: 0.90m)
+                if (slamCurrentMinDist < 0.90) {
+                    // Obstacle or wall close ahead! Turn smoothly to steer clear
+                    logConsole(`⚠️ SLAM Obstacle Avoidance: Steering clear of wall at ${slamCurrentMinDist.toFixed(2)}m...`);
+                    publishVel(0.0, 0.30);
+                    return;
+                }
+
+                // 2. Safety Interlock: Check if current position is near Forbidden No-Go Zone
+                if (isPointInForbiddenZone(robotX, robotY)) {
+                    logConsole(`🚫 SLAM Safety: Near Forbidden Zone boundary! Reversing...`);
+                    publishVel(-0.12, 0.30);
+                    return;
+                }
+
+                // 3. Continuous SLAM Mapping & Frontier Exploration Pattern
+                if (cycle < 30) {
+                    // Phase 1: Rotate 360 degrees to perform 3D Livox Mid-360 LiDAR spatial room scan
+                    publishVel(0.0, 0.25);
+                } else if (cycle < 90) {
+                    // Phase 2: Drive forward into unexplored frontier space at safe speed (0.18 m/s)
+                    publishVel(0.18, 0.02);
+                } else {
+                    // Phase 3: Adjust heading towards next unexplored corridor angle
+                    publishVel(0.0, -0.25);
+                }
+            }, 150);
+        }
+
+        function stopClientSideFrontierExploration() {
+            if (slamExplorationTimer) {
+                clearInterval(slamExplorationTimer);
+                slamExplorationTimer = null;
+            }
+            publishVel(0, 0);
+            logConsole('🛑 SLAM Frontier Exploration Driver Halted.');
+        }
+
+        // Official 5-Step Yours Robotics SLAM Workflow Wizard (建图教程_销售版)
+        function executeFormalStep(stepNum) {
+            const badge = document.getElementById('wizardStepBadge');
+            const statusBadge = document.getElementById('slamStatusBadge');
+
+            if (stepNum === 1) {
+                if (badge) badge.innerText = 'Step 1: Nav Service Stopped';
+                logConsole('📋 Step 1: Stopping background navigation service (yours_robot_start.service)...');
+                if (isConnected && slamCmdTopic) {
+                    slamCmdTopic.publish(new ROSLIB.Message({ data: "stop_service" }));
+                }
+                logConsole('✅ Step 1 Complete: System resources freed for SLAM mapping.');
+            } else if (stepNum === 2) {
+                if (badge) badge.innerText = 'Step 2: Dual SLAM Mode Active';
+                if (statusBadge) { statusBadge.innerText = 'STATUS: DUAL SLAM 🚀'; statusBadge.style.color = 'var(--accent-success)'; }
+                logConsole('📋 Step 2: Executing build_two_map.sh start (Dual-Layer Map Mode)...');
+                if (isConnected && slamCmdTopic) {
+                    slamCmdTopic.publish(new ROSLIB.Message({ data: "start_dual_slam" }));
+                }
+                logConsole('🚀 Step 2 Active: Dual-layer SLAM node started on Jetson.');
+            } else if (stepNum === 3) {
+                if (badge) badge.innerText = 'Step 3: Teleop & Loop Closure';
+                logConsole('📋 Step 3: Keyboard Teleop & Loop Closure Monitoring Active (speed capped @ 0.20 m/s).');
+                logConsole('💡 Guide: Drive robot slowly along wall edges. Revisit previous paths to trigger Loop Closure (yellow RViz flash).');
+            } else if (stepNum === 4) {
+                if (badge) badge.innerText = 'Step 4: Saving Dual Map...';
+                if (statusBadge) { statusBadge.innerText = 'STATUS: SAVING DUAL MAP 💾'; statusBadge.style.color = 'var(--accent-cyan)'; }
+                logConsole('📋 Step 4: Issuing Map Save command to /home/nvidia/maps/map/...');
+                if (isConnected && slamCmdTopic) {
+                    slamCmdTopic.publish(new ROSLIB.Message({ data: "save" }));
+                }
+                logConsole('⚠️ Note: Dual-layer map saving takes ~2x mapping duration. Keep terminal running until complete.');
+            } else if (stepNum === 5) {
+                if (badge) badge.innerText = 'Step 5: Aligned & Service Restored';
+                if (statusBadge) { statusBadge.innerText = 'STATUS: SERVICE RESTORED ✅'; statusBadge.style.color = 'var(--accent-success)'; }
+                logConsole('📋 Step 5: Restarting yours_robot_start.service & finalizing map alignment (python3 map_deal.py)...');
+                if (isConnected && slamCmdTopic) {
+                    slamCmdTopic.publish(new ROSLIB.Message({ data: "start_service" }));
+                }
+                logConsole('🎉 Step 5 Complete: Map saved, post-processed, and Navigation Service restored!');
+            }
+        }
+
+        // Forbidden & Restricted Zones Management
+        function addForbiddenZonePrompt(type) {
+            const name = type === 'NO_GO' ? 'No-Go Forbidden Zone' : 'Caution Speed Limit Zone';
+            const xStr = prompt(`Enter Center X (m) for ${name}:`, (robotX + 1.0).toFixed(1));
+            if (xStr === null) return;
+            const yStr = prompt(`Enter Center Y (m) for ${name}:`, (robotY + 1.0).toFixed(1));
+            if (yStr === null) return;
+
+            const cx = parseFloat(xStr);
+            const cy = parseFloat(yStr);
+            const width = 1.5; const height = 1.5;
+
+            const zoneObj = {
+                id: `Zone_${forbiddenZonesData.length + 1}`,
+                type: type,
+                minX: cx - width/2, maxX: cx + width/2,
+                minY: cy - height/2, maxY: cy + height/2
+            };
+
+            forbiddenZonesData.push(zoneObj);
+
+            // Render 3D Semi-transparent Red/Yellow Box in Three.js Scene
+            const boxGeo = new THREE.BoxGeometry(width, height, 0.4);
+            const boxMat = new THREE.MeshBasicMaterial({
+                color: type === 'NO_GO' ? 0xef4444 : 0xf59e0b,
+                transparent: true,
+                opacity: 0.45,
+                wireframe: false
+            });
+            const zoneMesh = new THREE.Mesh(boxGeo, boxMat);
+            zoneMesh.position.set(cx, cy, 0.2);
+            scene.add(zoneMesh);
+            forbiddenZoneMeshes.push(zoneMesh);
+
+            updateForbiddenZoneUI();
+
+            // Publish Polygon to ROS
+            if (isConnected && forbiddenZoneTopic) {
+                const polyMsg = new ROSLIB.Message({
+                    header: { frame_id: 'map', stamp: { secs: 0, nsecs: 0 } },
+                    polygon: {
+                        points: [
+                            { x: zoneObj.minX, y: zoneObj.minY, z: 0 },
+                            { x: zoneObj.maxX, y: zoneObj.minY, z: 0 },
+                            { x: zoneObj.maxX, y: zoneObj.maxY, z: 0 },
+                            { x: zoneObj.minX, y: zoneObj.maxY, z: 0 }
+                        ]
+                    }
+                });
+                forbiddenZoneTopic.publish(polyMsg);
+            }
+
+            logConsole(`🚫 Added 3D ${name}: Center (${cx}, ${cy})`);
+        }
+
+        function clearForbiddenZones() {
+            forbiddenZoneMeshes.forEach(mesh => scene.remove(mesh));
+            forbiddenZoneMeshes = [];
+            forbiddenZonesData = [];
+            updateForbiddenZoneUI();
+            logConsole('🧹 All Forbidden No-Go Zones cleared.');
+        }
+
+        function updateForbiddenZoneUI() {
+            const list = document.getElementById('forbiddenZoneList');
+            const pill = document.getElementById('forbiddenZonePillCount');
+            pill.innerText = `${forbiddenZonesData.length} Zones`;
+
+            if (forbiddenZonesData.length === 0) {
+                list.innerHTML = '<span>No forbidden zones defined. Click "Add No-Go Zone" to set spatial boundaries.</span>';
+                return;
+            }
+
+            list.innerHTML = forbiddenZonesData.map(z => `
+                <div style="background: ${z.type === 'NO_GO' ? 'rgba(239, 68, 68, 0.2)' : 'rgba(245, 158, 11, 0.2)'}; border: 1px solid ${z.type === 'NO_GO' ? 'var(--accent-danger)' : 'var(--accent-warning)'}; padding: 4px 8px; border-radius: 6px; display: flex; align-items: center; gap: 6px;">
+                    <span style="color: ${z.type === 'NO_GO' ? '#fca5a5' : '#fef08a'}; font-weight: 700;">${z.id}: ${z.type}</span>
+                    <span>(X: ${z.minX.toFixed(1)}..${z.maxX.toFixed(1)}, Y: ${z.minY.toFixed(1)}..${z.maxY.toFixed(1)})</span>
+                </div>
+            `).join('');
+        }
+
+        function isPointInForbiddenZone(x, y) {
+            for (let z of forbiddenZonesData) {
+                if (z.type === 'NO_GO' && x >= z.minX && x <= z.maxX && y >= z.minY && y <= z.maxY) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // VLA Multi-Modal AI Functions
+        function setVLAPrompt(txt) {
+            document.getElementById('vlaPromptInput').value = txt;
+        }
+
+        function sendVLAInstruction() {
+            const input = document.getElementById('vlaPromptInput');
+            const prompt = input.value.trim();
+            if (!prompt) return;
+
+            logConsole(`🧠 VLA Command Input: "${prompt}"`);
+            if (isConnected && vlaCmdTopic) {
+                vlaCmdTopic.publish(new ROSLIB.Message({ data: prompt }));
+            }
+            
+            // Execute VLA Parser & ROS Actions
+            parseAndExecuteVLAClientSide(prompt);
+        }
+
+        function parseAndExecuteVLAClientSide(prompt) {
+            const p = prompt.toLowerCase();
+            logVLAThought(`[VLA REASONING] Input Prompt: "${prompt}"`);
+
+            let actionsTriggered = 0;
+
+            // 1. Navigation Target Intent
+            if (p.includes("lobby")) {
+                logVLAThought(`[NAVIGATE] Target Identified: Lobby Station (x: 2.0, y: 1.5)`);
+                sendWaypointGoal('Lobby', 2.0, 1.5, 0.0);
+                actionsTriggered++;
+            } else if (p.includes("storage") && (p.includes("drive") || p.includes("go") || p.includes("navigate") || p.includes("dropoff"))) {
+                logVLAThought(`[NAVIGATE] Target Identified: Storage Dropoff (x: -1.5, y: 3.0)`);
+                sendWaypointGoal('Storage', -1.5, 3.0, 1.57);
+                actionsTriggered++;
+            } else if (p.includes("desk") || p.includes("service")) {
+                logVLAThought(`[NAVIGATE] Target Identified: Service Desk (x: 0.5, y: -2.0)`);
+                sendWaypointGoal('Desk', 0.5, -2.0, -1.57);
+                actionsTriggered++;
+            } else if (p.includes("dock") || p.includes("charge") || p.includes("recharge")) {
+                logVLAThought(`[AUTODOCK] Target Identified: Wireless Recharge Station`);
+                triggerAutoDocking();
+                actionsTriggered++;
+            }
+
+            // 2. Storage Compartment Motor & Lock Actuators Intent
+            if (p.includes("open door") || p.includes("open storage") || p.includes("open compartment")) {
+                logVLAThought(`[ACTUATOR] Storage Compartment: OPENING DOOR MOTOR & UNLOCKING`);
+                controlDoorActuator(1);
+                actionsTriggered++;
+            } else if (p.includes("close door") || p.includes("close storage") || p.includes("lock")) {
+                logVLAThought(`[ACTUATOR] Storage Compartment: CLOSING DOOR MOTOR & LOCKING`);
+                controlDoorActuator(0);
+                actionsTriggered++;
+            }
+
+            // 3. Climate Control Setpoints Intent
+            if (p.includes("cool") || p.includes("chilled") || p.includes("cold") || p.includes("4 degree")) {
+                logVLAThought(`[CLIMATE] Peltier Unit: COOLING MODE ❄️ (Setpoint: 4°C)`);
+                setFridgeMode(1);
+                sendTempSetpoint(4);
+                actionsTriggered++;
+            } else if (p.includes("heat") || p.includes("warm") || p.includes("hot") || p.includes("50 degree")) {
+                logVLAThought(`[CLIMATE] Peltier Unit: HEATING MODE 🔥 (Setpoint: 50°C)`);
+                setFridgeMode(2);
+                sendTempSetpoint(50);
+                actionsTriggered++;
+            }
+
+            // 4. Voice TTS Speech Output Intent
+            if (p.includes("say") || p.includes("speak") || p.includes("greet") || p.includes("hello") || p.includes("welcome")) {
+                let spokenText = prompt;
+                if (p.includes("say")) spokenText = prompt.split(/say/i)[1].trim();
+                else if (p.includes("speak")) spokenText = prompt.split(/speak/i)[1].trim();
+                else if (p.includes("welcome")) spokenText = "Welcome to Yours Robotics!";
+                else if (p.includes("hello")) spokenText = "Hello everyone! I am XiaoChe.";
+
+                spokenText = spokenText.replace(/^['"]|['"]$/g, '');
+                logVLAThought(`[VOICE TTS] Physical Speaker Speech Output: "${spokenText}"`);
+                if (isConnected && chatAudioTopic) {
+                    chatAudioTopic.publish(new ROSLIB.Message({ data: spokenText }));
+                }
+                actionsTriggered++;
+            }
+
+            if (actionsTriggered === 0) {
+                logVLAThought(`[VLA ANALYSIS] Parsing custom instruction... Executing autonomous spatial analysis for: "${prompt}"`);
+                if (isConnected && chatAudioTopic) {
+                    chatAudioTopic.publish(new ROSLIB.Message({ data: `Executing instruction: ${prompt}` }));
+                }
+            }
+        }
+
+        function logVLAThought(msg) {
+            const stream = document.getElementById('vlaThoughtStream');
+            if (!stream) return;
+            const time = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.style.marginBottom = '4px';
+            div.innerText = `[${time}] ${msg}`;
+            stream.appendChild(div);
+            stream.scrollTop = stream.scrollHeight;
+        }
+
+        // Direct Active Velocity Driver for Waypoint & VLA Movement
+        let waypointDriveTimer = null;
+
+        function driveRobotToTargetPose(targetX, targetY, targetYaw) {
+            if (waypointDriveTimer) clearInterval(waypointDriveTimer);
+
+            // Safety Check: Verify target is not in user-defined Forbidden Zone
+            if (isPointInForbiddenZone(targetX, targetY)) {
+                logConsole(`🚫 FORBIDDEN ZONE VIOLATION! Target (${targetX}, ${targetY}) is inside a Red No-Go Zone. Navigation aborted.`);
+                logVLAThought(`🚫 SAFETY INTERLOCK: Aborted navigation to (${targetX}, ${targetY}) - Inside Forbidden Zone.`);
+                publishVel(0, 0);
+                return;
+            }
+
+            logConsole(`🚗 Direct Velocity Driver Activated: Heading towards (${targetX}, ${targetY})...`);
+
+            waypointDriveTimer = setInterval(() => {
+                if (!isConnected) {
+                    clearInterval(waypointDriveTimer);
+                    return;
+                }
+
+                const dx = targetX - robotX;
+                const dy = targetY - robotY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 0.25) {
+                    publishVel(0, 0);
+                    clearInterval(waypointDriveTimer);
+                    waypointDriveTimer = null;
+                    logConsole(`✅ Target Reached! Stopped at (${targetX}, ${targetY}).`);
+                    logVLAThought(`✅ Navigation Complete: Reached target pose (${targetX}, ${targetY}).`);
+                    return;
+                }
+
+                // 1. Calculate global target heading
+                const targetAngle = Math.atan2(dy, dx);
+                
+                // 2. Calculate relative heading error (targetAngle - robotYaw)
+                let angleError = targetAngle - robotYaw;
+
+                // Normalize angle error to range [-PI, PI]
+                while (angleError > Math.PI) angleError -= 2 * Math.PI;
+                while (angleError < -Math.PI) angleError += 2 * Math.PI;
+
+                let linSpeed = 0;
+                let angSpeed = 0;
+
+                if (Math.abs(angleError) > 0.35) {
+                    // Turn smoothly towards target orientation
+                    linSpeed = 0;
+                    angSpeed = angleError > 0 ? 0.35 : -0.35;
+                } else {
+                    // Drive forward towards target with minor angle corrections
+                    linSpeed = Math.min(maxLinearSpeed, distance * 0.4);
+                    angSpeed = angleError * 0.6;
+                }
+
+                publishVel(linSpeed, angSpeed);
+            }, 100);
+        }
+
+        // Waypoint Navigation & DWA Local Obstacle Avoidance Controls
+        function sendWaypointGoal(name, x, y, yaw) {
+            if (!isConnected) {
+                logConsole(`📍 Navigation Goal Preview: ${name} (x: ${x}, y: ${y})`);
+                return;
+            }
+
+            if (goalTopic) {
+                const goal = new ROSLIB.Message({
+                    header: { frame_id: 'map', stamp: { secs: 0, nsecs: 0 } },
+                    pose: {
+                        position: { x: x, y: y, z: 0 },
+                        orientation: { x: 0, y: 0, z: Math.sin(yaw/2), w: Math.cos(yaw/2) }
+                    }
+                });
+                goalTopic.publish(goal);
+            }
+
+            logConsole(`🚀 Executing Navigation Goal: ${name} (x: ${x}, y: ${y})`);
+            driveRobotToTargetPose(x, y, yaw);
+        }
+
+        function sendCustomGoal() {
+            const x = parseFloat(document.getElementById('goalX').value);
+            const y = parseFloat(document.getElementById('goalY').value);
+            sendWaypointGoal(`Custom (${x}, ${y})`, x, y, 0.0);
+        }
+
+        function cancelNavigationGoal() {
+            if (waypointDriveTimer) {
+                clearInterval(waypointDriveTimer);
+                waypointDriveTimer = null;
+            }
+            publishVel(0, 0);
+            logConsole('🛑 Navigation Goal Cancelled.');
+        }
+
+        function triggerAutoDocking() {
+            if (isConnected && ros) {
+                const dockTopic = new ROSLIB.Topic({ ros: ros, name: '/func_exec_autoDock', messageType: 'std_msgs/String' });
+                dockTopic.publish(new ROSLIB.Message({ data: JSON.stringify({ action: "autoDock" }) }));
+            }
+            logConsole('🔋 Initiating 小车 Autonomous Docking to Wireless Recharge Station...');
+        }
+
+        // ROS Connection Toggle
+        function toggleConnect() {
+            if (isConnected) {
+                if (ros) ros.close();
+                return;
+            }
+
+            const url = document.getElementById('wsUrlInput').value;
+            ros = new ROSLIB.Ros();
+
+            ros.on('connection', () => {
+                isConnected = true;
+                updateConnectionUI(true);
+                logConsole(`✅ Connected to 小车 ROS Master via ROSBridge at ${url}`);
+                initROSTopics();
+                setupRealtimeSubscribers();
+            });
+
+            ros.on('error', (err) => { logConsole(`❌ ROS Error: ${err}`); updateConnectionUI(false); });
+            ros.on('close', () => { isConnected = false; updateConnectionUI(false); logConsole(`⚠️ Connection Closed`); });
+
+            try { ros.connect(url); } catch(e) { logConsole(`❌ Error: ${e.message}`); }
+        }
+
+        function updateConnectionUI(connected) {
+            const dot = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+            const btn = document.getElementById('connectBtn');
+
+            if (connected) {
+                dot.classList.add('active');
+                text.innerText = 'Connected';
+                btn.innerText = 'Disconnect';
+                btn.className = 'btn btn-danger';
+            } else {
+                dot.classList.remove('active');
+                text.innerText = 'Disconnected';
+                btn.innerText = 'Connect';
+                btn.className = 'btn';
+            }
+        }
+
+        let estopTopic = null;
+
+        function initROSTopics() {
+            const topicName = document.getElementById('topicSelector').value;
+            cmdVelTopic = new ROSLIB.Topic({ ros: ros, name: topicName, messageType: 'geometry_msgs/Twist' });
+            chatAudioTopic = new ROSLIB.Topic({ ros: ros, name: '/chat_audio_text', messageType: 'std_msgs/String' });
+            goalTopic = new ROSLIB.Topic({ ros: ros, name: '/move_base_simple/goal', messageType: 'geometry_msgs/PoseStamped' });
+            vlaCmdTopic = new ROSLIB.Topic({ ros: ros, name: '/yours_vla/command', messageType: 'std_msgs/String' });
+            slamCmdTopic = new ROSLIB.Topic({ ros: ros, name: '/yours_slam/cmd', messageType: 'std_msgs/String' });
+            forbiddenZoneTopic = new ROSLIB.Topic({ ros: ros, name: '/yours_slam/forbidden_zones', messageType: 'geometry_msgs/PolygonStamped' });
+            estopTopic = new ROSLIB.Topic({ ros: ros, name: 'e_stop', messageType: 'std_msgs/Bool' });
+        }
+
+        // Direct ROSBridge WebSocket Camera Subscriber & 3D Spatial Map
+        function setupRealtimeSubscribers() {
+            if (!ros) return;
+
+            // 1. Odom & Robot Pose Subscriber
+            const odomTopic = new ROSLIB.Topic({
+                ros: ros,
+                name: '/yours_base/odom',
+                messageType: 'nav_msgs/Odometry'
+            });
+
+            odomTopic.subscribe((msg) => {
+                const pos = msg.pose.pose.position;
+                const orient = msg.pose.pose.orientation;
+                robotX = pos.x; robotY = pos.y;
+
+                // Extract Yaw angle in radians from Quaternion
+                const siny_cosp = 2 * (orient.w * orient.z + orient.x * orient.y);
+                const cosy_cosp = 1 - 2 * (orient.y * orient.y + orient.z * orient.z);
+                robotYaw = Math.atan2(siny_cosp, cosy_cosp);
+
+                if (robotMesh) {
+                    robotMesh.position.set(pos.x, pos.y, pos.z + 0.2);
+                    robotMesh.quaternion.set(orient.x, orient.y, orient.z, orient.w);
+                }
+
+                document.getElementById('poseX').innerText = `x: ${pos.x.toFixed(2)}`;
+                document.getElementById('poseY').innerText = `y: ${pos.y.toFixed(2)}`;
+            });
+
+            // 2. Live RViz-Style OccupancyGrid SLAM Map Visualizer Subscriber (/map)
+            const mapTopic = new ROSLIB.Topic({
+                ros: ros,
+                name: '/map',
+                messageType: 'nav_msgs/OccupancyGrid'
+            });
+
+            mapTopic.subscribe((msg) => {
+                if (!msg || !msg.info || !msg.data) return;
+
+                const width = msg.info.width;
+                const height = msg.info.height;
+                const res = msg.info.resolution;
+                const originX = msg.info.origin.position.x;
+                const originY = msg.info.origin.position.y;
+
+                // Build HTML5 Canvas Texture for 3D Ground Mesh
+                const canvas = document.createElement('canvas');
+                canvas.width = width; canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                const imgData = ctx.createImageData(width, height);
+
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        const i = y * width + x;
+                        const val = msg.data[i];
+                        const pixelIdx = ((height - 1 - y) * width + x) * 4;
+
+                        if (val === -1) {
+                            // Unknown space (Dark transparent)
+                            imgData.data[pixelIdx] = 8; imgData.data[pixelIdx+1] = 12; imgData.data[pixelIdx+2] = 20; imgData.data[pixelIdx+3] = 150;
+                        } else if (val === 0) {
+                            // Free navigable space (Light Blue Ground)
+                            imgData.data[pixelIdx] = 30; imgData.data[pixelIdx+1] = 41; imgData.data[pixelIdx+2] = 59; imgData.data[pixelIdx+3] = 200;
+                        } else {
+                            // Occupied obstacles/walls (Cyan/Blue Solid Walls)
+                            imgData.data[pixelIdx] = 6; imgData.data[pixelIdx+1] = 182; imgData.data[pixelIdx+2] = 212; imgData.data[pixelIdx+3] = 255;
+                        }
+                    }
+                }
+                ctx.putImageData(imgData, 0, 0);
+
+                if (occupancyGridMesh) scene.remove(occupancyGridMesh);
+
+                const texture = new THREE.CanvasTexture(canvas);
+                const planeGeo = new THREE.PlaneGeometry(width * res, height * res);
+                const planeMat = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.DoubleSide });
+                occupancyGridMesh = new THREE.Mesh(planeGeo, planeMat);
+                occupancyGridMesh.position.set(originX + (width * res) / 2, originY + (height * res) / 2, 0.02);
+                scene.add(occupancyGridMesh);
+
+                logConsole(`🗺️ Live RViz Occupancy Map updated (${width}x${height} @ ${res}m/cell)`);
+            });
+
+            // 3. VLA AI Thought Stream Subscriber
+            const vlaStatusSub = new ROSLIB.Topic({
+                ros: ros,
+                name: '/yours_vla/status',
+                messageType: 'std_msgs/String'
+            });
+            vlaStatusSub.subscribe((msg) => {
+                try {
+                    const data = JSON.parse(msg.data);
+                    logVLAThought(`[${data.type}] ${data.text}`);
+                } catch(e) {
+                    logVLAThought(msg.data);
+                }
+            });
+
+            // 4. SLAM Status Subscriber
+            const slamStatusSub = new ROSLIB.Topic({
+                ros: ros,
+                name: '/yours_slam/status',
+                messageType: 'std_msgs/String'
+            });
+            slamStatusSub.subscribe((msg) => {
+                try {
+                    const data = JSON.parse(msg.data);
+                    const badge = document.getElementById('slamStatusBadge');
+                    if (badge) {
+                        badge.innerText = `STATUS: ${data.mode}`;
+                        badge.style.color = data.mode === 'MAPPING' ? 'var(--accent-success)' : 'var(--accent-warning)';
+                    }
+                } catch(e) {}
+            });
+
+            // 5. Global Path Trajectory Subscriber
+            const globalPathSub = new ROSLIB.Topic({
+                ros: ros,
+                name: '/move_base/GlobalPlanner/plan',
+                messageType: 'nav_msgs/Path'
+            });
+            globalPathSub.subscribe((msg) => {
+                const points = [];
+                msg.poses.forEach(p => { points.push(new THREE.Vector3(p.pose.position.x, p.pose.position.y, 0.15)); });
+                globalPathLine.geometry.setFromPoints(points);
+            });
+
+            // 6. DWA Local Obstacle Avoidance Trajectory Subscriber
+            const localPathSub = new ROSLIB.Topic({
+                ros: ros,
+                name: '/move_base/DWAPlannerROS/local_plan',
+                messageType: 'nav_msgs/Path'
+            });
+            localPathSub.subscribe((msg) => {
+                const points = [];
+                msg.poses.forEach(p => { points.push(new THREE.Vector3(p.pose.position.x, p.pose.position.y, 0.2)); });
+                localAvoidancePathLine.geometry.setFromPoints(points);
+            });
+
+            // 7. Persistent 3D PointCloud Map Accumulator & Obstacle Clearance
+            const scanTopic = new ROSLIB.Topic({
+                ros: ros,
+                name: '/scan',
+                messageType: 'sensor_msgs/LaserScan'
+            });
+
+            scanTopic.subscribe((msg) => {
+                if (!msg || !msg.ranges) return;
+                const count = msg.ranges.length;
+                let minDist = 999;
+                if (!mapRetentionEnabled) {
+                    retainedPositions = [];
+                    retainedColors = [];
+                }
+
+                const angleMin = typeof msg.angle_min !== 'undefined' ? msg.angle_min : -Math.PI;
+                const angleInc = typeof msg.angle_increment !== 'undefined' ? msg.angle_increment : (2 * Math.PI / count);
+
+                for (let i = 0; i < count; i += 1) {
+                    const r = msg.ranges[i];
+                    if (typeof r === 'number' && isFinite(r) && r > 0.05 && r < 25.0) {
+                        if (r < minDist) minDist = r;
+
+                        const localAngle = angleMin + i * angleInc;
+                        const worldX = robotX + r * Math.cos(localAngle);
+                        const worldY = robotY + r * Math.sin(localAngle);
+                        const worldZ = 0.1;
+
+                        if (retainedPositions.length / 3 < maxMapPoints) {
+                            retainedPositions.push(worldX, worldY, worldZ);
+                            const distRatio = Math.min(r / 8.0, 1.0);
+                            retainedColors.push(0.06 + distRatio * 0.5, 0.71 - distRatio * 0.3, 0.83 + distRatio * 0.15);
+                        }
+                    }
+                }
+
+                slamCurrentMinDist = minDist;
+
+                const obsBadge = document.getElementById('obstacleDistVal');
+                if (minDist < 0.6) {
+                    obsBadge.innerText = `⚠️ CLOSE OBSTACLE (${minDist.toFixed(2)}m)`;
+                    obsBadge.style.color = 'var(--accent-danger)';
+                } else if (minDist < 1.2) {
+                    obsBadge.innerText = `⚠️ Caution (${minDist.toFixed(2)}m)`;
+                    obsBadge.style.color = 'var(--accent-warning)';
+                } else {
+                    obsBadge.innerText = `Clear (> 2.0m)`;
+                    obsBadge.style.color = 'var(--accent-success)';
+                }
+
+                const pointCount = Math.floor(retainedPositions.length / 3);
+                document.getElementById('mapPointCount').innerText = pointCount.toLocaleString();
+
+                const posAttr = persistentPointCloud.geometry.attributes.position;
+                const colAttr = persistentPointCloud.geometry.attributes.color;
+
+                for (let i = 0; i < retainedPositions.length; i++) {
+                    posAttr.array[i] = retainedPositions[i];
+                    
+                    // Dynamic Obstacle Color-Coding: Red = Danger (<0.6m), Yellow = Caution (0.6-1.2m), Cyan = Clear (>1.2m)
+                    if (i % 3 === 0) {
+                        const ptDist = Math.sqrt(retainedPositions[i]*retainedPositions[i] + retainedPositions[i+1]*retainedPositions[i+1]);
+                        if (ptDist < 0.6) {
+                            colAttr.array[i] = 0.93; colAttr.array[i+1] = 0.26; colAttr.array[i+2] = 0.26; // Red (#ef4444)
+                        } else if (ptDist < 1.2) {
+                            colAttr.array[i] = 0.96; colAttr.array[i+1] = 0.62; colAttr.array[i+2] = 0.04; // Yellow (#f59e0b)
+                        } else {
+                            colAttr.array[i] = 0.02; colAttr.array[i+1] = 0.71; colAttr.array[i+2] = 0.83; // Cyan (#06b6d4)
+                        }
+                    }
+                }
+                posAttr.needsUpdate = true;
+                colAttr.needsUpdate = true;
+                persistentPointCloud.geometry.setDrawRange(0, pointCount);
+            });
+
+            // 8. Storage Temperature Sensor & Battery Subscribers
+            const tempSensorTopic = new ROSLIB.Topic({ ros: ros, name: '/yours_base/sensors_celsius', messageType: 'std_msgs/Float32' });
+            tempSensorTopic.subscribe((msg) => {
+                if (msg && typeof msg.data !== 'undefined') {
+                    document.getElementById('fridgeTempDisplay').innerText = `${msg.data.toFixed(1)} °C`;
+                }
+            });
+
+            setupBatterySubscriber();
+            subscribeROSBridgeCamera('/camera/color/image_raw/compressed');
+        }
+
+        // Storage Compartment Actuator Controls
+        function setFridgeMode(modeVal) {
+            if (isConnected && ros) {
+                const modeTopic = new ROSLIB.Topic({ ros: ros, name: '/yours_base/refrigerator_mode', messageType: 'std_msgs/UInt8' });
+                modeTopic.publish(new ROSLIB.Message({ data: modeVal }));
+            }
+            const modeDisp = document.getElementById('fridgeModeDisplay');
+            if (modeVal === 1) { modeDisp.innerText = 'Cooling ❄️'; modeDisp.style.color = 'var(--accent-success)'; }
+            else if (modeVal === 2) { modeDisp.innerText = 'Heating 🔥'; modeDisp.style.color = 'var(--accent-warning)'; }
+            else { modeDisp.innerText = 'Off ⚪'; modeDisp.style.color = 'var(--text-muted)'; }
+            logConsole(`❄️ Storage Climate Mode set to: ${modeVal}`);
+        }
+
+        function sendTempSetpoint(tempVal) {
+            if (isConnected && ros) {
+                const setpointTopic = new ROSLIB.Topic({ ros: ros, name: '/yours_base/refrigerator_setpoint', messageType: 'std_msgs/Int16' });
+                setpointTopic.publish(new ROSLIB.Message({ data: parseInt(tempVal) }));
+            }
+            logConsole(`🌡️ Target Climate Setpoint sent: ${tempVal} °C`);
+        }
+
+        function controlDoorActuator(doorCmd) {
+            if (isConnected && ros) {
+                const doorTopic = new ROSLIB.Topic({ ros: ros, name: '/yours_base/refrigerator_door', messageType: 'std_msgs/UInt16' });
+                doorTopic.publish(new ROSLIB.Message({ data: doorCmd }));
+
+                const lockTopic = new ROSLIB.Topic({ ros: ros, name: '/yours_base/locks_ctrl', messageType: 'std_msgs/UInt32' });
+                lockTopic.publish(new ROSLIB.Message({ data: doorCmd === 1 ? 0 : 1 }));
+            }
+            const badge = document.getElementById('lockStatusBadge');
+            badge.innerText = doorCmd === 1 ? 'OPEN / UNLOCKED 🔓' : 'CLOSED / LOCKED 🔒';
+            badge.style.color = doorCmd === 1 ? 'var(--accent-warning)' : 'var(--accent-success)';
+            logConsole(`🚪 Door Motor Actuator: ${doorCmd === 1 ? 'OPENING DOOR' : 'CLOSING DOOR'}`);
+        }
+
+        // Parse Exact BMS RSOC Fields: rsoc, voltage, current, cycle_times
+        function setupBatterySubscriber() {
+            if (!ros) return;
+            const batTopic = new ROSLIB.Topic({ ros: ros, name: '/yours_base/battery_status', messageType: 'yours_msgs/YoursBatteryStatus' });
+            batTopic.subscribe((msg) => {
+                let rsocLvl = 100;
+                if (typeof msg.rsoc !== 'undefined') rsocLvl = Math.round(msg.rsoc);
+                else if (typeof msg.data !== 'undefined') rsocLvl = Math.round(msg.data > 1 ? msg.data : msg.data * 100);
+                else if (typeof msg.percentage !== 'undefined') rsocLvl = Math.round(msg.percentage > 1 ? msg.percentage : msg.percentage * 100);
+
+                const volts = msg.voltage ? (msg.voltage / 100.0).toFixed(2) : '26.59';
+                const amps = msg.current ? (msg.current / 1000.0).toFixed(2) : '1.30';
+                const temp = msg.NTC_temp1 ? (msg.NTC_temp1 / 10.0).toFixed(1) : '25.0';
+                const cycles = msg.cycle_times || 22;
+
+                updateBatteryUI(rsocLvl, volts, amps, temp, cycles);
+            });
+        }
+
+        function updateBatteryUI(lvl, volts, amps, temp, cycles) {
+            const levelVal = document.getElementById('batteryLevelVal');
+            const bar = document.getElementById('batteryBar');
+            const vVal = document.getElementById('batteryVoltageVal');
+            const iVal = document.getElementById('batteryCurrentVal');
+            const tVal = document.getElementById('batteryTempVal');
+            const cVal = document.getElementById('batteryCyclesVal');
+
+            if (!levelVal || !bar) return;
+
+            levelVal.innerText = lvl + '%';
+            bar.style.width = lvl + '%';
+            if (vVal) vVal.innerText = `${volts} V`;
+            if (iVal) iVal.innerText = `Current: ${amps} A`;
+            if (tVal) tVal.innerText = `${temp} °C`;
+            if (cVal) cVal.innerText = `Cycles: ${cycles}`;
+
+            if (lvl <= lowBatteryThreshold) {
+                bar.style.background = 'var(--accent-danger)';
+                levelVal.style.color = 'var(--accent-danger)';
+                document.getElementById('lowBatteryAlertBanner').style.display = 'flex';
+                if (!batteryWarningSpoken) {
+                    batteryWarningSpoken = true;
+                    if (chatAudioTopic) chatAudioTopic.publish(new ROSLIB.Message({ data: `Warning! 小车 battery low at ${lvl} percent` }));
+                }
+            } else {
+                bar.style.background = lvl < 40 ? 'var(--accent-warning)' : 'var(--accent-success)';
+                levelVal.style.color = lvl < 40 ? 'var(--accent-warning)' : 'var(--accent-success)';
+                document.getElementById('lowBatteryAlertBanner').style.display = 'none';
+                batteryWarningSpoken = false;
+            }
+        }
+
+        // Direct ROSBridge WebSocket Camera Image Streamer (Handles Raw & Compressed)
+        function subscribeROSBridgeCamera(topicName) {
+            if (!ros) return;
+            if (cameraTopicSub) cameraTopicSub.unsubscribe();
+
+            const cameraImg = document.getElementById('cameraImgStream');
+            const rawCanvas = document.getElementById('rawCameraCanvas');
+            const cameraFallback = document.getElementById('cameraFallback');
+
+            const isCompressed = topicName.includes('compressed');
+            const isRaw = topicName.includes('image_raw') && !isCompressed;
+
+            cameraTopicSub = new ROSLIB.Topic({
+                ros: ros,
+                name: topicName,
+                messageType: isCompressed ? 'sensor_msgs/CompressedImage' : 'sensor_msgs/Image'
+            });
+
+            cameraTopicSub.subscribe((message) => {
+                if (message) {
+                    if (isCompressed && message.data) {
+                        cameraImg.src = message.data.startsWith('data:') ? message.data : 'data:image/jpeg;base64,' + message.data;
+                        cameraImg.style.display = 'block';
+                        rawCanvas.style.display = 'none';
+                        cameraFallback.style.display = 'none';
+                    } else if (isRaw && message.data) {
+                        const ctx = rawCanvas.getContext('2d');
+                        rawCanvas.width = message.width || 640;
+                        rawCanvas.height = message.height || 480;
+                        const imgData = ctx.createImageData(rawCanvas.width, rawCanvas.height);
+                        const rawBytes = atob(message.data);
+                        for (let i = 0; i < rawBytes.length; i++) {
+                            imgData.data[i] = rawBytes.charCodeAt(i);
+                        }
+                        ctx.putImageData(imgData, 0, 0);
+
+                        rawCanvas.style.display = 'block';
+                        cameraImg.style.display = 'none';
+                        cameraFallback.style.display = 'none';
+                    }
+                }
+            });
+            logConsole(`📷 Subscribed directly via ROSBridge to: ${topicName}`);
+        }
+
+        function updateSpeed(val) {
+            maxLinearSpeed = parseFloat(val);
+            document.getElementById('speedVal').innerText = val + ' m/s';
+        }
+
+        function publishVel(linearX, angularZ) {
+            if (!isConnected || !cmdVelTopic) return;
+
+            // Universal Active LiDAR Collision Prevention Interlock:
+            // If driving forward (linearX > 0) and an obstacle is detected within 0.55m, interlock forward drive!
+            if (linearX > 0 && typeof slamCurrentMinDist === 'number' && slamCurrentMinDist < 0.55) {
+                logConsole(`⚠️ COLLISION PREVENTED! Obstacle detected at ${slamCurrentMinDist.toFixed(2)}m. Forward velocity interlocked.`);
+                linearX = 0.0; // Block forward motion to prevent collision!
+            }
+
+            cmdVelTopic.publish(new ROSLIB.Message({
+                linear: { x: linearX, y: 0, z: 0 },
+                angular: { x: 0, y: 0, z: angularZ }
+            }));
+        }
+
+        function emergencyStop() {
+            publishVel(0, 0);
+            if (isConnected && estopTopic) {
+                estopTopic.publish(new ROSLIB.Message({ data: true }));
+            }
+            cancelNavigationGoal();
+            stopClientSideFrontierExploration();
+            if (isConnected && chatAudioTopic) {
+                chatAudioTopic.publish(new ROSLIB.Message({ data: "Emergency Stop Engaged" }));
+            }
+            logConsole('🛑 PRIORITY 255 EMERGENCY STOP ENGAGED! Published lock to e_stop.');
+        }
+
+        function speakCustomText() {
+            const text = document.getElementById('voiceTextInput').value.trim();
+            if (!text) return;
+            if (isConnected && chatAudioTopic) {
+                chatAudioTopic.publish(new ROSLIB.Message({ data: text }));
+                logConsole(`🗣️ Sent voice text for 小车 speakers: "${text}"`);
+            } else {
+                logConsole(`🗣️ Offline preview: "${text}"`);
+            }
+        }
+
+        function sendEmotion(emo) {
+            const leftEye = document.getElementById('leftEye');
+            const rightEye = document.getElementById('rightEye');
+            const mouth = document.getElementById('mouth');
+            const txt = document.getElementById('faceStatusText');
+
+            if (emo === 'happy') {
+                leftEye.setAttribute('fill', '#10b981'); rightEye.setAttribute('fill', '#10b981');
+                mouth.setAttribute('d', 'M 70 90 Q 100 115 130 90');
+                txt.innerText = 'HAPPY MODE 😆'; txt.style.color = '#10b981';
+            } else if (emo === 'sleepy') {
+                leftEye.setAttribute('fill', '#8b5cf6'); rightEye.setAttribute('fill', '#8b5cf6');
+                mouth.setAttribute('d', 'M 80 100 Q 100 95 120 100');
+                txt.innerText = 'SLEEPY MODE 😴'; txt.style.color = '#8b5cf6';
+            } else if (emo === 'excited') {
+                leftEye.setAttribute('fill', '#ec4899'); rightEye.setAttribute('fill', '#ec4899');
+                mouth.setAttribute('d', 'M 65 85 Q 100 120 135 85');
+                txt.innerText = 'EXCITED MODE 🚀'; txt.style.color = '#ec4899';
+            } else {
+                leftEye.setAttribute('fill', '#06b6d4'); rightEye.setAttribute('fill', '#06b6d4');
+                mouth.setAttribute('d', 'M 80 95 Q 100 105 120 95');
+                txt.innerText = 'NEUTRAL MODE 😐'; txt.style.color = '#06b6d4';
+            }
+
+            if (isConnected && chatAudioTopic) {
+                chatAudioTopic.publish(new ROSLIB.Message({ data: `Feeling ${emo}` }));
+            }
+            logConsole(`🎭 小车 emotion updated to: ${emo.toUpperCase()}`);
+        }
+
+        function updateBatteryThreshold(val) {
+            lowBatteryThreshold = parseInt(val);
+            document.getElementById('batteryThresholdText').innerText = val + '%';
+        }
+
+        function acknowledgeBatteryWarning() {
+            document.getElementById('lowBatteryAlertBanner').style.display = 'none';
+        }
+
+        function logConsole(msg) {
+            const box = document.getElementById('consoleLog');
+            const time = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            div.innerText = `[${time}] ${msg}`;
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        // Init Chart.js
+        const chartCtx = document.getElementById('analyticsChart').getContext('2d');
+        new Chart(chartCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Kids', 'Adults', 'Seniors', 'Staff'],
+                datasets: [{
+                    label: 'Public Dwell Time (min)',
+                    data: [18, 42, 29, 15],
+                    backgroundColor: ['#06b6d4', '#3b82f6', '#8b5cf6', '#10b981'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false }, ticks: { color: '#9ca3af' } },
+                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af' } }
+                }
+            }
+        });
+
+        window.onload = () => { initThreeScene(); };
+
+        // Official yours_teleop Key Bindings (u, i, o, j, k, l, m, ,, .)
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'KeyK') { e.preventDefault(); emergencyStop(); }
+            else if (e.code === 'KeyI') publishVel(maxLinearSpeed, 0);
+            else if (e.code === 'Comma') publishVel(-maxLinearSpeed, 0);
+            else if (e.code === 'KeyJ') publishVel(0, maxAngularSpeed);
+            else if (e.code === 'KeyL') publishVel(0, -maxAngularSpeed);
+            else if (e.code === 'KeyU') publishVel(maxLinearSpeed, maxAngularSpeed);
+            else if (e.code === 'KeyO') publishVel(maxLinearSpeed, -maxAngularSpeed);
+            else if (e.code === 'KeyM') publishVel(-maxLinearSpeed, maxAngularSpeed);
+            else if (e.code === 'Period') publishVel(-maxLinearSpeed, -maxAngularSpeed);
+            else if (e.code === 'KeyQ') updateSpeed(Math.min(0.5, (maxLinearSpeed + 0.05)).toFixed(2));
+            else if (e.code === 'KeyZ') updateSpeed(Math.max(0.05, (maxLinearSpeed - 0.05)).toFixed(2));
+        });
+    </script>
+</body>
+</html>

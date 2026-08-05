@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+  
+  <node pkg="yours_navigation" name="yours_lidar_test" type="yours_navigation_lidar_detect_test"  output="screen">
+  <!-- param for lidar detect  -->
+    
+  <param name="stop_w" value="0.6" />
+  <param name="stop_h" value="0.5"/>
+  <param name="stop_hp" value="0.0"/>
+  <param name="slow_down_w" value="1.5"/>
+  <param name="slow_down_h" value="1.6"/>
+  <param name="slow_down_hp" value="1.0"/>
+  <param name="debug_laser" value="true"/> 
+  <param name="stop_threshold" value="20"/> 
+  <param name="slow_down_threshold" value="20"/> 
+  <param name="push_threshold" value="30"/> 
+    </node>
+  
+  <node name="rivz" pkg="rviz" type="rviz"/>
+</launch>

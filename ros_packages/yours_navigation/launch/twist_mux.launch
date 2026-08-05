@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+	<node name="twist_mux" pkg="twist_mux" type="twist_mux">
+		<rosparam command="load" file="$(find follow_path)/config/twist_mux.yaml"/>
+		<!--remap from="cmd_vel_out" to="/cmd_vel"/-->
+		<remap from="cmd_vel_out" to="/cmd_vel_mux/input/teleop"/>
+	</node>
+</launch>

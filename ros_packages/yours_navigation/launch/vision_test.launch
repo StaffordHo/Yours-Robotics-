@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+<node pkg="yours_navigation" name="yours_navigation_vision_detect_test" type="yours_navigation_vision_detect_test"  output="screen">
+
+  <param name="vision_detect_pixel" value="10000"/>
+  <param name="vision_width_threshold" value="0.6"/> 
+  <param name="vision_farthest_threshold" value="0.8"/>
+  <param name="vision_height_threshold" value="0.75"/>
+  <param name="vision_low_threshold" value="0.35"/>
+  <param name="vision_debug_out" value="true"/>
+
+</node>
+</launch>

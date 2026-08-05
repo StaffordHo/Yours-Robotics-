@@ -1,0 +1,8 @@
+*~
+*.swp
+.idea/
+cmake-build-debug/
+.kdev4/
+src/followpath.cpp.bak
+yours_navigation.kdev4
+

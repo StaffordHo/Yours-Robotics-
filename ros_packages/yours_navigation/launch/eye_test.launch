@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+  
+  <node pkg="yours_navigation" name="yours_eye_test" type="yours_navigation_lidar_detect_human_test"  output="screen">
+  <!-- param for lidar detect  -->
+
+  <param name="eye_polar_angle_1" value="20"/>
+  <param name="eye_polar_angle_2" value="60"/>
+  <param name="eye_polar_range_1" value="1.0"/>
+  <param name="eye_polar_range_2" value="2.0"/>
+  <param name="eye_polar_range_3" value="3.5"/>
+  <!-- 车上没有 /scan_filter；用车前下方的 mini 激光(能看到人腿)。
+       注意该雷达上下装反，左右镜像已在 yours_lidar_detect_human.cpp 里用角度取反修正 -->
+  <remap from="/scan_filter" to="/mini_lidar_scan"/>
+  </node>
+  
+  <!--node name="rivz" pkg="rviz" type="rviz"/-->
+</launch>

@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="zhiheng" default="false"/>
+  <arg name="locate_mode" default="amcl"/>
+  <arg name="turn_linear_speed" default="0.4"/>
+  <arg name="situ_rotation_angle_speed" default="0.8"/>
+  <arg name="output_topic" default="/cmd_vel"/> 
+  <!--arg name="output_topic" default="cmd_vel"/--> 
+
+  <arg name="have_auto_charge" default ="false"/>
+  <arg name="have_buhuo_auto_charge" default="false"/>
+  <arg name="prepare_charge_angle" default="180.0"/>
+  <arg name="prepare_buhuo_angle" default="180.0"/>
+  <arg name="remap_mode" default ="false"/>
+  
+  <node pkg="yours_navigation" name="yours_navigation_node" type="yours_navigation_node"  output="screen">
+  <rosparam file="$(find yours_navigation)/config/follow_path.yaml" command="load"/>
+
+  <param name="remap_mode" value="$(arg remap_mode)"/>
+  <param name="prepare_charge_angle" value="$(arg prepare_charge_angle)"/>
+  <param name="prepare_buhuo_angle" value="$(arg prepare_buhuo_angle)"/>
+
+  <param name="have_auto_charge" value="$(arg have_auto_charge)"/>
+  <param name="have_buhuo_auto_charge" value="$(arg have_buhuo_auto_charge)"/>
+  <param name="dock_test" value="false" />
+  <param name="goal_path" value="/home/clover/workspace/yours/ORB_SLAM2/goal.yaml" />
+  <param name="max_obstacle_pixel" value="20000"/> 
+	<param name="farthest_obstacle" value="800"/> 
+
+	<!--param name="goal_number" value="2"/>
+	<param name="x_0" value="15.3186"/> 
+	<param name="y_0" value="10.7407"/> 
+	<param name="z_0" value="-0.710389"/> 
+	<param name="w_0" value="0.710309"/> 
+
+	<param name="x_1" value="15.8395"/> 
+	<param name="y_1" value="-4.60437"/> 
+	<param name="z_1" value="0.714137"/> 
+	<param name="w_1" value="0.700006"/> 
+
+	<param name="x_2" value="18.9863"/> 
+	<param name="y_2" value="9.90662"/> 
+	<param name="z_2" value="0.999801"/> 
+	<param name="w_2" value="-0.0199529"/> 
+
+	<param name="x_3" value="13.5656"/> 
+	<param name="y_3" value="9.46044"/> 
+	<param name="z_3" value="-0.713503"/> 
+	<param name="w_3" value="0.700652"/--> 
+
+	<!-- param for vision followr-->
+
+	<param name="max_linear_speed" value="0.25"/> 
+	<param name="turn_linear_speed" value="$(arg turn_linear_speed)"/> 
+	<param name="situ_rotation_angle_speed" value="$(arg situ_rotation_angle_speed)"/> 
+
+    <!-- param for lidar detect  -->
+    
+  <param name="stop_w" value="1.3" />
+  <param name="stop_h" value="1.5"/>
+  <param name="lidar_setup_offser" value="0.35"/>
+  <param name="stop_hp" value="0.0"/>
+  <param name="slow_down_w" value="1.5"/>
+  <param name="slow_down_h" value="1.6"/>
+  <param name="slow_down_hp" value="1.0"/>
+  <param name="debug_laser" value="true"/> 
+  <param name="stop_threshold" value="20"/> 
+  <param name="slow_down_threshold" value="30"/>
+  <param name="push_threshold" value="30"/> 
+  <!-- 雷达污渍计数， 顶盖物体计数， 雷达周围有障碍物计数 -->
+  <param name="point_on_lidar_cnt" value="20"/>
+  <param name="point_on_top_cnt" value="20"/>
+  <param name="point_round_lidar_cnt" value="300"/>
+
+  <param name="amcl_nav_path" value="/home/airship/map_b2/path.yaml"/>
+  <param name="remap_path" value="/home/airship/map_b2/remap_path.yaml"/>
+  <!--param name="amcl_nav_path" value="/home/jiangbo/map/path.yaml"/-->
+  <!--param name="amcl_nav_path" value="/home/jiangbo/robot_test/path.yaml"/-->
+  <!-- param for lidar detect zhiheng -->
+
+  <!--param name="stop_w" value="0.6" />
+  <param name="stop_h" value="0.5"/>
+  <param name="stop_hp" value="0.0"/>
+  <param name="slow_down_w" value="1.0"/>
+  <param name="slow_down_h" value="1.0"/>
+  <param name="slow_down_hp" value="0.0"/>
+  <param name="debug_laser" value="true"/> 
+  <param name="stop_threshold" value="20"/> 
+  <param name="slow_down_threshold" value="20"/-->
+  <param name="filter_cnt" value="2"/>
+
+
+
+  <!--param name="amcl_nav_path" value="/home/jiangbo/workspace/catkin_ws_langfang/path.yaml"/-->
+
+	<param name="zhiheng" value="$(arg zhiheng)"/>
+	<param name="locate_mode" value="$(arg locate_mode)"/>
+
+  <param name="vision_detect_threshold" value="0.8"/>
+  
+  <param name="lidar_detect_enable" value="true"/>
+  
+  <!-- ultrasonic detect param --> 
+  <param name="ultrasonic_1_detect_threshold" value="-60.0"/> 
+  <param name="ultrasonic_2_detect_threshold" value="-80.0"/> 
+  <param name="ultrasonic_3_detect_threshold" value="-60.0"/>
+  
+  <!-- vision detect param --> 
+  <param name="vision_detect_pixel" value="15000"/> <!-- 若这里是负值则不检测视觉障碍物 -->
+  <param name="vision_width_threshold" value="1.0"/> 
+  <param name="vision_farthest_threshold" value="0.8"/>
+  <param name="vision_height_threshold" value="0.75"/>
+  <param name="vision_low_threshold" value="0.25"/>
+  <param name="vision_debug_out" value="true"/>
+  <param name="camera_angle" value="40.0"/>
+  
+  <!-- type 1 直线，type 2 旋转   value 是距离单位米 或者是旋转角 单位度 -->
+  <!-- 路径1走完时进入的命令路径，数量0的话就不跑 -->
+  <param name="end_cmd_path_number" value="3"/>
+  
+  <param name="end_cmd_path_0_type" value="1"/>
+  <param name="end_cmd_path_0_value" value="1.0"/>
+  
+  <param name="end_cmd_path_1_type" value="2"/>
+  <param name="end_cmd_path_1_value" value="45.0"/>
+  
+  <param name="end_cmd_path_2_type" value="1"/>
+  <param name="end_cmd_path_2_value" value="0.5"/>
+  
+  
+  <!-- 路径2走完时进入的命令路径，数量0的话就不跑 -->
+  <param name="start_cmd_path_number" value="3"/>
+  
+  <param name="start_cmd_path_0_type" value="2"/>
+  <param name="start_cmd_path_0_value" value="90.0"/>
+  
+  <param name="start_cmd_path_1_type" value="1"/>
+  <param name="start_cmd_path_1_value" value="1.0"/>
+  
+  <param name="start_cmd_path_2_type" value="2"/>
+  <param name="start_cmd_path_2_value" value="-90.0"/>
+
+  <param name="is_sell_path_loop" value="true"/>
+  
+  <param name="init_x" value="1.0"/>
+  <param name="init_y" value="2.0"/>
+  <param name="init_a" value="3.0"/>
+
+  <!--remap from="/navigation_cmd_vel" to="/yocs_cmd_vel_mux/input/navigation_cmd_vel"/-->
+  <!--remap from="/cmd_vel" to="/yours_cmd_vel_navigation" /-->
+  <!--remap from="/cmd_vel" to="/yours_move_base_vel_smooth"/-->
+  <remap from="/cmd_vel" to="$(arg output_topic)"/>
+  </node>
+  <!-- node pkg="follow_path" name="teleop_twist_keyboard" type="teleop_twist_keyboard.py"  launch-prefix="gnome-terminal -e" output="screen"/-->
+
+  <!--node pkg="follow_path" name="seslam_tf_publisher" type="seslam_tf"/-->
+
+  <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find follow_path)/rviz/seslam.rviz" required="true"/-->
+
+  <!--include file="$(find follow_path)/launch/twist_mux.launch"/-->
+</launch>
