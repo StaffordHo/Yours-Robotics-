@@ -1380,10 +1380,14 @@
                 messageType: 'sensor_msgs/LaserScan'
             });
 
+            let slamCurrentFrontMinDist = 999;
+
             scanTopic.subscribe((msg) => {
                 if (!msg || !msg.ranges) return;
                 const count = msg.ranges.length;
                 let minDist = 999;
+                let frontMinDist = 999;
+
                 if (!mapRetentionEnabled) {
                     retainedPositions = [];
                     retainedColors = [];
@@ -1394,10 +1398,17 @@
 
                 for (let i = 0; i < count; i += 1) {
                     const r = msg.ranges[i];
-                    if (typeof r === 'number' && isFinite(r) && r > 0.05 && r < 25.0) {
+                    if (typeof r === 'number' && isFinite(r) && r > 0.15 && r < 25.0) {
                         if (r < minDist) minDist = r;
 
                         const localAngle = angleMin + i * angleInc;
+                        const normAngle = Math.atan2(Math.sin(localAngle), Math.cos(localAngle));
+
+                        // Frontal Arc (-45 deg to +45 deg in front of robot)
+                        if (Math.abs(normAngle) < 0.785) {
+                            if (r < frontMinDist) frontMinDist = r;
+                        }
+
                         const worldX = robotX + r * Math.cos(localAngle);
                         const worldY = robotY + r * Math.sin(localAngle);
                         const worldZ = 0.1;
@@ -1411,6 +1422,7 @@
                 }
 
                 slamCurrentMinDist = minDist;
+                slamCurrentFrontMinDist = frontMinDist;
 
                 const obsBadge = document.getElementById('obstacleDistVal');
                 if (minDist < 0.6) {
@@ -1602,11 +1614,12 @@
         function publishVel(linearX, angularZ) {
             if (!isConnected || !cmdVelTopic) return;
 
-            // Universal Active LiDAR Collision Prevention Interlock:
-            // If driving forward (linearX > 0) and an obstacle is detected within 0.55m, interlock forward drive!
-            if (linearX > 0 && typeof slamCurrentMinDist === 'number' && slamCurrentMinDist < 0.55) {
-                logConsole(`⚠️ COLLISION PREVENTED! Obstacle detected at ${slamCurrentMinDist.toFixed(2)}m. Forward velocity interlocked.`);
-                linearX = 0.0; // Block forward motion to prevent collision!
+            // Universal Active LiDAR Collision Prevention Interlock (Frontal Arc Only):
+            // Check FORWARD FRONTAL ARC (-45 deg to +45 deg) when driving forward (linearX > 0)
+            const frontClearance = (typeof slamCurrentFrontMinDist === 'number') ? slamCurrentFrontMinDist : 999;
+            if (linearX > 0 && frontClearance < 0.45) {
+                logConsole(`⚠️ FORWARD COLLISION PREVENTED! Front obstacle at ${frontClearance.toFixed(2)}m. Forward velocity interlocked.`);
+                linearX = 0.0; // Block forward drive if obstacle directly in front!
             }
 
             cmdVelTopic.publish(new ROSLIB.Message({
