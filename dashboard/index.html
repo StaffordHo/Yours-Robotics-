@@ -259,6 +259,8 @@
         <div class="sensor-pill online"><span>🚫</span> Forbidden No-Go Zones: <strong id="forbiddenZonePillCount" style="color: var(--accent-danger);">0 Zones</strong></div>
         <div class="sensor-pill online"><span>🤖</span> 机器人: 小车</div>
         <div class="sensor-pill online"><span>📡</span> 3D Livox Mid-360 LiDAR (/livox/lidar)</div>
+        <div class="sensor-pill online"><span>📡</span> Left Sonar Range: <strong id="leftUltrasonicVal" style="color: var(--accent-cyan);">-- m</strong></div>
+        <div class="sensor-pill online"><span>📡</span> Right Sonar Range: <strong id="rightUltrasonicVal" style="color: var(--accent-cyan);">-- m</strong></div>
         <div class="sensor-pill online"><span>⚡</span> Smart BMS Battery RSOC (27%)</div>
     </div>
 
@@ -518,6 +520,28 @@
                         </div>
                     </div>
                     <button class="btn btn-danger" onclick="acknowledgeBatteryWarning()">Dismiss Alert</button>
+                </div>
+            </div>
+
+            <!-- Ultrasonic & Proximity Sensors Monitor Card -->
+            <div class="card" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(15, 23, 42, 0.9)); border: 1px solid rgba(6, 182, 212, 0.3);">
+                <div class="card-header">
+                    <div class="card-title" style="color: #38bdf8;">📡 Ultrasonic & Proximity Sensors Monitor</div>
+                    <div style="font-size: 0.75rem; color: var(--accent-cyan); font-family: var(--font-mono);">Trigger Threshold: 0.35m</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <!-- Left Sensor Badge -->
+                    <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); text-align: center;">
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">LEFT PROXIMITY SENSOR</div>
+                        <div id="leftSensorMeter" style="font-size: 1.5rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent-cyan); margin-top: 4px;">-- cm</div>
+                        <div id="leftSensorStatus" style="font-size: 0.75rem; margin-top: 4px; color: var(--accent-success);">Clear (>35cm)</div>
+                    </div>
+                    <!-- Right Sensor Badge -->
+                    <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); text-align: center;">
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">RIGHT PROXIMITY SENSOR</div>
+                        <div id="rightSensorMeter" style="font-size: 1.5rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent-cyan); margin-top: 4px;">-- cm</div>
+                        <div id="rightSensorStatus" style="font-size: 0.75rem; margin-top: 4px; color: var(--accent-success);">Clear (>35cm)</div>
+                    </div>
                 </div>
             </div>
 
@@ -1488,7 +1512,42 @@
                 persistentPointCloud.geometry.setDrawRange(0, pointCount);
             });
 
-            // 8. Storage Temperature Sensor & Battery Subscribers
+            // 8. Ultrasonic & Proximity Range Sensor Subscribers (/yours_base/left_range & /yours_base/right_range)
+            const leftUsSub = new ROSLIB.Topic({ ros: ros, name: '/yours_base/left_range', messageType: 'sensor_msgs/Range' });
+            leftUsSub.subscribe((msg) => {
+                if (!msg || typeof msg.range !== 'number') return;
+                const distCm = (msg.range * 100).toFixed(1);
+                const meter = document.getElementById('leftSensorMeter');
+                const status = document.getElementById('leftSensorStatus');
+                const pill = document.getElementById('leftUltrasonicVal');
+                if (meter) meter.innerText = `${distCm} cm`;
+                if (pill) pill.innerText = `${msg.range.toFixed(2)} m`;
+                if (msg.range < 0.35) {
+                    if (status) { status.innerText = '⚠️ OBSTACLE CLOSE (<35cm)'; status.style.color = 'var(--accent-danger)'; }
+                    logConsole(`⚠️ Left Ultrasonic Proximity Warning: Object detected at ${distCm}cm!`);
+                } else {
+                    if (status) { status.innerText = 'Clear (>35cm)'; status.style.color = 'var(--accent-success)'; }
+                }
+            });
+
+            const rightUsSub = new ROSLIB.Topic({ ros: ros, name: '/yours_base/right_range', messageType: 'sensor_msgs/Range' });
+            rightUsSub.subscribe((msg) => {
+                if (!msg || typeof msg.range !== 'number') return;
+                const distCm = (msg.range * 100).toFixed(1);
+                const meter = document.getElementById('rightSensorMeter');
+                const status = document.getElementById('rightSensorStatus');
+                const pill = document.getElementById('rightUltrasonicVal');
+                if (meter) meter.innerText = `${distCm} cm`;
+                if (pill) pill.innerText = `${msg.range.toFixed(2)} m`;
+                if (msg.range < 0.35) {
+                    if (status) { status.innerText = '⚠️ OBSTACLE CLOSE (<35cm)'; status.style.color = 'var(--accent-danger)'; }
+                    logConsole(`⚠️ Right Ultrasonic Proximity Warning: Object detected at ${distCm}cm!`);
+                } else {
+                    if (status) { status.innerText = 'Clear (>35cm)'; status.style.color = 'var(--accent-success)'; }
+                }
+            });
+
+            // 9. Storage Temperature Sensor & Battery Subscribers
             const tempSensorTopic = new ROSLIB.Topic({ ros: ros, name: '/yours_base/sensors_celsius', messageType: 'std_msgs/Float32' });
             tempSensorTopic.subscribe((msg) => {
                 if (msg && typeof msg.data !== 'undefined') {
