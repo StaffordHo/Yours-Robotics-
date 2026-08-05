@@ -1535,61 +1535,91 @@
                 colAttr.array.set(retainedColors);
                 posAttr.needsUpdate = true;
                 colAttr.needsUpdate = true;
-                persistentPointCloud.geometry.setDrawRange(0, pointCount);
             });
+        }
 
-            // 8. 5-Sensor Ultrasonic & Proximity Range Subscribers
-            const frontCenterUsSub = new ROSLIB.Topic({ ros: ros, name: '/yours_base/front_range', messageType: 'sensor_msgs/Range' });
-            frontCenterUsSub.subscribe((msg) => {
-                if (!msg || typeof msg.range !== 'number') return;
-                const distCm = (msg.range * 100).toFixed(1);
-                const meter = document.getElementById('frontCenterSensorMeter');
-                const status = document.getElementById('frontCenterSensorStatus');
-                if (meter) meter.innerText = `${distCm} cm`;
-                if (msg.range < 0.35) {
-                    if (status) { status.innerText = '⚠️ OBSTACLE (<35cm)'; status.style.color = 'var(--accent-danger)'; }
-                    logConsole(`⚠️ Front-Center Sonar Warning: Object detected at ${distCm}cm!`);
-                } else {
-                    if (status) { status.innerText = 'Clear (>35cm)'; status.style.color = 'var(--accent-success)'; }
+        function updateFrontSonarMeters(s1, s2, s3) {
+            if (typeof s1 === 'number') {
+                const flMeter = document.getElementById('frontLeftSensorMeter');
+                const flStatus = document.getElementById('frontLeftSensorStatus');
+                if (flMeter) flMeter.innerText = `${s1.toFixed(1)} cm`;
+                if (flStatus) {
+                    flStatus.innerText = s1 < 35 ? '⚠️ OBSTACLE' : 'Clear';
+                    flStatus.style.color = s1 < 35 ? 'var(--accent-danger)' : 'var(--accent-success)';
+                }
+            }
+            if (typeof s2 === 'number') {
+                const fcMeter = document.getElementById('frontCenterSensorMeter');
+                const fcStatus = document.getElementById('frontCenterSensorStatus');
+                if (fcMeter) fcMeter.innerText = `${s2.toFixed(1)} cm`;
+                if (fcStatus) {
+                    fcStatus.innerText = s2 < 35 ? '⚠️ OBSTACLE' : 'Clear';
+                    fcStatus.style.color = s2 < 35 ? 'var(--accent-danger)' : 'var(--accent-success)';
+                }
+            }
+            if (typeof s3 === 'number') {
+                const frMeter = document.getElementById('frontRightSensorMeter');
+                const frStatus = document.getElementById('frontRightSensorStatus');
+                if (frMeter) frMeter.innerText = `${s3.toFixed(1)} cm`;
+                if (frStatus) {
+                    frStatus.innerText = s3 < 35 ? '⚠️ OBSTACLE' : 'Clear';
+                    frStatus.style.color = s3 < 35 ? 'var(--accent-danger)' : 'var(--accent-success)';
+                }
+            }
+        }
+
+            // 8. Universal Multi-Topic Front Ultrasonic & Sonar Array Subscribers
+            const armUsSub = new ROSLIB.Topic({ ros: ros, name: '/arm_ultrasonic_status' });
+            armUsSub.subscribe((msg) => {
+                if (!msg) return;
+                if (typeof msg.sonar1 !== 'undefined') {
+                    updateFrontSonarMeters(msg.sonar1, msg.sonar2, msg.sonar3);
+                } else if (msg.data) {
+                    try {
+                        const d = JSON.parse(msg.data);
+                        updateFrontSonarMeters(d.sonar1, d.sonar2, d.sonar3);
+                    } catch(e) {}
                 }
             });
 
-            // Front Sonar Array Status Subscriber (sonar1, sonar2, sonar3)
-            const frontUsArraySub = new ROSLIB.Topic({ ros: ros, name: '/yours_base/ultrasonic_status', messageType: 'std_msgs/String' });
-            frontUsArraySub.subscribe((msg) => {
-                try {
-                    const data = JSON.parse(msg.data);
-                    if (typeof data.sonar1 !== 'undefined') {
-                        const flMeter = document.getElementById('frontLeftSensorMeter');
-                        const flStatus = document.getElementById('frontLeftSensorStatus');
-                        if (flMeter) flMeter.innerText = `${data.sonar1.toFixed(1)} cm`;
-                        if (data.sonar1 < 35) {
-                            if (flStatus) { flStatus.innerText = '⚠️ OBSTACLE'; flStatus.style.color = 'var(--accent-danger)'; }
-                        } else {
-                            if (flStatus) { flStatus.innerText = 'Clear'; flStatus.style.color = 'var(--accent-success)'; }
-                        }
-                    }
-                    if (typeof data.sonar2 !== 'undefined') {
-                        const fcMeter = document.getElementById('frontCenterSensorMeter');
-                        const fcStatus = document.getElementById('frontCenterSensorStatus');
-                        if (fcMeter) fcMeter.innerText = `${data.sonar2.toFixed(1)} cm`;
-                        if (data.sonar2 < 35) {
-                            if (fcStatus) { fcStatus.innerText = '⚠️ OBSTACLE'; fcStatus.style.color = 'var(--accent-danger)'; }
-                        } else {
-                            if (fcStatus) { fcStatus.innerText = 'Clear'; fcStatus.style.color = 'var(--accent-success)'; }
-                        }
-                    }
-                    if (typeof data.sonar3 !== 'undefined') {
-                        const frMeter = document.getElementById('frontRightSensorMeter');
-                        const frStatus = document.getElementById('frontRightSensorStatus');
-                        if (frMeter) frMeter.innerText = `${data.sonar3.toFixed(1)} cm`;
-                        if (data.sonar3 < 35) {
-                            if (frStatus) { frStatus.innerText = '⚠️ OBSTACLE'; frStatus.style.color = 'var(--accent-danger)'; }
-                        } else {
-                            if (frStatus) { frStatus.innerText = 'Clear'; frStatus.style.color = 'var(--accent-success)'; }
-                        }
-                    }
-                } catch(e) {}
+            const yoursUsSub = new ROSLIB.Topic({ ros: ros, name: '/yours_base/ultrasonic_status' });
+            yoursUsSub.subscribe((msg) => {
+                if (!msg) return;
+                if (typeof msg.sonar1 !== 'undefined') {
+                    updateFrontSonarMeters(msg.sonar1, msg.sonar2, msg.sonar3);
+                } else if (msg.data) {
+                    try {
+                        const d = JSON.parse(msg.data);
+                        updateFrontSonarMeters(d.sonar1, d.sonar2, d.sonar3);
+                    } catch(e) {}
+                }
+            });
+
+            const frontCenterUsSub = new ROSLIB.Topic({ ros: ros, name: '/yours_base/front_range', messageType: 'sensor_msgs/Range' });
+            frontCenterUsSub.subscribe((msg) => {
+                if (!msg || typeof msg.range !== 'number') return;
+                updateFrontSonarMeters(undefined, msg.range * 100, undefined);
+            });
+
+            const s1Sub = new ROSLIB.Topic({ ros: ros, name: '/yours_base/sonar_1' });
+            s1Sub.subscribe((msg) => {
+                if (!msg) return;
+                const val = typeof msg.range === 'number' ? msg.range * 100 : (typeof msg.data === 'number' ? msg.data : undefined);
+                if (typeof val === 'number') updateFrontSonarMeters(val, undefined, undefined);
+            });
+
+            const s2Sub = new ROSLIB.Topic({ ros: ros, name: '/yours_base/sonar_2' });
+            s2Sub.subscribe((msg) => {
+                if (!msg) return;
+                const val = typeof msg.range === 'number' ? msg.range * 100 : (typeof msg.data === 'number' ? msg.data : undefined);
+                if (typeof val === 'number') updateFrontSonarMeters(undefined, val, undefined);
+            });
+
+            const s3Sub = new ROSLIB.Topic({ ros: ros, name: '/yours_base/sonar_3' });
+            s3Sub.subscribe((msg) => {
+                if (!msg) return;
+                const val = typeof msg.range === 'number' ? msg.range * 100 : (typeof msg.data === 'number' ? msg.data : undefined);
+                if (typeof val === 'number') updateFrontSonarMeters(undefined, undefined, val);
             });
 
             const leftUsSub = new ROSLIB.Topic({ ros: ros, name: '/yours_base/left_range', messageType: 'sensor_msgs/Range' });
