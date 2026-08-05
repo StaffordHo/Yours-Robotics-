@@ -1332,6 +1332,23 @@
                 }
             });
 
+            // Real-Time Nvidia Terminal Console Mirror Subscriber (/rosout)
+            const rosoutSub = new ROSLIB.Topic({
+                ros: ros,
+                name: '/rosout',
+                messageType: 'rosgraph_msgs/Log'
+            });
+
+            rosoutSub.subscribe((msg) => {
+                if (!msg || !msg.msg) return;
+                const nodeName = msg.name ? msg.name.split('/').pop() : 'rosout';
+                let prefix = 'ℹ️';
+                if (msg.level === 4) prefix = '⚠️';
+                else if (msg.level === 8 || msg.level === 16) prefix = '❌';
+
+                logConsole(`${prefix} [${nodeName}] ${msg.msg}`);
+            });
+
             // 4. SLAM Status Subscriber
             const slamStatusSub = new ROSLIB.Topic({
                 ros: ros,
