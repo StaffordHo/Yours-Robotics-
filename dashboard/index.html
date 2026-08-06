@@ -576,6 +576,32 @@
                 </div>
             </div>
 
+            <!-- Vision-Based Gesture Control & Follow-Me HRI Card (Upgrade 3) -->
+            <div class="card" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(15, 23, 42, 0.95)); border: 1px solid rgba(168, 85, 247, 0.4);">
+                <div class="card-header">
+                    <div class="card-title" style="color: #c084fc;">👋 Vision Gesture & Follow-Me HRI (Upgrade 3)</div>
+                    <div style="font-size: 0.75rem; color: var(--accent-purple); font-family: var(--font-mono);">RealSense RGB-D Vision Engine</div>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Active Gesture Status Indicator -->
+                    <div style="background: rgba(0,0,0,0.5); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">ACTIVE VISION GESTURE</div>
+                            <div id="gestureStatusText" style="font-size: 1.1rem; font-weight: 700; color: var(--accent-purple); margin-top: 2px;">Searching for Gestures...</div>
+                        </div>
+                        <span id="gestureBadgeEmoji" style="font-size: 2rem;">👁️</span>
+                    </div>
+
+                    <!-- Interactive Gesture Test Controls -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;">
+                        <button class="btn btn-danger" style="font-size: 0.75rem; padding: 6px;" onclick="triggerGesture('PALM_STOP')">✋ Palm E-STOP</button>
+                        <button class="btn btn-success" style="font-size: 0.75rem; padding: 6px;" onclick="triggerGesture('WAVE_FOLLOW')">👋 Wave Follow</button>
+                        <button class="btn" style="font-size: 0.75rem; padding: 6px; background: rgba(255,255,255,0.08);" onclick="triggerGesture('POINT_NAV')">✌️ Point Nav</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <!-- Right Column: Storage Compartment Sensors & Actuators, Voice, HRI & Console -->
@@ -843,6 +869,33 @@
             posAttr.needsUpdate = true;
             document.getElementById('mapPointCount').innerText = '0';
             logConsole('🧹 Retained spatial 3D map cleared.');
+        }
+
+        // Vision-Based Gesture Control & Follow-Me HRI Handler (Upgrade 3)
+        function triggerGesture(gestureType) {
+            const statusText = document.getElementById('gestureStatusText');
+            const statusEmoji = document.getElementById('gestureBadgeEmoji');
+
+            if (gestureType === 'PALM_STOP') {
+                statusText.innerText = '✋ PALM E-STOP TRIGGERED';
+                statusText.style.color = 'var(--accent-red)';
+                statusEmoji.innerText = '✋';
+                triggerEStop();
+                sendEmotion('scared');
+                logConsole('✋ VISION HRI: Raised Palm Detected! E-STOP Triggered.');
+            } else if (gestureType === 'WAVE_FOLLOW') {
+                statusText.innerText = '👋 FOLLOW-ME ACTIVE';
+                statusText.style.color = 'var(--accent-success)';
+                statusEmoji.innerText = '👋';
+                sendEmotion('excited');
+                logConsole('👋 VISION HRI: Open Hand Wave Detected! Follow-Me Mode Engaged.');
+            } else if (gestureType === 'POINT_NAV') {
+                statusText.innerText = '✌️ POINT NAV TARGET SET';
+                statusText.style.color = 'var(--accent-cyan)';
+                statusEmoji.innerText = '✌️';
+                sendEmotion('happy');
+                logConsole('✌️ VISION HRI: Pointing Gesture Detected! Setting Navigation Waypoint.');
+            }
         }
 
         // SLAM Exploration Controls & Active Client-Side Frontier Driver
