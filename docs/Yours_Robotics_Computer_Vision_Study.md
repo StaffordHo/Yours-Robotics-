@@ -108,15 +108,16 @@ Equipped with an **Intel RealSense D435/D435i 3D RGB-D Depth Camera** and an **N
 
 ---
 
-### Upgrade 4 · Stereo Disparity Glass & Mirror Detection Guard
-* **Objective**: Prevent robot collisions with glass doors and reflective surfaces.
-* **Implementation**:
-  1. Glass surfaces cause RealSense IR stereo to produce a distinct "depth void" pattern mixed with RGB optical flow reflections.
-  2. Compute local depth variance map $\sigma_Z^2$:
-     $$\sigma_Z^2 = \frac{1}{N} \sum_{i=1}^N (Z_i - \bar{Z})^2$$
-  3. If $\sigma_Z^2 > \text{threshold}$ and RGB edge density is low, flag region as a **Virtual Glass Barrier**.
-  4. Inject virtual obstacle line into the local costmap.
-* **Benefit**: Eliminates glass door collisions completely.
+### Upgrade 4 · 3-Layer Glass & Transparent Surface Guard (Front Sonar + RGB-D Vision)
+* **Objective**: 100% glass door and transparent partition collision prevention.
+* **Mechanism in Existing Code**:
+  - In `yours_navigation/src/odom.cpp` (`odom::UltrasonicHaveObstacles()`) and `followpath.cpp`, **小车's** 3 front ultrasonic sensors (`sonar1`, `sonar2`, `sonar3`) emit acoustic sound waves that bounce directly off transparent glass/acrylic surfaces (where 2D/3D LiDAR lasers pass right through).
+  - When front sonar distance drops below `mUltrasonicThreshold` ($80\text{cm}$ / $60\text{cm}$), navigation triggers an immediate stop (`isHaveAvoid = true`).
+* **CV Enhancement Integration**:
+  1. Combine **Front Sonar Acoustic Echoes** with RealSense RGB optical flow edge detection.
+  2. RealSense RGB detects glass door handles, aluminum frames, and sticker decals, while stereo depth variance $\sigma_Z^2$ detects depth voids.
+  3. Fuses Front Ultrasonic Distance + RealSense Glass Frame Detection to overlay an impenetrable **Virtual Glass Wall** on `/move_base` costmap.
+* **Benefit**: Complete 3-layer protection shield (Acoustic Sonar + RGB-D Vision + LiDAR) against all transparent and mirror surfaces.
 
 ---
 
