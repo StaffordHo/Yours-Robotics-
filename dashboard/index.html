@@ -248,11 +248,12 @@
             <div id="statusDot" class="status-dot"></div>
             <span id="statusText" style="font-weight: 600; font-size: 0.9rem;">Disconnected</span>
             <select onchange="document.getElementById('wsUrlInput').value=this.value" style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); color: #fff; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-family: var(--font-mono);">
+                <option value="ws://localhost:9090">Localhost SSH Tunnel (ws://localhost:9090)</option>
                 <option value="ws://127.0.0.1:9090">SSH Tunnel Port 9090 (ws://127.0.0.1:9090)</option>
                 <option value="ws://127.0.0.1:9091">SSH Tunnel Port 9091 (ws://127.0.0.1:9091)</option>
                 <option value="ws://192.168.1.168:9090">Direct Wi-Fi (ws://192.168.1.168:9090)</option>
             </select>
-            <input type="text" id="wsUrlInput" value="ws://127.0.0.1:9090" placeholder="ws://127.0.0.1:9090" style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); color: #fff; padding: 4px 10px; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; width: 175px;">
+            <input type="text" id="wsUrlInput" value="ws://localhost:9090" placeholder="ws://localhost:9090" style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); color: #fff; padding: 4px 10px; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; width: 175px;">
             <button class="btn" id="connectBtn" onclick="toggleConnect()">Connect</button>
         </div>
     </header>
@@ -1303,12 +1304,21 @@
         // ROS Connection Toggle with Enhanced Diagnostics
         function toggleConnect() {
             if (isConnected) {
-                if (ros) ros.close();
+                if (ros) {
+                    try { ros.close(); } catch(e) {}
+                }
+                isConnected = false;
+                updateConnectionUI(false);
                 return;
             }
 
+            if (ros) {
+                try { ros.close(); } catch(e) {}
+                ros = null;
+            }
+
             const urlInput = document.getElementById('wsUrlInput');
-            const url = urlInput ? urlInput.value.trim() : 'ws://192.168.1.168:9090';
+            const url = urlInput ? urlInput.value.trim() : 'ws://localhost:9090';
             
             logConsole(`🔌 Initiating ROSBridge WebSocket connection to: ${url}...`);
 
@@ -1325,7 +1335,7 @@
             ros.on('error', (err) => { 
                 console.error("ROSBridge Socket Error:", err);
                 logConsole(`❌ CONNECTION FAILED: Unable to reach ROSBridge at ${url}.`);
-                logConsole(`💡 Troubleshooting Tip: If using Wi-Fi, try "ws://192.168.1.168:9090". If using SSH Tunnel, ensure "ssh -L 9090:localhost:9090" is open and ROSBridge is running on Jetson.`);
+                logConsole(`💡 Troubleshooting Tip: Ensure "ssh -L 9090:127.0.0.1:9090" is open and ROSBridge is running on Jetson.`);
                 updateConnectionUI(false); 
             });
 
