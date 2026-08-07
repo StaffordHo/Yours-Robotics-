@@ -1318,14 +1318,7 @@
             }
 
             const urlInput = document.getElementById('wsUrlInput');
-            let url = urlInput ? urlInput.value.trim() : 'ws://localhost:9090';
-
-            // Auto-align hostname with window.location.hostname to satisfy browser CORS rules
-            if (window.location.hostname === 'localhost' && url.includes('127.0.0.1')) {
-                url = url.replace('127.0.0.1', 'localhost');
-            } else if (window.location.hostname === '127.0.0.1' && url.includes('localhost')) {
-                url = url.replace('localhost', '127.0.0.1');
-            }
+            const url = urlInput ? urlInput.value.trim() : 'ws://127.0.0.1:9091';
 
             logConsole(`🔌 Initiating ROSBridge WebSocket connection to: ${url}...`);
 
